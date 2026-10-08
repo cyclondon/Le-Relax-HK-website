@@ -1,56 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url><loc>https://le-relax.co/</loc><priority>1.0</priority>
+  <url><loc>https://le-relax.co/</loc><lastmod>2026-10-08</lastmod><priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/"/></url>
-  <url><loc>https://le-relax.co/about/</loc><priority>0.7</priority>
+  <url><loc>https://le-relax.co/about/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/about/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/about/"/></url>
-  <url><loc>https://le-relax.co/glass/</loc><priority>0.7</priority>
+  <url><loc>https://le-relax.co/glass/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/glass/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/glass/"/></url>
-  <url><loc>https://le-relax.co/products/balustrades-ladders/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/balustrades-ladders/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/balustrades-ladders/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/balustrades-ladders/"/></url>
-  <url><loc>https://le-relax.co/products/casement-windows/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/casement-windows/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/casement-windows/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/casement-windows/"/></url>
-  <url><loc>https://le-relax.co/products/doors/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/doors/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/doors/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/doors/"/></url>
-  <url><loc>https://le-relax.co/products/folding-doors/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/folding-doors/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/folding-doors/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/folding-doors/"/></url>
-  <url><loc>https://le-relax.co/products/glass-rooms/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/glass-rooms/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/glass-rooms/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/glass-rooms/"/></url>
-  <url><loc>https://le-relax.co/products/friction-stays-hardware/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/friction-stays-hardware/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/friction-stays-hardware/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/friction-stays-hardware/"/></url>
-  <url><loc>https://le-relax.co/products/screens-grilles-louvres/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/screens-grilles-louvres/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/screens-grilles-louvres/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/screens-grilles-louvres/"/></url>
-  <url><loc>https://le-relax.co/products/silicone-sealants/</loc><priority>0.8</priority></url>
-  <url><loc>https://le-relax.co/products/shower-screens/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/silicone-sealants/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/silicone-sealants/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/silicone-sealants/"/></url>
+  <url><loc>https://le-relax.co/products/shower-screens/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/shower-screens/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/shower-screens/"/></url>
-  <url><loc>https://le-relax.co/products/sliding-doors-windows/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/products/sliding-doors-windows/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/sliding-doors-windows/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/sliding-doors-windows/"/></url>
-  <url><loc>https://le-relax.co/stores/</loc><priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/contact/"/></url>
-  <url><loc>https://le-relax.co/en/</loc><priority>1.0</priority>
+  <url><loc>https://le-relax.co/stores/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/"/></url>
+  <url><loc>https://le-relax.co/en/</loc><lastmod>2026-10-08</lastmod><priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/"/></url>
-  <url><loc>https://le-relax.co/en/about/</loc><priority>0.7</priority>
+  <url><loc>https://le-relax.co/en/about/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/about/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/about/"/></url>
-  <url><loc>https://le-relax.co/en/contact/</loc><priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/contact/"/></url>
-  <url><loc>https://le-relax.co/en/glass/</loc><priority>0.7</priority>
+  <url><loc>https://le-relax.co/en/glass/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/glass/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/glass/"/></url>
-  <url><loc>https://le-relax.co/en/products/balustrades-ladders/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/balustrades-ladders/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/balustrades-ladders/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/balustrades-ladders/"/></url>
-  <url><loc>https://le-relax.co/en/products/casement-windows/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/casement-windows/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/casement-windows/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/casement-windows/"/></url>
-  <url><loc>https://le-relax.co/en/products/doors/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/doors/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/doors/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/doors/"/></url>
-  <url><loc>https://le-relax.co/en/products/folding-doors/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/folding-doors/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/folding-doors/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/folding-doors/"/></url>
-  <url><loc>https://le-relax.co/en/products/glass-rooms/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/glass-rooms/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/glass-rooms/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/glass-rooms/"/></url>
-  <url><loc>https://le-relax.co/en/products/friction-stays-hardware/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/friction-stays-hardware/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/friction-stays-hardware/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/friction-stays-hardware/"/></url>
-  <url><loc>https://le-relax.co/en/products/screens-grilles-louvres/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/screens-grilles-louvres/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/screens-grilles-louvres/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/screens-grilles-louvres/"/></url>
-  <url><loc>https://le-relax.co/en/products/shower-screens/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/silicone-sealants/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/silicone-sealants/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/silicone-sealants/"/></url>
+  <url><loc>https://le-relax.co/en/products/shower-screens/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/shower-screens/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/shower-screens/"/></url>
-  <url><loc>https://le-relax.co/en/products/sliding-doors-windows/</loc><priority>0.8</priority>
+  <url><loc>https://le-relax.co/en/products/sliding-doors-windows/</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/sliding-doors-windows/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/sliding-doors-windows/"/></url>
+  <url><loc>https://le-relax.co/en/stores/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/"/></url>
 </urlset>

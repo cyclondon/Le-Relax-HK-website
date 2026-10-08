@@ -7,7 +7,7 @@ A static website (plain HTML/CSS, no build step), ready for GitHub Pages.
 | `/` | 香港主頁 (Traditional Chinese, default) |
 | `/products/<series>/` | 9 product pages |
 | `/glass/`, `/about/`, `/stores/` | 玻璃加工 · 關於升威 · 門市地址 |
-| `/en/…` | English site (same structure, `contact/` instead of `stores/`) |
+| `/en/…` | English version for English speakers in Hong Kong (same pages, translated) |
 
 The old GoDaddy addresses (`/關於我們-about-us`, `/產品-products`, `/聯絡我們-contact-us`, `/68w`, etc.) are kept as redirect pages, so existing Google results and bookmarks still work.
 
@@ -20,7 +20,7 @@ The old GoDaddy addresses (`/關於我們-about-us`, `/產品-products`, `/聯�
 3. Drag in **everything inside this folder**, not the folder itself, so `index.html` sits at the top level. Click **Commit changes**.
    - The site has about 140 files, and the browser uploader takes 100 at a time, so do it in two uploads:
      1. Everything **except** the `assets` folder (about 40 files). Commit.
-     2. **Add file → Upload files** again, then drag in the `assets` folder itself (98 files). Commit.
+     2. **Add file → Upload files** again, then drag in the `assets` folder itself (about 97 files). Commit.
    - Dragging a whole folder keeps its subfolders. Use Chrome or Edge, because Safari can flatten folders.
 4. Go to **Settings → Pages**:
    - Source: *Deploy from a branch*
@@ -50,14 +50,28 @@ The old GoDaddy addresses (`/關於我們-about-us`, `/產品-products`, `/聯�
 5. Wait for DNS to update. This usually takes 15–60 minutes and can take up to 24 hours.
 6. Back in GitHub Pages settings, tick **Enforce HTTPS** once it becomes available.
 
-## 3. After launch
+## 3. After launch: get found on Google
 
-- **Google Search Console:** add `le-relax.co` and submit `https://le-relax.co/sitemap.xml`.
-- **Google Business Profiles** for the three stores: set the website to `https://le-relax.co/stores/`.
-- **English partner form:** it currently opens the visitor's email app, addressed to info@le-relax.hk. To receive enquiries without that step:
-  1. Create a free form at formspree.io.
-  2. In `en/index.html` and `en/contact/index.html`, replace `mailto:info@le-relax.hk?subject=…` in the `<form action="…">` with your Formspree URL.
-  3. Delete `enctype="text/plain"`.
+Do these on launch day. Google shows the logo and site name only after it has crawled the new site, which usually takes a few days to a few weeks.
+
+1. **Google Search Console** (search.google.com/search-console)
+   - Add the property as a *Domain* (`le-relax.co`) and verify it with the TXT record it gives you. Add that record in GoDaddy DNS.
+   - Under **Sitemaps**, submit `https://le-relax.co/sitemap.xml`.
+   - Use **URL inspection** on the home page, then click *Request indexing*. This speeds up the logo and site name appearing.
+2. **Google Business Profile**, one for each of the three stores (business.google.com):
+   - Set the website to `https://le-relax.co/stores/`.
+   - Add the hours (Mon–Fri 9–5, Sat 9–3, closed Sun and public holidays), photos and the main products.
+   - Ask happy customers to leave a review. Reviews are the biggest factor for "near me" and district searches.
+   - Rename the Tai Kok Tsui listing from "B D HOUSE LIMITED" to 升威 LE-RELAX if possible.
+3. **Bing Webmaster Tools** (bing.com/webmasters): import from Search Console in one click. This also covers Yahoo and DuckDuckGo.
+4. **Links from other sites:** ask the association, WACKER/KCC (distributor listings) and any trade directories to link to `https://le-relax.co/`.
+5. **Check back in 4 weeks:** Search Console → *Performance* shows the actual searches you appear for.
+
+**Already built in:**
+- Page titles and descriptions written around the searches people make
+- Logo and site name markup, so Google can show the 升威 logo next to your results
+- Store locations, hours and map pins for Google
+- FAQ and page-trail data, the sitemap, and links between the Chinese and English versions
 
 ## 4. Editing later
 
