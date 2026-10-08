@@ -18,7 +18,10 @@ The old GoDaddy addresses (`/關於我們-about-us`, `/產品-products`, `/聯�
 1. Sign in at github.com → **New repository**. Name it `le-relax-website`, set it to **Public** and create it.
 2. On the empty repo page, click **uploading an existing file**.
 3. Drag in **everything inside this folder**, not the folder itself, so `index.html` sits at the top level. Click **Commit changes**.
-   - The site has about 170 files, and the browser uploader takes 100 at a time. Do it in batches of under 100: first everything except the `assets` folder, then `assets` (dragging the folder keeps its structure). If the `assets` batch is refused, drag `assets/css`, `assets/docs` and half of `assets/img`, then the other half. If GitHub still refuses, use **GitHub Desktop** (desktop.github.com): clone the repo, copy the files in, then *Commit* and *Push*.
+   - The site has 128 files, and the browser uploader takes 100 at a time, so do it in two uploads:
+     1. Everything **except** the `assets` folder (40 files). Commit.
+     2. **Add file → Upload files** again, then drag in the `assets` folder itself (88 files). Commit.
+   - Dragging a whole folder keeps its subfolders. Use Chrome or Edge, because Safari can flatten folders.
 4. Go to **Settings → Pages**:
    - Source: *Deploy from a branch*
    - Branch: `main`, folder `/ (root)`. Save.
