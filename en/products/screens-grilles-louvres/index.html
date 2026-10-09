@@ -2,6 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQYYKG7G4L"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KQYYKG7G4L');
+// count enquiries: WhatsApp, calls, email, directions, catalogue downloads, shower configurator
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a'); if (!a) return;
+  var h = a.getAttribute('href') || '', ev = null;
+  if (h.indexOf('wa.me/') > -1) ev = 'whatsapp_click';
+  else if (h.indexOf('tel:') === 0) ev = 'phone_click';
+  else if (h.indexOf('mailto:') === 0) ev = 'email_click';
+  else if (/\.pdf$/i.test(h)) ev = 'catalogue_download';
+  else if (h.indexOf('le-relaxshower.com') > -1) ev = 'shower_configurator_click';
+  else if (h.indexOf('maps.google') > -1 || h.indexOf('google.com/maps') > -1) ev = 'directions_click';
+  if (ev) gtag('event', ev, {link_url: h, link_text: (a.textContent || '').trim().slice(0, 60)});
+});
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insect Screens, Window Grilles &amp; Louvres, Hong Kong | LE-RELAX</title>
 <meta name="description" content="Seven insect screen types, security grilles, aluminium and operable glass louvres, and manual or motorised blinds, made to measure.">
