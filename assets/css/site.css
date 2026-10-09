@@ -16,4 +16,45 @@ details summary{cursor:pointer;list-style:none}details summary::-webkit-details-
 .wa-float:hover{background:#18633E}
 .map{position:relative;background:#ECEAE4}.map iframe{display:block;width:100%;height:100%;border:0}
 @media (max-width:700px){[style*="max-width: 1320px"]{padding-left:20px !important;padding-right:20px !important}h1 br{display:none}[style*="repeat(7, minmax(0, 1fr))"]{grid-template-columns:repeat(4,minmax(0,1fr)) !important}}
+/* phones: compact header, bigger tap targets, tighter grids */
+@media (max-width:700px){
+ div[style*="border-bottom: 1px solid rgba(255,255,255,.12)"] > div{padding-top:4px !important;padding-bottom:4px !important;justify-content:flex-end !important}
+ div[style*="border-bottom: 1px solid rgba(255,255,255,.12)"] > div > span:first-child{display:none}
+ div[style*="border-bottom: 1px solid rgba(255,255,255,.12)"] a{display:inline-block;padding:8px 6px}
+ header{padding:10px 20px 0 !important;gap:6px 12px !important}
+ header > a:first-child{gap:10px !important}
+ header > a:first-child img{height:30px !important}
+ header > a:first-child span{font-size:17px !important}
+ header > a[href*="wa.me"]{display:none !important}
+ header{padding-top:12px !important}
+ a[hreflang]{display:inline-block;padding:8px 6px}
+ footer a{display:inline-block;padding:6px 0}
+ dd a[href^="tel:"],dd a[href^="mailto:"]{display:inline-block;padding:6px 0}
+ a[style*="text-decoration: none"][style*="font-weight: 700"]:not([style*="background"]):not([style*="border: 1px"]):not([style*="display: flex"]):not([style*="display: inline-flex"]){display:inline-block;padding-top:8px;padding-bottom:8px}
+ header > nav{order:3;flex:1 1 100%;flex-wrap:nowrap !important;overflow-x:auto;gap:0 24px !important;font-size:15px !important;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ header > nav::-webkit-scrollbar{display:none}
+ header > nav a{display:inline-block;padding:11px 0;white-space:nowrap}
+ nav[aria-label="導覽路徑"] a,nav[aria-label="Breadcrumb"] a{display:inline-block;padding:10px 0}
+ footer nav{gap:0 !important}
+ footer nav a{display:inline-block;padding:7px 0}
+ footer nav[aria-label="社交媒體"],footer nav[aria-label="Social media"]{gap:0 18px !important}
+ [style*="font-size: 11px"]{font-size:12px !important}
+ [style*="minmax(230px, 1fr))"]{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ [style*="minmax(230px, 1fr))"] > div{padding:18px 10px 20px 14px !important}
+ [style*="minmax(230px, 1fr))"] > div:nth-child(odd){border-left:0 !important;padding-left:0 !important}
+ [style*="minmax(230px, 1fr))"] > div:nth-child(n+3){border-top:1px solid rgba(255,255,255,.2)}
+ [style*="minmax(230px, 1fr))"] > div > span:first-child{font-size:28px !important;white-space:nowrap}
+ [style*="minmax(min(100%, 240px), 1fr))"]:has(> div[style*="min-height: 150px"]){grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ div[style*="min-height: 150px"]{min-height:0 !important;padding:18px 14px !important}
+ div[style*="min-height: 150px"] strong{font-size:18px !important}
+ .lgrid[style*="height: 210px"]{height:150px !important}
+ header > a:first-child{padding:6px 0}
+ .lgrid[style*="height: 210px"] svg{width:150px;height:auto}
+ table[style*="min-width: 680px"]{min-width:0 !important}
+ table[style*="min-width: 680px"] thead{display:none}
+ table[style*="min-width: 680px"],table[style*="min-width: 680px"] tbody,table[style*="min-width: 680px"] tr,table[style*="min-width: 680px"] td{display:block;width:100%}
+ table[style*="min-width: 680px"] tr{padding:12px 16px;border-bottom:1px solid #ECEAE5}
+ table[style*="min-width: 680px"] td{padding:2px 0 !important;border:0 !important}
+ .wa-float{width:52px;height:52px;right:14px;bottom:14px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
