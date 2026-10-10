@@ -42,6 +42,10 @@
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/sliding-doors-windows/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/sliding-doors-windows/"/></url>
   <url><loc>https://le-relax.co/privacy/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/privacy/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/privacy/"/></url>
+  <url><loc>https://le-relax.co/products/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/"/></url>
+  <url><loc>https://le-relax.co/quote/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/quote/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/quote/"/></url>
   <url><loc>https://le-relax.co/stores/fo-tan/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/fo-tan/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/fo-tan/"/></url>
   <url><loc>https://le-relax.co/stores/tai-kok-tsui/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
@@ -50,6 +54,8 @@
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/tuen-mun/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/tuen-mun/"/></url>
   <url><loc>https://le-relax.co/stores/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/"/></url>
+  <url><loc>https://le-relax.co/trade/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/trade/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/trade/"/></url>
   <url><loc>https://le-relax.co/en/</loc><lastmod>2026-10-08</lastmod><priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/"/></url>
   <url><loc>https://le-relax.co/en/about/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
@@ -92,6 +98,10 @@
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/sliding-doors-windows/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/sliding-doors-windows/"/></url>
   <url><loc>https://le-relax.co/en/privacy/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/privacy/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/privacy/"/></url>
+  <url><loc>https://le-relax.co/en/products/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/products/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/products/"/></url>
+  <url><loc>https://le-relax.co/en/quote/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/quote/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/quote/"/></url>
   <url><loc>https://le-relax.co/en/stores/fo-tan/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/fo-tan/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/fo-tan/"/></url>
   <url><loc>https://le-relax.co/en/stores/tai-kok-tsui/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
@@ -100,4 +110,6 @@
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/tuen-mun/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/tuen-mun/"/></url>
   <url><loc>https://le-relax.co/en/stores/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/"/></url>
+  <url><loc>https://le-relax.co/en/trade/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/trade/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/trade/"/></url>
 </urlset>

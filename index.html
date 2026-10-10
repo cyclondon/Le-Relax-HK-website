@@ -41,7 +41,79 @@ document.addEventListener('click', function (e) {
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css">
+<style>/* 升威 LE-RELAX */
+@font-face{font-family:'Inter';src:url(fonts/inter.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Archivo';src:url(fonts/archivo.woff2) format('woff2');font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap}
+html[lang="en"] h1,html[lang="en"] h2,html[lang="en"] h3{letter-spacing:-0.015em}
+h1,h2{text-wrap:balance}
+.pimg img{transition:transform .6s ease}.pcard:hover .pimg img{transform:scale(1.05)}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.pcard,.pimg img,.zoom img{transition:none !important;transform:none !important}}
+@media (max-width:700px){p[style*="font-size: 15px"],span[style*="font-size: 15px"],li[style*="font-size: 15px"]{font-size:16px !important}}
+.mbar{display:none}@media (max-width:700px){.mbar{display:grid;grid-template-columns:1.4fr 1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:70;background:#111315;padding:8px 8px calc(8px + env(safe-area-inset-bottom));gap:8px;box-shadow:0 -8px 24px rgba(0,0,0,.18)}.mbar a{font-family:Inter,'PingFang HK','Microsoft JhengHei','Noto Sans TC',sans-serif;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:15px;border:1px solid rgba(255,255,255,.3)}.mbar a.mb-wa{background:#1F7A4D;border-color:#1F7A4D}.wa-float{display:none !important}body{padding-bottom:72px}}
+.dd{position:relative;display:inline-flex}.ddm{display:none;position:absolute;top:100%;left:-22px;z-index:60;margin-top:14px;background:#FFFFFF;padding:16px 20px;grid-template-columns:repeat(2,minmax(210px,1fr));column-gap:24px;box-shadow:0 20px 44px rgba(0,0,0,.2);border-top:3px solid #4A6129}.ddm::before{content:"";position:absolute;top:-17px;left:0;right:0;height:17px}.ddm a{color:#111315;text-decoration:none;padding:10px 4px;font-size:15px;border-bottom:1px solid #ECEAE4;white-space:nowrap}.ddm a:hover{color:#4A6129}@media (min-width:701px) and (hover:hover){.dd:hover .ddm,.dd:focus-within .ddm{display:grid}}
+html[lang="en"] body{-webkit-font-smoothing:antialiased}
+@font-face{font-family:'Noto Serif TC';src:url(fonts/le-relax-serif.woff2) format('woff2');font-weight:600;font-display:swap;unicode-range:U+5347,U+5A01}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:#F4F3EF}
+img{max-width:100%;height:auto}
+a{color:#111315}a:hover{color:#3E5222}
+:focus-visible{outline:3px solid #8DB84A;outline-offset:2px}
+.lgrid{background-image:linear-gradient(rgba(17,19,21,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(17,19,21,.05) 1px,transparent 1px);background-size:24px 24px}
+.pcard{transition:transform .25s ease,box-shadow .25s ease}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(17,19,21,.12)}
+.navl{color:#E2E5E8;text-decoration:none}.navl:hover{color:#FFFFFF}
+.navd{color:#111315;text-decoration:none}.navd:hover{color:#3E5222}
+.zoom img{transition:transform .6s ease}.zoom:hover img{transform:scale(1.03)}
+details summary{cursor:pointer;list-style:none}details summary::-webkit-details-marker{display:none}
+.wa-float{position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:50%;background:#1F7A4D;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.25);z-index:50}
+.wa-float:hover{background:#18633E}
+.map{position:relative;background:#ECEAE4}.map iframe{display:block;width:100%;height:100%;border:0}
+@media (max-width:700px){[style*="max-width: 1320px"],[style*="max-width: 820px"],[style*="max-width: 860px"]{padding-left:20px !important;padding-right:20px !important}nav[aria-label="導覽路徑"],nav[aria-label="Breadcrumb"]{align-items:center}h1 br{display:none}[style*="repeat(7, minmax(0, 1fr))"]{grid-template-columns:repeat(4,minmax(0,1fr)) !important}}
+/* phones: compact header, bigger tap targets, tighter grids */
+@media (max-width:700px){
+ div[style*="border-bottom: 1px solid rgba(255,255,255,.12)"] > div{padding-top:4px !important;padding-bottom:4px !important;justify-content:flex-end !important}
+ div[style*="border-bottom: 1px solid rgba(255,255,255,.12)"] > div > span:first-child{display:none}
+ div[style*="border-bottom: 1px solid rgba(255,255,255,.12)"] a{display:inline-block;padding:8px 6px}
+ header{padding:10px 20px 0 !important;gap:6px 12px !important}
+ header > a:first-child{gap:10px !important}
+ header > a:first-child img{height:30px !important}
+ header > a:first-child span{font-size:17px !important}
+ header > a[href*="wa.me"]{display:none !important}
+ header{padding-top:12px !important}
+ a[hreflang]{display:inline-block;padding:8px 6px}
+ footer a{display:inline-block;padding:6px 0}
+ dd a[href^="tel:"],dd a[href^="mailto:"]{display:inline-block;padding:6px 0}
+ a[style*="text-decoration: none"][style*="font-weight: 700"]:not([style*="background"]):not([style*="border: 1px"]):not([style*="display: flex"]):not([style*="display: inline-flex"]){display:inline-block;padding-top:8px;padding-bottom:8px}
+ header > nav{order:3;flex:1 1 100%;flex-wrap:nowrap !important;overflow-x:auto;gap:0 24px !important;font-size:15px !important;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ header > nav::-webkit-scrollbar{display:none}
+ header > nav a{display:inline-block;padding:11px 0;white-space:nowrap}
+ nav[aria-label="導覽路徑"] a,nav[aria-label="Breadcrumb"] a{display:inline-block;padding:10px 0}
+ footer nav{gap:0 !important}
+ footer nav a{display:inline-block;padding:7px 0}
+ footer nav[aria-label="社交媒體"],footer nav[aria-label="Social media"]{gap:0 18px !important}
+ [style*="font-size: 11px"]{font-size:12px !important}
+ [style*="minmax(230px, 1fr))"]{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ [style*="minmax(230px, 1fr))"] > div{padding:18px 10px 20px 14px !important}
+ [style*="minmax(230px, 1fr))"] > div:nth-child(odd){border-left:0 !important;padding-left:0 !important}
+ [style*="minmax(230px, 1fr))"] > div:nth-child(n+3){border-top:1px solid rgba(255,255,255,.2)}
+ [style*="minmax(230px, 1fr))"] > div > span:first-child{font-size:28px !important;white-space:nowrap}
+ [style*="minmax(min(100%, 240px), 1fr))"]:has(> div[style*="min-height: 150px"]){grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+ div[style*="min-height: 150px"]{min-height:0 !important;padding:18px 14px !important}
+ div[style*="min-height: 150px"] strong{font-size:18px !important}
+ .lgrid[style*="height: 210px"]{height:150px !important}
+ header > a:first-child{padding:6px 0}
+ .lgrid[style*="height: 210px"] svg{width:150px;height:auto}
+ table[style*="min-width: 680px"]{min-width:0 !important}
+ table[style*="min-width: 680px"] thead{display:none}
+ table[style*="min-width: 680px"],table[style*="min-width: 680px"] tbody,table[style*="min-width: 680px"] tr,table[style*="min-width: 680px"] td{display:block;width:100%}
+ table[style*="min-width: 680px"] tr{padding:12px 16px;border-bottom:1px solid #ECEAE5}
+ table[style*="min-width: 680px"] td{padding:2px 0 !important;border:0 !important}
+ .wa-float{width:52px;height:52px;right:14px;bottom:14px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
+</style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "升威 LE-RELAX", "alternateName": "LE-RELAX", "url": "https://le-relax.co/", "logo": "https://le-relax.co/assets/img/logo-512.png", "foundingDate": "1986", "email": "info@le-relax.hk", "sameAs": ["https://www.facebook.com/people/%E5%8D%87%E5%A8%81-Le-Relax/61551471166808/", "https://www.instagram.com/le_relaxcoltd/", "https://www.linkedin.com/company/le-relax-co", "https://www.youtube.com/@le-relaxco", "https://www.pinterest.com/lerelaxco/", "https://x.com/lerelaxco"], "contactPoint": {"@type": "ContactPoint", "telephone": "+852-6588-1426", "contactType": "sales", "areaServed": ["HK", "CN"], "availableLanguage": ["zh-HK", "en"]}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "升威 LE-RELAX", "alternateName": ["LE-RELAX", "升威", "Le-Relax"], "url": "https://le-relax.co/", "inLanguage": "zh-HK"}</script>
 </head>
@@ -69,8 +141,9 @@ document.addEventListener('click', function (e) {
 </a>
 <nav aria-label="主選單" style="display: flex; flex-wrap: wrap; gap: 8px 30px; font-size: 16px">
 <a class="navl" href="about/">關於升威</a>
-<a class="navl" href="#range">產品系列</a>
+<div class="dd"><a class="navl" href="products/">產品系列</a><div class="ddm"><a href="products/housing-authority-windows/">房署窗</a><a href="products/casement-windows/">平開窗</a><a href="products/sliding-doors-windows/">高級趟門窗</a><a href="products/doors/">平開門及地鉸門</a><a href="products/folding-doors/">摺疊門</a><a href="products/shower-screens/">浴屏</a><a href="products/glass-rooms/">玻璃組合屋及間格</a><a href="products/screens-grilles-louvres/">紗窗、窗花及百葉</a><a href="products/balustrades-ladders/">欄河及鋁梯</a><a href="products/friction-stays-hardware/">不銹鋼窗撐及五金配件</a><a href="products/silicone-sealants/">矽膠密封膠</a><a href="glass/">玻璃加工</a><a href="products/" style="font-weight: 700">全部產品 →</a></div></div>
 <a class="navl" href="glass/">玻璃加工</a>
+<a class="navl" href="trade/">承辦商及批發</a>
 <a class="navl" href="#visit">門市地址</a>
 </nav>
 <a href="https://wa.me/85265881426?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81" target="_blank" rel="noopener" style="background: #1F7A4D; color: #FFFFFF; text-decoration: none; padding: 11px 20px; font-size: 15px; font-weight: 700; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"/><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"/></svg>WhatsApp 查詢</a>
@@ -82,7 +155,7 @@ document.addEventListener('click', function (e) {
 <p style="margin: 0; font-size: 19px; font-weight: 400; color: #D3D8DC; max-width: 620px">升威四十年來為香港家庭及房屋署項目供應鋁門窗。玻璃加工、窗撐生產、成品組裝，全部在中山自設廠房完成，品質由我哋一手把關。</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 4px">
 <a href="https://wa.me/85265881426?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81" target="_blank" rel="noopener" style="background: #1F7A4D; color: #FFFFFF; text-decoration: none; padding: 16px 28px; font-weight: 700; font-size: 17px; min-height: 54px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"/><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"/></svg>WhatsApp 即時查詢</a>
-<a href="#visit" style="color: #FFFFFF; text-decoration: none; padding: 16px 26px; font-weight: 500; font-size: 17px; min-height: 54px; box-sizing: border-box; display: inline-flex; align-items: center; border: 1px solid rgba(255,255,255,.45)">搵最近門市 →</a>
+<a href="quote/" style="color: #FFFFFF; text-decoration: none; padding: 16px 26px; font-weight: 500; font-size: 17px; min-height: 54px; box-sizing: border-box; display: inline-flex; align-items: center; border: 1px solid rgba(255,255,255,.45)">網上快速報價 →</a>
 </div>
 </div>
 
@@ -100,7 +173,7 @@ document.addEventListener('click', function (e) {
 <section aria-label="資歷" style="background: #FFFFFF; color: #3E444A">
 <div style="max-width: 1320px; margin: 0 auto; padding: 18px 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 32px; font-size: 14px">
 <span style="color: #4A6129; font-weight: 700">值得信賴</span>
-<span>房屋署認可鋁窗供應商</span><span>香港鋁門窗同業聯會創會會員及主席</span><span>PCCS-AW 鋁窗認證</span><span>PCCS-FH 窗鉸認證</span><span>BS 6375 英國標準</span><span>ISO 9001 · ISO 14001</span>
+<a class="navl" href="products/housing-authority-windows/" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">房屋署認可鋁窗供應商</a><a class="navl" href="about/" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">香港鋁門窗同業聯會創會會員及主席</a><a class="navl" href="products/housing-authority-windows/" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">PCCS-AW 鋁窗認證</a><a class="navl" href="products/friction-stays-hardware/" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">PCCS-FH 窗鉸認證</a><a class="navl" href="about/#certs" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">BS 6375 英國標準</a><a class="navl" href="about/#certs" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">ISO 9001 · ISO 14001</a>
 </div>
 </section>
 
@@ -115,8 +188,8 @@ document.addEventListener('click', function (e) {
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px">
 <article style="border: 1px solid #D6D3CC; background: #F4F3EF; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px">大角咀門市</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">TAI KOK TSUI</span></div>
-<span style="font-size: 15px; line-height: 1.6; color: #3E444A; min-height: 48px">九龍大角咀洋松街 8-10 號地舖</span>
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px">大角咀門市</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4C5258; font-weight: 600">TAI KOK TSUI</span></div>
+<span style="font-size: 15px; line-height: 1.6; color: #3E444A; min-height: 48px">九龍大角咀洋松街 8-10 號地舖</span><a href="https://www.google.com/maps?cid=12256783643841591164" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; text-decoration: none; color: #111315"><svg width="16" height="16" viewBox="0 0 24 24" fill="#E8A317" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>睇 Google 評價 →</a>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
 <a href="https://wa.me/85268419246?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81%EF%BC%88%E5%A4%A7%E8%A7%92%E5%92%80%E9%96%80%E5%B8%82%EF%BC%89" target="_blank" rel="noopener" style="grid-column: span 2; background: #1F7A4D; color: #FFFFFF; text-decoration: none; min-height: 50px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 700; font-size: 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"/><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"/></svg>WhatsApp 6841 9246</a>
 <a href="tel:+85223931419" style="border: 1px solid #111315; background: #FFFFFF; text-decoration: none; min-height: 46px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 15px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4 H9 L10.5 8 L8.5 9.5 A11 11 0 0 0 14.5 15.5 L16 13.5 L20 15 V19 A1 1 0 0 1 19 20 A16 16 0 0 1 4 5 A1 1 0 0 1 5 4 Z" stroke-linejoin="round"/></svg>2393 1419</a>
@@ -124,8 +197,8 @@ document.addEventListener('click', function (e) {
 </div>
 </article>
 <article style="border: 1px solid #D6D3CC; background: #F4F3EF; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px">屯門門市</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">TUEN MUN</span></div>
-<span style="font-size: 15px; line-height: 1.6; color: #3E444A; min-height: 48px">新界屯門建發街 1 號鳴發工業中心地下 2A 及 B 舖</span>
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px">屯門門市</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4C5258; font-weight: 600">TUEN MUN</span></div>
+<span style="font-size: 15px; line-height: 1.6; color: #3E444A; min-height: 48px">新界屯門建發街 1 號鳴發工業中心地下 2A 及 B 舖</span><a href="https://www.google.com/maps?cid=15782588499391691431" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; text-decoration: none; color: #111315"><svg width="16" height="16" viewBox="0 0 24 24" fill="#E8A317" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>睇 Google 評價 →</a>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
 <a href="https://wa.me/85255346347?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81%EF%BC%88%E5%B1%AF%E9%96%80%E9%96%80%E5%B8%82%EF%BC%89" target="_blank" rel="noopener" style="grid-column: span 2; background: #1F7A4D; color: #FFFFFF; text-decoration: none; min-height: 50px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 700; font-size: 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"/><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"/></svg>WhatsApp 5534 6347</a>
 <a href="tel:+85226187462" style="border: 1px solid #111315; background: #FFFFFF; text-decoration: none; min-height: 46px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 15px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4 H9 L10.5 8 L8.5 9.5 A11 11 0 0 0 14.5 15.5 L16 13.5 L20 15 V19 A1 1 0 0 1 19 20 A16 16 0 0 1 4 5 A1 1 0 0 1 5 4 Z" stroke-linejoin="round"/></svg>2618 7462</a>
@@ -133,8 +206,8 @@ document.addEventListener('click', function (e) {
 </div>
 </article>
 <article style="border: 1px solid #D6D3CC; background: #F4F3EF; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px">火炭門市</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">FO TAN</span></div>
-<span style="font-size: 15px; line-height: 1.6; color: #3E444A; min-height: 48px">新界火炭坳背灣街 14-24 號金豪工業大廈 1 座地下 A 舖</span>
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px">火炭門市</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4C5258; font-weight: 600">FO TAN</span></div>
+<span style="font-size: 15px; line-height: 1.6; color: #3E444A; min-height: 48px">新界火炭坳背灣街 14-24 號金豪工業大廈 1 座地下 A 舖</span><a href="https://www.google.com/maps?cid=12050332998316192199" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; text-decoration: none; color: #111315"><svg width="16" height="16" viewBox="0 0 24 24" fill="#E8A317" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>睇 Google 評價 →</a>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
 <a href="https://wa.me/85255321176?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81%EF%BC%88%E7%81%AB%E7%82%AD%E9%96%80%E5%B8%82%EF%BC%89" target="_blank" rel="noopener" style="grid-column: span 2; background: #1F7A4D; color: #FFFFFF; text-decoration: none; min-height: 50px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 700; font-size: 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"/><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"/></svg>WhatsApp 5532 1176</a>
 <a href="tel:+85235808136" style="border: 1px solid #111315; background: #FFFFFF; text-decoration: none; min-height: 46px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 15px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4 H9 L10.5 8 L8.5 9.5 A11 11 0 0 0 14.5 15.5 L16 13.5 L20 15 V19 A1 1 0 0 1 19 20 A16 16 0 0 1 4 5 A1 1 0 0 1 5 4 Z" stroke-linejoin="round"/></svg>3580 8136</a>
@@ -164,7 +237,7 @@ document.addEventListener('click', function (e) {
 </div>
 <figure class="zoom" style="color: #FFFFFF; margin: 0; position: relative; overflow: hidden">
 <img src="assets/img/team.webp" alt="升威中山團隊" style="display: block; width: 100%; height: auto" width="1440" height="810" srcset="assets/img/team-800.webp 800w, assets/img/team.webp 1440w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async">
-<figcaption style="padding-top: 10px; font-size: 14px; color: #5A6066">升威中山廠房團隊</figcaption>
+<figcaption style="padding-top: 10px; font-size: 14px; color: #4C5258">升威中山廠房團隊</figcaption>
 </figure>
 </div>
 </section>
@@ -174,75 +247,108 @@ document.addEventListener('click', function (e) {
 <div style="display: flex; flex-direction: column; gap: 14px; max-width: 760px">
 <span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4A6129; font-weight: 600">02 — 產品系列</span>
 <h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.2">鋁門窗，以及周邊一切</h2>
-<p style="margin: 0; font-size: 17px; color: #5A6066">超過 30 個鋁質系列，由房署規格窗到玻璃組合屋，全部中山廠房製造。</p>
+<p style="margin: 0; font-size: 17px; color: #4C5258">超過 30 個鋁質系列，由房署規格窗到玻璃組合屋，全部中山廠房製造。</p>
 </div>
 <a href="assets/docs/le-relax-product-catalogue.pdf" download style="font-weight: 700; text-decoration: none">下載產品目錄（PDF）↓</a>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 20px">
-<a class="pcard" href="products/casement-windows/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">8 個系列</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><rect x="60" y="14" width="120" height="152"/><rect x="68" y="22" width="104" height="136" fill="rgba(84,106,47,.08)"/><path d="M172 22 L68 90 L172 158" stroke-dasharray="5 5" stroke-width="1.1"/><rect x="74" y="84" width="5" height="16" fill="#111315"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">平開窗</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">40 – 110</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">40 至 110 系列鋁質平開窗，配自家不銹鋼窗撐，防風防水，適合高層住宅。</p>
+<!--pgrid--><div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 20px">
+<a class="pcard" href="products/housing-authority-windows/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/casement-grille.webp" alt="房署窗" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1600" height="1041" srcset="assets/img/casement-grille-800.webp 800w, assets/img/casement-grille.webp 1600w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">房署認可</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">房署窗</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">38 · 50</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">38、50 房署窗，PCCS-AW 認證，配自家 PCCS-FH 認證不銹鋼窗撐。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
-<a class="pcard" href="products/sliding-doors-windows/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">6 個系列</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><rect x="24" y="14" width="192" height="152"/><rect x="31" y="21" width="92" height="138" fill="rgba(84,106,47,.08)"/><rect x="117" y="27" width="92" height="132" fill="rgba(84,106,47,.08)"/><path d="M140 92 H192 M184 86 L192 92 L184 98" stroke-width="1.2"/><rect x="113" y="80" width="4" height="22" fill="#111315"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">高級趟門窗</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">80 – 140</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">由纖薄 80 系列至重型 140 系列，適合露台及大面積開口。</p>
+<a class="pcard" href="products/casement-windows/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/w19-casement-lake.webp" alt="平開窗" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1591" height="1082" srcset="assets/img/w19-casement-lake-800.webp 800w, assets/img/w19-casement-lake.webp 1591w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">8 個系列</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">平開窗</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">40 – 110</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">40 至 110 系列鋁質平開窗，配自家不銹鋼窗撐，防風防水，適合高層住宅。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
-<a class="pcard" href="products/doors/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">40 – BD90 系列</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><rect x="70" y="10" width="100" height="160"/><rect x="78" y="18" width="84" height="152" fill="rgba(84,106,47,.08)"/><circle cx="150" cy="94" r="4" fill="#111315"/><path d="M60 170 H180" /><rect x="114" y="166" width="12" height="6" fill="#111315"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">平開門及地鉸門</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">40 – BD90</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">40 至 BD90 系列平開門，另有玻璃及鋁質地鉸門。</p>
+<a class="pcard" href="products/sliding-doors-windows/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/w19-sliding-balcony.webp" alt="高級趟門窗" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1254" height="941" srcset="assets/img/w19-sliding-balcony-800.webp 800w, assets/img/w19-sliding-balcony.webp 1254w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">6 個系列</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">高級趟門窗</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">80 – 140</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">由纖薄 80 系列至重型 140 系列，適合露台及大面積開口。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
-<a class="pcard" href="products/folding-doors/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">摺疊系列</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><rect x="24" y="14" width="192" height="112"/><path d="M72 14 V126 M120 14 V126 M168 14 V126"/><path d="M24 160 L72 140 L120 160 L168 140 L216 160" stroke-width="1.4"/><circle cx="24" cy="160" r="3" fill="#111315"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">摺疊門</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">75 / 89</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">75、89 系列摺門、細摺門及高級紐西蘭懸掛式摺疊門。</p>
+<a class="pcard" href="products/doors/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/d-door-nz.webp" alt="平開門及地鉸門" style="display: block; width: 100%; height: 100%; object-fit: cover" width="885" height="1069" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">40 – BD90 系列</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">平開門及地鉸門</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">40 – BD90</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">40 至 BD90 系列平開門，另有玻璃及鋁質地鉸門。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
-<a class="pcard" href="products/shower-screens/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">鋁框 · 不銹鋼框</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><path d="M124 6 V138 M124 138 L56 152 M124 138 L192 150" stroke-width="1" opacity=".3"/><path d="M56 24 Q118 10 192 22 V151 Q122 174 56 155 Z" fill="rgba(84,106,47,.08)" stroke="none"/><path d="M50 155 Q122 182 198 150 V156 Q122 189 50 161 Z" fill="rgba(17,19,21,.12)" stroke-width="1.4"/><path d="M54 24 Q118 9 194 21" stroke-width="3"/><path d="M54 28 Q118 13 194 25" stroke-width="1"/><path d="M56 155 Q122 176 192 151" stroke-width="2"/><path d="M56 23 V156 M60 22 V157" stroke-width="1.6"/><path d="M188 21 V152 M192 21 V151" stroke-width="1.6"/><path d="M84 19 V162 M118 15 V165 M127 15 V165 M156 16 V161" stroke-width="1.4"/><path d="M112 70 Q107 86 112 102" stroke-width="3.2" stroke-linecap="round"/><path d="M133 70 Q138 86 133 102" stroke-width="3.2" stroke-linecap="round"/><path d="M112 70 H115 M112 102 H115 M133 70 H130 M133 102 H130" stroke-width="1.6"/><path d="M108 42 H92 M96 38 L92 42 L96 46 M137 42 H153 M149 38 L153 42 L149 46" stroke-width="1.1"/><path d="M66 70 L78 52 M66 92 L80 72 M164 72 L178 52 M164 94 L182 68" stroke-width="1" opacity=".45"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">浴屏</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">可網上訂造</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">扇形、一字形浴屏，有框或無框，鋁框或不銹鋼框，配自家鋼化玻璃。</p>
+<a class="pcard" href="products/folding-doors/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/w19-folding-sea.webp" alt="摺疊門" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1226" height="820" srcset="assets/img/w19-folding-sea-800.webp 800w, assets/img/w19-folding-sea.webp 1226w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">摺疊系列</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">摺疊門</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">75 / 89</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">75、89 系列摺門、細摺門及高級紐西蘭懸掛式摺疊門。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
-<a class="pcard" href="products/glass-rooms/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">度身訂造</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><path d="M40 70 L120 30 L200 70 V160 H40 Z" fill="rgba(84,106,47,.08)"/><path d="M40 70 H200 M80 50 V160 M120 30 V160 M160 50 V160 M40 110 H200" stroke-width="1.1"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">玻璃組合屋及間格</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">度身訂造</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">玻璃組合屋、玻璃及鋁質間格，以及鋁質飾櫃。</p>
+<a class="pcard" href="products/shower-screens/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/sh-quadrant-marble.webp" alt="浴屏" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1800" height="1160" srcset="assets/img/sh-quadrant-marble-800.webp 800w, assets/img/sh-quadrant-marble.webp 1800w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">鋁框 · 不銹鋼框</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">浴屏</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">可網上訂造</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">扇形、一字形浴屏，有框或無框，鋁框或不銹鋼框，配自家鋼化玻璃。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
-<a class="pcard" href="products/screens-grilles-louvres/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">紗網 · 窗花</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><rect x="50" y="14" width="140" height="152"/><path d="M60 30 H180 M60 46 H180 M60 62 H180 M60 78 H180 M60 94 H180 M60 110 H180 M60 126 H180 M60 142 H180" stroke-width="1"/><path d="M120 14 V166" stroke-width="1.2"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">紗窗、窗花及百葉</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">7 款紗網</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">下拉、風琴、趟紗等防蚊紗窗，窗花、活動玻璃百葉，手動及電動百葉。</p>
+<a class="pcard" href="products/glass-rooms/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/sunroom.webp" alt="玻璃組合屋及間格" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1359" height="907" srcset="assets/img/sunroom-800.webp 800w, assets/img/sunroom.webp 1359w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">度身訂造</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">玻璃組合屋及間格</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">度身訂造</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">玻璃組合屋、玻璃及鋁質間格，以及鋁質飾櫃。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
-<a class="pcard" href="products/balustrades-ladders/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">欄河</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><path d="M20 60 H220 M20 150 H220"/><path d="M40 60 V150 M70 60 V150 M100 60 V150 M130 60 V150 M160 60 V150 M190 60 V150" stroke-width="1.1"/><path d="M20 60 V150 M220 60 V150" stroke-width="2"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">欄河及鋁梯</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">鋁 · 玻璃</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">樓梯及露台欄河、多用途趟摺門，以及 A 字鋁梯。</p>
+<a class="pcard" href="products/screens-grilles-louvres/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/screens-living.webp" alt="紗窗、窗花及百葉" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1600" height="954" srcset="assets/img/screens-living-800.webp 800w, assets/img/screens-living.webp 1600w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">紗網 · 窗花</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">紗窗、窗花及百葉</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">7 款紗網</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">下拉、風琴、趟紗等防蚊紗窗，窗花、活動玻璃百葉，手動及電動百葉。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
-<a class="pcard" href="products/friction-stays-hardware/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column">
-<div class="lgrid" style="background-color: #ECEAE4; height: 210px; display: flex; align-items: center; justify-content: center; position: relative"><span style="position: absolute; top: 14px; left: 16px; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #5A6066; font-weight: 600">自家生產 · 不銹鋼</span><svg viewBox="0 0 240 180" width="200" height="150" aria-hidden="true" stroke="#111315" stroke-width="1.6" fill="none"><path d="M19 126.5 H215 V140.5 H19 L13 133.5 Z" fill="#F7F6F3" stroke-width="1.6"/><path d="M19 129 H213" stroke-width="0.8" opacity=".5"/><rect x="22.5" y="130" width="4" height="5" rx="1" stroke-width="1"/><ellipse cx="38" cy="133" rx="3.4" ry="2" stroke-width="1"/><path d="M152 130.5 Q154 129 156 130.5 V135.5 H152 Z" stroke-width="1"/><ellipse cx="168" cy="133" rx="3.4" ry="2" stroke-width="1"/><circle cx="181" cy="133" r="1.8" stroke-width="1"/><ellipse cx="209.5" cy="133" rx="3.4" ry="2" stroke-width="1"/><rect x="87.5" y="127.5" width="25" height="10.5" rx="1.5" fill="rgba(17,19,21,.18)" stroke-width="1.2"/><path d="M104.3 65.3 L197.9 132.9" stroke="#111315" stroke-width="11.5" stroke-linecap="round"/><path d="M104.3 65.3 L197.9 132.9" stroke="#F7F6F3" stroke-width="8.5" stroke-linecap="round"/><path d="M99.1 132.9 L132.3 86.1" stroke="#111315" stroke-width="11" stroke-linecap="round"/><path d="M99.1 132.9 L132.3 86.1" stroke="#F7F6F3" stroke-width="8" stroke-linecap="round"/><path d="M70.5 114.7 L99.1 132.9" stroke="#111315" stroke-width="11.5" stroke-linecap="round"/><path d="M70.5 114.7 L99.1 132.9" stroke="#F7F6F3" stroke-width="8.5" stroke-linecap="round"/><path d="M70.5 114.7 L140.7 15.9" stroke="#111315" stroke-width="13.5" stroke-linecap="round"/><path d="M70.5 114.7 L140.7 15.9" stroke="#F7F6F3" stroke-width="10.5" stroke-linecap="round"/><ellipse cx="139.6" cy="18.6" rx="2.2" ry="1.4" transform="rotate(-54.6 139.6 18.6)" stroke-width="1"/><circle cx="111.5" cy="56" r="1.7" stroke-width="1"/><circle cx="97" cy="75" r="1.7" stroke-width="1"/><circle cx="79.6" cy="99.8" r="1.7" stroke-width="1"/><circle cx="70.5" cy="114.7" r="2.8" fill="#111315"/><circle cx="70.5" cy="114.7" r="1.1" fill="#F7F6F3" stroke="none"/><circle cx="99.1" cy="132.9" r="2.8" fill="#111315"/><circle cx="99.1" cy="132.9" r="1.1" fill="#F7F6F3" stroke="none"/><circle cx="132.3" cy="86.1" r="2.8" fill="#111315"/><circle cx="132.3" cy="86.1" r="1.1" fill="#F7F6F3" stroke="none"/><circle cx="104.3" cy="65.3" r="2.8" fill="#111315"/><circle cx="104.3" cy="65.3" r="1.1" fill="#F7F6F3" stroke="none"/><circle cx="197.9" cy="132.9" r="2.8" fill="#111315"/><circle cx="197.9" cy="132.9" r="1.1" fill="#F7F6F3" stroke="none"/></svg></div>
-<div style="padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">不銹鋼窗撐及五金配件</h3><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #5A6066; white-space: nowrap; font-weight: 600">PCCS-FH</span></div>
-<p style="margin: 0; color: #5A6066; font-size: 15px; line-height: 1.7">自家廠房生產不銹鋼窗撐，通過 PCCS-FH 及 BS 6375-2 測試；另有各式五金配件。</p>
+<a class="pcard" href="products/balustrades-ladders/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/bal-glass-hero.webp" alt="欄河及鋁梯" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1172" height="780" srcset="assets/img/bal-glass-hero-800.webp 800w, assets/img/bal-glass-hero.webp 1172w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">欄河</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">欄河及鋁梯</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">鋁 · 玻璃</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">樓梯及露台欄河、多用途趟摺門，以及 A 字鋁梯。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
 </a>
+<a class="pcard" href="products/friction-stays-hardware/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/h-hinge-black.webp" alt="不銹鋼窗撐及五金配件" style="display: block; width: 100%; height: 100%; object-fit: cover" width="1406" height="1241" srcset="assets/img/h-hinge-black-800.webp 800w, assets/img/h-hinge-black.webp 1406w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">自家生產 · 不銹鋼</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">不銹鋼窗撐及五金配件</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">PCCS-FH</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">自家廠房生產不銹鋼窗撐，通過 PCCS-FH 及 BS 6375-2 測試；另有各式五金配件。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
 </div>
+</a>
+<a class="pcard" href="products/silicone-sealants/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #FFFFFF"><img src="assets/img/sealant-range.webp" alt="矽膠密封膠" style="display: block; width: 100%; height: 100%; object-fit: contain; padding: 36px 16px 12px; box-sizing: border-box" width="710" height="660" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">WACKER 獨家代理</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">矽膠密封膠</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">韓國製造</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">WACKER 矽膠香港獨家代理、KCC 授權分銷，中性耐候膠及浴室防霉膠。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
+</div>
+</a>
+<a class="pcard" href="glass/" style="text-decoration: none; color: #111315; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+<div class="pimg" style="position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #ECEAE4"><img src="assets/img/showroom-display.webp" alt="玻璃加工" style="display: block; width: 100%; height: 100%; object-fit: cover" width="2000" height="1500" srcset="assets/img/showroom-display-800.webp 800w, assets/img/showroom-display.webp 2000w" sizes="(max-width: 800px) 100vw, 60vw" loading="lazy" decoding="async"><span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.94); padding: 4px 10px; font-size: 12px; font-weight: 600; color: #111315">自家加工</span></div>
+<div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3">玻璃加工</h3><span style="font-size: 13px; color: #4C5258; white-space: nowrap">11 種玻璃</span></div>
+<p style="margin: 0; color: #4A5056; font-size: 15px; line-height: 1.7">鋼化、熱浸、夾膠、中空、LOW-E 等十一種玻璃，配合鋁門窗、浴屏或單獨訂購。</p>
+<span style="margin-top: auto; padding-top: 8px; font-weight: 700; color: #4A6129; font-size: 14px">了解更多 →</span>
+</div>
+</a>
+</div><!--/pgrid-->
 </section>
 
 <section aria-label="網上浴屏報價" style="max-width: 1320px; margin: 0 auto; padding: 0 40px 110px">
@@ -259,40 +365,6 @@ document.addEventListener('click', function (e) {
 </div>
 </section>
 
-<section aria-label="矽膠密封膠" style="max-width: 1320px; margin: 0 auto; padding: 0 40px 110px">
-<div style="background: #FFFFFF; border: 1px solid #D6D3CC; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: center">
-<div style="padding: 48px 44px; display: flex; flex-direction: column; gap: 16px">
-<span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4A6129; font-weight: 600">獨家代理 · 韓國製造</span>
-<h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: clamp(28px, 6vw, 36px); line-height: 1.25">WACKER 矽膠密封膠<br>香港獨家代理</h2>
-<p style="margin: 0; color: #3E444A; font-size: 17px">升威係韓國製造 WACKER 矽膠密封膠的香港獨家代理，並有自家專屬 TOPP 耐候膠系列；同時係 KCC 密封膠的香港授權分銷商。</p>
-<a href="products/silicone-sealants/" style="align-self: flex-start; background: #111315; color: #FFFFFF; text-decoration: none; padding: 15px 26px; font-weight: 700; min-height: 50px; box-sizing: border-box; display: inline-flex; align-items: center; margin-top: 8px">睇矽膠密封膠 →</a>
-</div>
-<figure style="margin: 0; display: flex; align-items: center; justify-content: center; padding: 24px"><img src="assets/img/sealant-range.webp" alt="TOPP、WACKER LC909N 及 KCC SL907 矽膠密封膠" style="display: block; max-width: 100%; height: auto; max-height: 420px" width="710" height="660" loading="lazy" decoding="async"></figure>
-</div>
-</section>
-
-<section id="credentials" style="background: #FFFFFF; border-bottom: 1px solid #D6D3CC">
-<div style="max-width: 1320px; margin: 0 auto; padding: 110px 40px; display: flex; flex-direction: column; gap: 40px">
-<div style="display: flex; flex-direction: column; gap: 14px; max-width: 760px">
-<span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4A6129; font-weight: 600">03 — 認證及資歷</span>
-<h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.2">房署信賴，行業領導</h2>
-<a href="about/#certs" style="font-weight: 700; text-decoration: none">查看全部認證 →</a>
-</div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px">
-<div style="background: #FFFFFF; color: #111315; padding: 36px; display: flex; flex-direction: column; gap: 14px; min-height: 220px; justify-content: space-between"><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4A6129; font-weight: 600">認可供應商</span><div><div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.35">香港房屋署</div><p style="margin: 6px 0 0; color: #3E444A; font-size: 15px">房署認可鋁窗供應商，房署窗按 BS 6375 標準製造。</p><a href="products/housing-authority-windows/" style="display: inline-block; margin-top: 12px; font-weight: 700; text-decoration: none">房署窗詳情 →</a><a href="products/housing-authority-windows/" style="display: inline-block; margin-top: 12px; font-weight: 700; text-decoration: none">房署窗詳情 →</a><a href="products/housing-authority-windows/" style="display: inline-block; margin-top: 12px; font-weight: 700; text-decoration: none">房署窗詳情 →</a><a href="products/housing-authority-windows/" style="display: inline-block; margin-top: 12px; font-weight: 700; text-decoration: none">房署窗詳情 →</a><a href="products/housing-authority-windows/" style="display: inline-block; margin-top: 12px; font-weight: 700; text-decoration: none">房署窗詳情 →</a><a href="products/housing-authority-windows/" style="display: inline-block; margin-top: 12px; font-weight: 700; text-decoration: none">房署窗詳情 →</a><a href="products/housing-authority-windows/" style="display: inline-block; margin-top: 12px; font-weight: 700; text-decoration: none">房署窗詳情 →</a></div></div>
-<div style="background: #FFFFFF; color: #111315; padding: 36px; display: flex; flex-direction: column; gap: 14px; min-height: 220px; justify-content: space-between"><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4A6129; font-weight: 600">行業領導</span><div><div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.35">香港鋁門窗同業聯會創會會員及主席</div><p style="margin: 6px 0 0; color: #3E444A; font-size: 15px">升威為香港鋁門窗同業聯會創會會員，創辦人並出任主席，推動行業標準。</p></div></div>
-<div style="background: #FFFFFF; color: #111315; padding: 36px; display: flex; flex-direction: column; gap: 14px; min-height: 220px; justify-content: space-between"><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4A6129; font-weight: 600">香港產品認證</span><div><div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.35">PCCS-AW · PCCS-FH</div><p style="margin: 6px 0 0; color: #3E444A; font-size: 15px">香港鋁窗及窗鉸產品合格認證。</p></div></div>
-</div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: #D6D3CC; border: 1px solid #D6D3CC">
-<div style="background: #F4F3EF; padding: 22px"><div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 600; font-size: 20px">BS 6375-1/-2</div><div style="font-size: 14px; color: #5A6066">鋁門窗、房署窗、窗撐</div></div>
-<div style="background: #F4F3EF; padding: 22px"><div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 600; font-size: 20px">BS 6206 · ANSI Z97.1</div><div style="font-size: 14px; color: #5A6066">鋼化玻璃</div></div>
-<div style="background: #F4F3EF; padding: 22px"><div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 600; font-size: 20px">BS EN 14179-1</div><div style="font-size: 14px; color: #5A6066">熱浸爐</div></div>
-<div style="background: #F4F3EF; padding: 22px"><div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 600; font-size: 20px">EN 14428 · CE</div><div style="font-size: 14px; color: #5A6066">淋浴房</div></div>
-<div style="background: #F4F3EF; padding: 22px"><div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 600; font-size: 20px">ISO 9001 · ISO 14001</div><div style="font-size: 14px; color: #5A6066">質量及環境管理</div></div>
-</div>
-</div>
-</section>
-
 <footer style="background: #0B0C0E; color: #D0D4D8; font-size: 14px">
 <div style="max-width: 1320px; margin: 0 auto; padding: 72px 40px 32px; display: flex; flex-direction: column; gap: 44px">
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px">
@@ -301,7 +373,7 @@ document.addEventListener('click', function (e) {
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px">
 <nav aria-label="產品" style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; letter-spacing: 0.06em; color: #8DB84A">產品系列</span><a class="navl" href="products/housing-authority-windows/">房署窗</a><a class="navl" href="products/casement-windows/">平開窗</a><a class="navl" href="products/sliding-doors-windows/">高級趟門窗</a><a class="navl" href="products/doors/">平開門及地鉸門</a><a class="navl" href="products/folding-doors/">摺疊門</a><a class="navl" href="products/shower-screens/">浴屏</a><a class="navl" href="products/glass-rooms/">玻璃組合屋及間格</a><a class="navl" href="products/screens-grilles-louvres/">紗窗、窗花及百葉</a><a class="navl" href="products/balustrades-ladders/">欄河及鋁梯</a><a class="navl" href="products/friction-stays-hardware/">不銹鋼窗撐及五金配件</a><a class="navl" href="products/silicone-sealants/">矽膠密封膠</a></nav>
-<nav aria-label="公司" style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; letter-spacing: 0.06em; color: #8DB84A">升威</span><a class="navl" href="about/">關於升威</a><a class="navl" href="about/#certs">認證</a><a class="navl" href="glass/">玻璃加工</a><a class="navl" href="stores/">門市地址</a><a class="navl" href="guides/">選購指南</a><a class="navl" href="en/" hreflang="en" lang="en">English</a></nav>
+<nav aria-label="公司" style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; letter-spacing: 0.06em; color: #8DB84A">升威</span><a class="navl" href="about/">關於升威</a><a class="navl" href="about/#certs">認證</a><a class="navl" href="glass/">玻璃加工</a><a class="navl" href="stores/">門市地址</a><a class="navl" href="guides/">選購指南</a><a class="navl" href="trade/">承辦商及批發</a><a class="navl" href="quote/">快速報價</a><a class="navl" href="en/" hreflang="en" lang="en">English</a></nav>
 <div style="display: flex; flex-direction: column; gap: 14px; grid-column: span 2"><span style="font-size: 13px; letter-spacing: 0.06em; color: #8DB84A">香港門市</span><div style="display: flex; flex-direction: column; gap: 2px"><a class="navl" href="stores/tai-kok-tsui/" style="color: #FFFFFF; font-weight: 500">大角咀門市</a><span>九龍大角咀洋松街 8-10 號地舖</span><a class="navl" href="tel:+85223931419">2393 1419</a></div><div style="display: flex; flex-direction: column; gap: 2px"><a class="navl" href="stores/tuen-mun/" style="color: #FFFFFF; font-weight: 500">屯門門市</a><span>新界屯門建發街 1 號鳴發工業中心地下 2A 及 B 舖</span><a class="navl" href="tel:+85226187462">2618 7462</a></div><div style="display: flex; flex-direction: column; gap: 2px"><a class="navl" href="stores/fo-tan/" style="color: #FFFFFF; font-weight: 500">火炭門市</a><span>新界火炭坳背灣街 14-24 號金豪工業大廈 1 座地下 A 舖</span><a class="navl" href="tel:+85235808136">3580 8136</a></div><a class="navl" href="stores/#china">內地門市：深圳 · 珠海 · 新興 →</a></div>
 </div>
 <div style="border-top: 1px solid rgba(255,255,255,.1); padding-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13px">
@@ -313,5 +385,7 @@ document.addEventListener('click', function (e) {
 
 </div>
 <a href="https://wa.me/85265881426?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp 查詢"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"/><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+<nav class="mbar" aria-label="WhatsApp 查詢"><a class="mb-wa" href="https://wa.me/85265881426?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"/><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"/></svg>WhatsApp 查詢</a><a href="quote/">快速報價</a><a href="stores/">門市</a></nav>
+<script>(function(){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=[].slice.call(document.querySelectorAll('body > section, footer')).slice(1);var els=[];s.forEach(function(x){[].forEach.call(x.children,function(c){var r=c.getBoundingClientRect();if(r.top>innerHeight){c.classList.add('rv');els.push(c)}})});var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});els.forEach(function(e){o.observe(e)})})();</script>
 </body>
 </html>
