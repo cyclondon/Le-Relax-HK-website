@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQYYKG7G4L"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KQYYKG7G4L');
+// count enquiries: WhatsApp, calls, email, directions, catalogue downloads, shower configurator
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a'); if (!a) return;
+  var h = a.getAttribute('href') || '', ev = null;
+  if (h.indexOf('wa.me/') > -1) ev = 'whatsapp_click';
+  else if (h.indexOf('tel:') === 0) ev = 'phone_click';
+  else if (h.indexOf('mailto:') === 0) ev = 'email_click';
+  else if (/\.pdf$/i.test(h)) ev = 'catalogue_download';
+  else if (h.indexOf('le-relaxshower.com') > -1) ev = 'shower_configurator_click';
+  else if (h.indexOf('maps.google') > -1 || h.indexOf('google.com/maps') > -1) ev = 'directions_click';
+  if (ev) gtag('event', ev, {link_url: h, link_text: (a.textContent || '').trim().slice(0, 60)});
+});
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>私隱政策 | 升威 LE-RELAX</title>
+<meta name="description" content="升威 LE-RELAX 網站及查詢渠道的私隱政策：收集甚麼資料、用途、Google Analytics 及查閱或更正資料的方法。">
+<link rel="canonical" href="https://le-relax.co/privacy/">
+<link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/privacy/">
+<link rel="alternate" hreflang="en" href="https://le-relax.co/en/privacy/">
+<link rel="alternate" hreflang="x-default" href="https://le-relax.co/privacy/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="升威 LE-RELAX">
+<meta property="og:title" content="私隱政策 | 升威 LE-RELAX">
+<meta property="og:description" content="升威 LE-RELAX 網站及查詢渠道的私隱政策：收集甚麼資料、用途、Google Analytics 及查閱或更正資料的方法。">
+<meta property="og:url" content="https://le-relax.co/privacy/">
+<meta property="og:image" content="https://le-relax.co/assets/img/factory.jpg">
+<meta property="og:locale" content="zh_HK">
+<meta name="theme-color" content="#111315">
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preload" href="../fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "主頁", "item": "https://le-relax.co/"}, {"@type": "ListItem", "position": 2, "name": "私隱政策", "item": "https://le-relax.co/privacy/"}]}</script>
+</head>
+<body>
+<div style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; color: #111315; background: #F4F3EF; font-size: 16px; line-height: 1.75">
+<section style="background: #111315; color: #FFFFFF">
+<div style="border-bottom: 1px solid rgba(255,255,255,.12); font-size: 13px; color: #DDE0E3">
+<div style="max-width: 1320px; margin: 0 auto; padding: 9px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px">
+<span>一九八六年創立 · <a class="navl" href="../products/housing-authority-windows/">香港房屋署認可鋁窗供應商</a> · 香港鋁門窗同業聯會創會會員及主席</span>
+<span><strong style="color: #FFFFFF">繁</strong> / <a class="navl" style="text-decoration: underline; text-underline-offset: 3px" href="../en/privacy/" hreflang="en" lang="en">EN</a></span>
+</div>
+</div>
+<header style="max-width: 1320px; margin: 0 auto; padding: 20px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 40px">
+<a href=".." aria-label="升威 LE-RELAX 主頁" style="display: flex; align-items: center; gap: 14px; text-decoration: none; color: #FFFFFF">
+<img src="../assets/img/logo-mark.webp" alt="" style="height: 38px; width: auto" width="514" height="442" decoding="async">
+<span style="font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 21px; letter-spacing: 0.04em">升威</span>
+<span style="font-family: Archivo, sans-serif; font-stretch: 118%; font-weight: 600; font-size: 20px; letter-spacing: 0.1em">LE-RELAX</span>
+</a>
+<nav aria-label="主選單" style="display: flex; flex-wrap: wrap; gap: 8px 30px; font-size: 16px">
+<a class="navl" href="../about/">關於升威</a>
+<a class="navl" href="..#range">產品系列</a>
+<a class="navl" href="../glass/">玻璃加工</a>
+<a class="navl" href="../stores/">門市地址</a>
+</nav>
+<a href="https://wa.me/85265881426?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81" target="_blank" rel="noopener" style="background: #1F7A4D; color: #FFFFFF; text-decoration: none; padding: 11px 20px; font-size: 15px; font-weight: 700; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"></path><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"></path></svg>WhatsApp 查詢</a>
+</header>
+</section>
+<div style="border-bottom: 1px solid #D6D3CC; background: #FFFFFF"><nav aria-label="導覽路徑" style="max-width: 1320px; margin: 0 auto; padding: 14px 40px; display: flex; flex-wrap: wrap; gap: 10px; font-size: 14px; color: #5A6066"><a href=".." style="color: #5A6066; text-decoration: none">主頁</a><span aria-hidden="true">/</span><span style="color: #111315">私隱政策</span></nav></div>
+<section style="max-width: 860px; margin: 0 auto; padding: 56px 40px 90px; display: flex; flex-direction: column; gap: 18px">
+<span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; letter-spacing: 0.06em; color: #4A6129; font-weight: 600">PRIVACY · 私隱政策</span>
+<h1 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: clamp(34px, 4vw, 52px); line-height: 1.2">私隱政策</h1>
+<p style="margin: 0; font-size: 18px; color: #3E444A">升威五金鋁質玻璃製品有限公司（「升威」）重視你的私隱。本政策說明我們透過本網站及查詢渠道收集甚麼資料，以及如何使用。</p>
+<div style="padding-top: 10px"><div style="display: flex; flex-direction: column; gap: 10px; padding: 24px 0; border-top: 1px solid #D6D3CC"><h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px">收集的資料</h2><p style="margin: 0; color: #3E444A">當你透過 WhatsApp、電話或電郵向升威查詢，我們會收到你主動提供的資料，例如姓名、聯絡電話、電郵、地址、現場相片及尺寸。</p></div><div style="display: flex; flex-direction: column; gap: 10px; padding: 24px 0; border-top: 1px solid #D6D3CC"><h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px">使用目的</h2><p style="margin: 0; color: #3E444A">有關資料只會用於回覆查詢、提供報價、安排訂造及送貨、售後服務，以及保存相關交易記錄。我們不會出售你的個人資料，亦不會在未得你同意下將其用於直接促銷。</p></div><div style="display: flex; flex-direction: column; gap: 10px; padding: 24px 0; border-top: 1px solid #D6D3CC"><h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px">網站分析</h2><p style="margin: 0; color: #3E444A">本網站使用 Google Analytics 收集匿名瀏覽數據，例如瀏覽的頁面、裝置類型、大約所在地區，以及點擊 WhatsApp、電話等按鈕的次數，用作了解網站使用情況及改善網站。Google Analytics 會使用 Cookie；你可以在瀏覽器設定中停用 Cookie，或安裝 Google 提供的 Google Analytics 停用外掛程式。</p></div><div style="display: flex; flex-direction: column; gap: 10px; padding: 24px 0; border-top: 1px solid #D6D3CC"><h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px">第三方服務</h2><p style="margin: 0; color: #3E444A">本網站內嵌 Google 地圖，WhatsApp 服務由 Meta 提供。當你使用這些服務，有關服務的私隱政策亦會適用。</p></div><div style="display: flex; flex-direction: column; gap: 10px; padding: 24px 0; border-top: 1px solid #D6D3CC"><h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px">資料保安及保留</h2><p style="margin: 0; color: #3E444A">我們會採取合理措施保護你的個人資料，只限有需要的同事查閱，並只會在達成上述目的所需的期間內保留。</p></div><div style="display: flex; flex-direction: column; gap: 10px; padding: 24px 0; border-top: 1px solid #D6D3CC"><h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px">查閱及更正資料</h2><p style="margin: 0; color: #3E444A">根據《個人資料（私隱）條例》（第 486 章），你有權查閱及更正我們持有的你的個人資料。如有需要，請電郵 info@le-relax.hk 與我們聯絡。</p></div><div style="display: flex; flex-direction: column; gap: 10px; padding: 24px 0; border-top: 1px solid #D6D3CC"><h2 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 22px">政策更新</h2><p style="margin: 0; color: #3E444A">本政策如有修訂，會在本頁更新。最後更新：2026 年 10 月。</p></div></div>
+</section>
+<footer style="background: #0B0C0E; color: #D0D4D8; font-size: 14px">
+<div style="max-width: 1320px; margin: 0 auto; padding: 72px 40px 32px; display: flex; flex-direction: column; gap: 44px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px">
+<div style="display: flex; align-items: center; gap: 14px"><img src="../assets/img/logo-mark.webp" alt="" style="height: 44px; width: auto" width="514" height="442" decoding="async"><span style="font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 22px; color: #FFFFFF">升威</span><span style="font-family: Archivo, sans-serif; font-stretch: 118%; font-weight: 600; font-size: 22px; letter-spacing: 0.1em; color: #FFFFFF">LE-RELAX</span></div>
+<a href="https://wa.me/85265881426?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81" target="_blank" rel="noopener" style="background: #1F7A4D; color: #FFFFFF; text-decoration: none; padding: 13px 22px; font-weight: 700; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"></path><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"></path></svg>WhatsApp 6588 1426</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px">
+<nav aria-label="產品" style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; letter-spacing: 0.06em; color: #8DB84A">產品系列</span><a class="navl" href="../products/housing-authority-windows/">房署窗</a><a class="navl" href="../products/casement-windows/">平開窗</a><a class="navl" href="../products/sliding-doors-windows/">高級趟門窗</a><a class="navl" href="../products/doors/">平開門及地鉸門</a><a class="navl" href="../products/folding-doors/">摺疊門</a><a class="navl" href="../products/shower-screens/">浴屏</a><a class="navl" href="../products/glass-rooms/">玻璃組合屋及間格</a><a class="navl" href="../products/screens-grilles-louvres/">紗窗、窗花及百葉</a><a class="navl" href="../products/balustrades-ladders/">欄河及鋁梯</a><a class="navl" href="../products/friction-stays-hardware/">不銹鋼窗撐及五金配件</a><a class="navl" href="../products/silicone-sealants/">矽膠密封膠</a></nav>
+<nav aria-label="公司" style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; letter-spacing: 0.06em; color: #8DB84A">升威</span><a class="navl" href="../about/">關於升威</a><a class="navl" href="../about/#certs">認證</a><a class="navl" href="../glass/">玻璃加工</a><a class="navl" href="../stores/">門市地址</a><a class="navl" href="../guides/">選購指南</a><a class="navl" href="../en/privacy/" hreflang="en" lang="en">English</a></nav>
+<div style="display: flex; flex-direction: column; gap: 14px; grid-column: span 2"><span style="font-size: 13px; letter-spacing: 0.06em; color: #8DB84A">香港門市</span><div style="display: flex; flex-direction: column; gap: 2px"><a class="navl" href="../stores/tai-kok-tsui/" style="color: #FFFFFF; font-weight: 500">大角咀門市</a><span>九龍大角咀洋松街 8-10 號地舖</span><a class="navl" href="tel:+85223931419">2393 1419</a></div><div style="display: flex; flex-direction: column; gap: 2px"><a class="navl" href="../stores/tuen-mun/" style="color: #FFFFFF; font-weight: 500">屯門門市</a><span>新界屯門建發街 1 號鳴發工業中心地下 2A 及 B 舖</span><a class="navl" href="tel:+85226187462">2618 7462</a></div><div style="display: flex; flex-direction: column; gap: 2px"><a class="navl" href="../stores/fo-tan/" style="color: #FFFFFF; font-weight: 500">火炭門市</a><span>新界火炭坳背灣街 14-24 號金豪工業大廈 1 座地下 A 舖</span><a class="navl" href="tel:+85235808136">3580 8136</a></div><a class="navl" href="../stores/#china">內地門市：深圳 · 珠海 · 新興 →</a></div>
+</div>
+<div style="border-top: 1px solid rgba(255,255,255,.1); padding-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13px">
+<span>© 2026 升威 LE-RELAX 版權所有 · <a class="navl" style="text-decoration: underline; text-underline-offset: 3px" href="mailto:info@le-relax.hk">info@le-relax.hk</a> · <a class="navl" href="./">私隱政策</a></span>
+<nav aria-label="社交媒體" style="display: flex; flex-wrap: wrap; gap: 18px"><a class="navl" href="https://www.facebook.com/people/%E5%8D%87%E5%A8%81-Le-Relax/61551471166808/" target="_blank" rel="noopener me">Facebook</a><a class="navl" href="https://www.instagram.com/le_relaxcoltd/" target="_blank" rel="noopener me">Instagram</a><a class="navl" href="https://www.linkedin.com/company/le-relax-co" target="_blank" rel="noopener me">LinkedIn</a><a class="navl" href="https://www.youtube.com/@le-relaxco" target="_blank" rel="noopener me">YouTube</a><a class="navl" href="https://www.pinterest.com/lerelaxco/" target="_blank" rel="noopener me">Pinterest</a><a class="navl" href="https://x.com/lerelaxco" target="_blank" rel="noopener me">X</a></nav>
+</div>
+</div>
+</footer>
+</div>
+<a href="https://wa.me/85265881426?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E6%9F%A5%E8%A9%A2%E5%8D%87%E5%A8%81%E7%94%A2%E5%93%81" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp 查詢"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" aria-hidden="true"><path d="M4 20 L5.3 16.2 A8.5 8.5 0 1 1 8.1 18.8 Z" stroke-linejoin="round"/><path d="M9 8.5 C9 12 11.5 15 15.5 15.5 L16.3 13.8 L14.3 12.9 L13.4 13.8 C12 13.2 10.9 12.1 10.3 10.7 L11.2 9.8 L10.3 7.8 Z" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+</body>
+</html>

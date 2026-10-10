@@ -7,6 +7,9 @@ A static website (plain HTML/CSS, no build step), ready for GitHub Pages.
 | `/` | 香港主頁 (Traditional Chinese, default) |
 | `/products/<series>/` | 9 product pages |
 | `/glass/`, `/about/`, `/stores/` | 玻璃加工 · 關於升威 · 門市地址 |
+| `/stores/<store>/` | One page per Hong Kong store (photo, map, hours) |
+| `/guides/` | 選購指南: buyer's guide index and 5 articles |
+| `/privacy/` | 私隱政策 |
 | `/en/…` | English version for English speakers in Hong Kong (same pages, translated) |
 
 The old GoDaddy addresses (`/關於我們-about-us`, `/產品-products`, `/聯絡我們-contact-us`, `/68w`, etc.) are kept as redirect pages, so existing Google results and bookmarks still work.
@@ -18,9 +21,9 @@ The old GoDaddy addresses (`/關於我們-about-us`, `/產品-products`, `/聯�
 1. Sign in at github.com → **New repository**. Name it `le-relax-website`, set it to **Public** and create it.
 2. On the empty repo page, click **uploading an existing file**.
 3. Drag in **everything inside this folder**, not the folder itself, so `index.html` sits at the top level. Click **Commit changes**.
-   - The site has about 140 files, and the browser uploader takes 100 at a time, so do it in two uploads:
-     1. Everything **except** the `assets` folder (about 40 files). Commit.
-     2. **Add file → Upload files** again, then drag in the `assets` folder itself (about 88 files). Commit.
+   - The site has about 165 files, and the browser uploader takes 100 at a time, so do it in two uploads:
+     1. Everything **except** the `assets` folder (about 71 files). Commit.
+     2. **Add file → Upload files** again, then drag in the `assets` folder itself (94 files). Commit.
    - Dragging a whole folder keeps its subfolders. Use Chrome or Edge, because Safari can flatten folders.
 4. Go to **Settings → Pages**:
    - Source: *Deploy from a branch*
@@ -59,8 +62,8 @@ Do these on launch day. Google shows the logo and site name only after it has cr
    - Under **Sitemaps**, submit `https://le-relax.co/sitemap.xml`.
    - Use **URL inspection** on the home page, then click *Request indexing*. This speeds up the logo and site name appearing.
 2. **Google Business Profile**, one for each of the three stores (business.google.com):
-   - Set the website to `https://le-relax.co/stores/`.
-   - Add the hours (Mon–Fri 9–5, Sat 9–3, closed Sun and public holidays), photos and the main products.
+   - Set each store's website to its own page: `https://le-relax.co/stores/tai-kok-tsui/`, `/stores/tuen-mun/` or `/stores/fo-tan/`.
+   - Add the hours (Mon–Fri 9–5:30, Sat 9–3, closed Sun and public holidays), photos and the main products.
    - Ask happy customers to leave a review. Reviews are the biggest factor for "near me" and district searches.
    - Rename the Tai Kok Tsui listing from "B D HOUSE LIMITED" to 升威 LE-RELAX if possible.
 3. **Bing Webmaster Tools** (bing.com/webmasters): import from Search Console in one click. This also covers Yahoo and DuckDuckGo.
