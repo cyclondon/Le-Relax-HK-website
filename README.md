@@ -26,7 +26,7 @@ The old GoDaddy addresses (`/關於我們-about-us`, `/產品-products`, `/聯�
 3. Drag in **everything inside this folder**, not the folder itself, so `index.html` sits at the top level. Click **Commit changes**.
    - The site has about 172 files, and the browser uploader takes 100 at a time, so do it in two uploads:
      1. Everything **except** the `assets` folder (about 76 files). Commit.
-     2. **Add file → Upload files** again, then drag in the `assets` folder itself (96 files). Commit.
+     2. **Add file → Upload files** again, then drag in the `assets` folder itself (97 files). Commit.
    - Dragging a whole folder keeps its subfolders. Use Chrome or Edge, because Safari can flatten folders.
 4. Go to **Settings → Pages**:
    - Source: *Deploy from a branch*
