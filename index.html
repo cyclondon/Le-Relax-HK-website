@@ -46,6 +46,7 @@ document.addEventListener('click', function (e) {
 @font-face{font-family:'Archivo';src:url(fonts/archivo.woff2) format('woff2');font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap}
 html[lang="en"] h1,html[lang="en"] h2,html[lang="en"] h3{letter-spacing:-0.015em}
 h1,h2{text-wrap:balance}
+@media (max-width:700px){video.reel{aspect-ratio:16 / 10 !important}section[aria-label="廠房影片"],section[aria-label="Factory video"]{padding-top:28px !important}}
 @media (min-width:701px){#cc{bottom:24px !important;left:auto !important;right:24px !important;margin:0 !important;max-width:420px !important}}
 @media (max-width:700px){footer [style*="grid-column: span 2"]{grid-column:1 / -1 !important}footer [style*="minmax(200px, 1fr)"]{grid-template-columns:repeat(2,minmax(0,1fr)) !important}footer a.navl{display:inline-block;padding:9px 0}footer nav[style*="gap: 18px"] a{padding:9px 10px}nav[aria-label="導覽路徑"] a,nav[aria-label="Breadcrumb"] a{padding:10px 4px}}
 @media (max-width:360px){header nav{gap:8px 18px !important}}
@@ -179,7 +180,7 @@ details summary{cursor:pointer;list-style:none}details summary::-webkit-details-
 <a class="navl" href="products/housing-authority-windows/" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">房屋署認可鋁窗供應商</a><a class="navl" href="about/" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">香港鋁門窗同業聯會創會會員及主席</a><a class="navl" href="products/housing-authority-windows/" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">PCCS-AW 鋁窗認證</a><a class="navl" href="products/friction-stays-hardware/" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">PCCS-FH 窗鉸認證</a><a class="navl" href="about/#certs" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">BS 6375 英國標準</a><a class="navl" href="about/#certs" style="color: #3E444A; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #B9B6AF">ISO 9001 · ISO 14001</a>
 </div>
 </section>
-
+<section aria-label="廠房影片" style="max-width: 1320px; margin: 0 auto; padding: 48px 40px 0"><figure class="reelfig" style="margin: 0; display: flex; flex-direction: column; gap: 10px"><video class="reel" data-src="media/factory-reel.mp4" data-webm="media/factory-reel.webm" poster="media/factory-reel.webp" muted loop playsinline preload="none" title="升威中山廠房實拍片段" style="display: block; width: 100%; height: auto; aspect-ratio: 840 / 360; object-fit: cover; background: #FFFFFF"></video><figcaption style="padding-top: 10px; font-size: 14px; color: #4C5258">走進我們的生產廠房</figcaption></figure></section>
 <section id="visit" aria-label="香港門市" style="background: #FFFFFF; border-bottom: 1px solid #D6D3CC">
 <div style="max-width: 1320px; margin: 0 auto; padding: 56px 40px 60px; display: flex; flex-direction: column; gap: 28px">
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
@@ -238,7 +239,7 @@ details summary{cursor:pointer;list-style:none}details summary::-webkit-details-
 <div style="background: #F4F3EF; padding: 36px 32px 40px; display: flex; flex-direction: column; gap: 18px"><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #4A6129; font-weight: 600">02</span><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px">窗撐及五金配件</h3><p style="margin: 0; color: #3E444A; font-size: 15px">自家生產不銹鋼窗撐，通過 PCCS-FH 及 BS 6375-2 測試，與窗框完美配合。</p><a href="products/friction-stays-hardware/" style="margin-top: auto; font-weight: 700; text-decoration: none; color: #4A6129">窗撐及五金配件 →</a></div>
 <div style="background: #F4F3EF; padding: 36px 32px 40px; display: flex; flex-direction: column; gap: 18px"><span style="font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-size: 13px; color: #4A6129; font-weight: 600">03</span><h3 style="margin: 0; font-family: Inter, 'PingFang HK', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 26px">成品組裝</h3><p style="margin: 0; color: #3E444A; font-size: 15px">鋁料切割、加工、裝玻璃及組裝，製成鋁門窗、浴屏、欄河及玻璃組合屋。</p><a href="#range" style="margin-top: auto; font-weight: 700; text-decoration: none; color: #4A6129">睇產品系列 →</a></div>
 </div>
-<figure class="reelfig" style="margin: 0; display: flex; flex-direction: column; gap: 10px"><video class="reel" data-src="media/factory-reel.mp4" data-webm="media/factory-reel.webm" poster="media/factory-reel.webp" muted loop playsinline preload="none" title="升威中山廠房實拍片段" style="display: block; width: 100%; height: auto; aspect-ratio: 840 / 360; object-fit: cover; background: #FFFFFF"></video><figcaption style="padding-top: 10px; font-size: 14px; color: #4C5258">中山廠房實拍：玻璃車間、鋁窗車間及裝貨出貨</figcaption></figure>
+
 </div>
 </section>
 
