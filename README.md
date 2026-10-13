@@ -24,8 +24,8 @@ The old GoDaddy addresses (`/關於我們-about-us`, `/產品-products`, `/聯�
 1. Sign in at github.com → **New repository**. Name it `le-relax-website`, set it to **Public** and create it.
 2. On the empty repo page, click **uploading an existing file**.
 3. Drag in **everything inside this folder**, not the folder itself, so `index.html` sits at the top level. Click **Commit changes**.
-   - The site has about 188 files, and the browser uploader takes 100 at a time, so do it in two uploads:
-     1. Everything **except** the `assets` folder (about 92 files, including the `media` folder (factory video) and `docs` folder (catalogues)). Commit.
+   - The site has about 191 files, and the browser uploader takes 100 at a time, so do it in two uploads:
+     1. Everything **except** the `assets` folder (about 95 files, including the `media` folder (factory video) and `docs` folder (catalogues)). Commit.
      2. **Add file → Upload files** again, then drag in the `assets` folder itself (96 files). Commit.
    - Dragging a whole folder keeps its subfolders. Use Chrome or Edge, because Safari can flatten folders.
 4. Go to **Settings → Pages**:
