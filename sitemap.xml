@@ -192,4 +192,10 @@
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/stores/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/stores/"/></url>
   <url><loc>https://le-relax.co/en/trade/</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh-HK" href="https://le-relax.co/trade/"/><xhtml:link rel="alternate" hreflang="en" href="https://le-relax.co/en/trade/"/></url>
+<url><loc>https://le-relax.co/games/</loc></url>
+<url><loc>https://le-relax.co/games/typhoon/</loc></url>
+<url><loc>https://le-relax.co/games/workshop/</loc></url>
+<url><loc>https://le-relax.co/games/match/</loc></url>
+<url><loc>https://le-relax.co/games/delivery/</loc></url>
+<url><loc>https://le-relax.co/games/supply/</loc></url>
 </urlset>
