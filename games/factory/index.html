@@ -569,5 +569,13 @@ const ro = new ResizeObserver(buildFloor); ro.observe($('stage'));
 newGame(0); G.paused = true; applyLang(); requestAnimationFrame(loop);
 }
 </script>
+<style>#lrBack{flex:none;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;text-decoration:none;font:700 24px/1 sans-serif;margin-right:4px}#lrBack:hover{background:rgba(255,255,255,.2)}.lrMore{text-decoration:none;display:inline-flex;align-items:center}</style>
+<script>(function(){var zh=function(){return (document.documentElement.lang||'zh').indexOf('en')!==0},home=function(){return zh()?'../':'../../en/games/'};
+var b=document.querySelector('.brand');if(b){var a=document.createElement('a');a.id='lrBack';a.textContent='‹';b.parentNode.insertBefore(a,b);}
+function btn(where,cls){var r=document.querySelector(where);if(!r)return null;var a=document.createElement('a');a.className='btn lrMore '+(cls||'');r.appendChild(a);return a;}
+var s=btn('#startOv .row'),e=btn('#endOv .row:last-of-type');
+function upd(){var h=home(),z=zh();var a=document.getElementById('lrBack');if(a){a.href=h;a.title=a.ariaLabel=z?'返回小遊戲':'All games';}
+if(s){s.href=h;s.textContent=z?'‹ 其他小遊戲':'‹ All games';}if(e){e.href=h;e.textContent=z?'更多小遊戲':'More games';}}
+upd();new MutationObserver(upd).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});})();</script>
 </body>
 </html>
