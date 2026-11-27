@@ -204,7 +204,7 @@ const ICON = {
 };
 
 // ---------- tile art ----------
-const COL = {glass: ['#7cc9e6', '#3f8fb3'], profile: ['#e9edf0', '#9aa4ab'], hinge: ['#ffd25e', '#c98f12'], seal: ['#59c3cf', '#1f7f8d'], handle: ['#e2585a', '#8f2023'], old: ['#9a7356', '#5a3e2a']};
+const COL = {glass: ['#7cc9e6', '#3f8fb3'], profile: ['#e9edf0', '#9aa4ab'], hinge: ['#ffd25e', '#c98f12'], seal: ['#4fbf7a', '#1c6e45'], handle: ['#e2585a', '#8f2023'], old: ['#9a7356', '#5a3e2a']};
 function rrect(x, a, b, w, h, r) { x.beginPath(); x.moveTo(a + r, b); x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r); x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r); x.closePath(); }
 function tileArt(x, kind, cx, cy, s, sp) {
   const h = s / 2, [c1, c2] = COL[kind], g = x.createLinearGradient(cx - h, cy - h, cx + h, cy + h); g.addColorStop(0, c1); g.addColorStop(1, c2);
@@ -226,15 +226,18 @@ function tileArt(x, kind, cx, cy, s, sp) {
     x.fillStyle = '#4d575e'; for (const [a, b] of [[-34, 26], [24, 26]]) { x.beginPath(); x.arc(a * u, b * u, 3 * u, 0, 7); x.fill(); } // screw ports
     x.fillStyle = '#111315'; for (const [a, b] of [[-11, 12], [15, 12]]) { x.beginPath(); x.arc(a * u, b * u, 3.4 * u, 0, 7); x.fill(); } // seals holding the glass
     x.fillStyle = '#2d3439'; x.font = `900 ${8.5 * u}px Barlow,Arial`; x.textAlign = 'left'; x.fillText('PCCS-AW', -47 * u, -36 * u); }
-  if (kind === 'hinge') { // stainless steel friction stay, shown open (PCCS-FH type)
-    const ss = '#eef1f3', ln = '#4a4f54'; x.lineWidth = 3 * u; x.strokeStyle = ln; x.fillStyle = ss;
-    rrect(x, -44 * u, 22 * u, 88 * u, 13 * u, 4 * u); x.fill(); x.stroke(); // track, fixed to the frame
-    x.save(); x.translate(-34 * u, 24 * u); x.rotate(-.58); rrect(x, -5 * u, -6.5 * u, 88 * u, 13 * u, 4 * u); x.fill(); x.stroke(); x.restore(); // sash arm
-    x.save(); x.translate(12 * u, 28 * u); x.rotate(-1.95); rrect(x, -4 * u, -5 * u, 40 * u, 10 * u, 4 * u); x.fill(); x.stroke(); x.restore(); // stay link
-    rrect(x, -44 * u, 16 * u, 20 * u, 13 * u, 3 * u); x.fillStyle = '#c8ced3'; x.fill(); x.stroke(); // sliding shoe
-    x.fillStyle = ln; for (const [a, b] of [[-34, 23], [12, 28], [2, -5], [34, 29], [-40, 29], [33, -21]]) { x.beginPath(); x.arc(a * u, b * u, 3 * u, 0, 7); x.fill(); }
-    x.fillStyle = '#6b4c05'; x.font = `900 ${12 * u}px Barlow,Arial`; x.textAlign = 'left'; x.fillText('PCCS-FH', -42 * u, -30 * u); }
-  if (kind === 'seal') { x.rotate(-.6); x.fillStyle = '#ffffff'; x.fillRect(-12 * u, -30 * u, 24 * u, 52 * u); x.fillStyle = '#1f7f8d'; x.fillRect(-12 * u, -22 * u, 24 * u, 34 * u); x.fillStyle = '#fff'; x.font = `900 ${8 * u}px Barlow,Arial`; x.textAlign = 'center'; x.fillText('LC909N', 0, -2 * u); x.fillStyle = '#ffffff'; x.beginPath(); x.moveTo(-5 * u, 22 * u); x.lineTo(5 * u, 22 * u); x.lineTo(1.5 * u, 38 * u); x.lineTo(-1.5 * u, 38 * u); x.fill(); }
+  if (kind === 'hinge') { // stainless friction stay as in the real product: track and sash arm opening into a V, stay arm and short arm between
+    const ss = '#eef1f3', ln = '#4a4f54', bar = (a, b, t) => { const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy), nx = -dy / L * t, ny = dx / L * t; x.beginPath(); x.moveTo((a[0] + nx) * u, (a[1] + ny) * u); x.lineTo((b[0] + nx) * u, (b[1] + ny) * u); x.lineTo((b[0] - nx) * u, (b[1] - ny) * u); x.lineTo((a[0] - nx) * u, (a[1] - ny) * u); x.closePath(); x.fill(); x.stroke(); };
+    x.lineWidth = 2.2 * u; x.strokeStyle = ln; x.fillStyle = ss;
+    bar([-40, -33], [40, 33], 4.2); // track
+    bar([-30, -29], [38, -24], 3.6); // sash arm
+    bar([2, -24], [32, 26], 3.2); // stay arm
+    bar([-21, -16], [10, -10], 2.8); // short arm to the sliding shoe
+    x.fillStyle = '#c8ced3'; x.save(); x.translate(-21 * u, -16 * u); x.rotate(.69); rrect(x, -6 * u, -4 * u, 12 * u, 8 * u, 2 * u); x.fill(); x.stroke(); x.restore(); // shoe
+    x.fillStyle = '#3c4246'; x.save(); x.translate(-40 * u, -33 * u); x.rotate(.69); rrect(x, -4 * u, -5 * u, 8 * u, 10 * u, 2 * u); x.fill(); x.restore(); // end stop
+    x.fillStyle = ln; for (const [a, b] of [[-30, -29], [2, -24], [32, 26], [-21, -16], [10, -10]]) { x.beginPath(); x.arc(a * u, b * u, 2.4 * u, 0, 7); x.fill(); }
+    x.fillStyle = '#6b4c05'; x.font = `900 ${11 * u}px Barlow,Arial`; x.textAlign = 'left'; x.fillText('PCCS-FH', -46 * u, 44 * u); }
+  if (kind === 'seal') { x.rotate(-.6); x.fillStyle = '#ffffff'; x.fillRect(-12 * u, -30 * u, 24 * u, 52 * u); x.fillStyle = '#16353d'; x.fillRect(-12 * u, -22 * u, 24 * u, 34 * u); x.fillStyle = '#fff'; x.font = `900 ${8 * u}px Barlow,Arial`; x.textAlign = 'center'; x.fillText('LC909N', 0, -2 * u); x.fillStyle = '#ffffff'; x.beginPath(); x.moveTo(-5 * u, 22 * u); x.lineTo(5 * u, 22 * u); x.lineTo(1.5 * u, 38 * u); x.lineTo(-1.5 * u, 38 * u); x.fill(); }
   if (kind === 'handle') { // casement window lever handle on its base plate
     x.fillStyle = '#f7f2f2'; x.strokeStyle = '#6d1b1d'; x.lineWidth = 2.5 * u; rrect(x, -34 * u, -26 * u, 18 * u, 52 * u, 7 * u); x.fill(); x.stroke();
     x.beginPath(); x.arc(-25 * u, -6 * u, 9 * u, 0, 7); x.fill(); x.stroke();

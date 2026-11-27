@@ -319,11 +319,17 @@ function makeStamp() {
   S.need.forEach((k, i) => S.marks.push({k, x: .65 + i * .38}));
   return S;
 }
+// a straight bar between two points in the hinge's unit box (width 1, height .36 of width), as a 4-point polygon
+const HA = .36;
+function HB(a, b, t) { const dx = b[0] - a[0], dy = (b[1] - a[1]) * HA, L = Math.hypot(dx, dy), nx = -dy / L * t, ny = dx / L * t / HA; return [[a[0] + nx, a[1] + ny], [b[0] + nx, b[1] + ny], [b[0] - nx, b[1] - ny], [a[0] - nx, a[1] - ny]]; }
+const HINGE = { // open friction stay, proportions taken from a real one: sash arm and track meet near the hinge end and open into a V
+  track: HB([.02, .86], [.98, .86], .026), arm: HB([.09, .77], [.82, .08], .02), stay: HB([.42, .45], [.86, .86], .018), link: HB([.24, .86], [.55, .57], .016),
+  shoe: [[.19, .79], [.31, .79], [.31, .93], [.19, .93]], rv: [[.09, .77], [.42, .45], [.86, .86], [.24, .86], [.55, .57]]};
 function makeRivet() {
   const S = {kind: 'hinge', type: 'drag', what: 'hinge', asp: .36, shrink: .92, poly: [], cuts: [], butt: 0, rivet: 1};
   const rect = (x0, y0, x1, y1) => [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
-  S.parts = [{side: 'long', poly: rect(.08, .44, .78, .56), off: [0, -.55]}, {side: 'short', poly: rect(.3, .22, .66, .32), off: [.1, -.5]}, {side: 'shoe', poly: rect(.66, .6, .82, .8), off: [.12, .6]}].map(p => ({...p, done: 0}));
-  S.holes = [[.12, .5], [.74, .5], [.34, .27], [.62, .27], [.74, .7]].map(([u, v]) => ({u, v, r: .016, rv: 1}));
+  S.parts = [{side: 'long', poly: HINGE.arm, off: [0, -.6]}, {side: 'short', poly: HINGE.stay, off: [.08, .55]}, {side: 'shoe', poly: HINGE.link, off: [-.06, .6]}].map(p => ({...p, done: 0}));
+  S.holes = HINGE.rv.map(([u, v]) => ({u, v, r: .016, rv: 1}));
   return S;
 }
 function makeSeal(kind) {
@@ -609,8 +615,10 @@ function drawDrag(S, now) {
   const g = geom(S), bead = S.what === 'bead', blk = S.what === 'block', hg = S.what === 'hinge';
   if (bead) frameBase(S, g, {glass: 1, gaskets: 1});
   else if (blk) { frameBase(S, g, {gaskets: 1}); X.fillStyle = 'rgba(190,225,240,.18)'; const fw = g.w * FR, fh = g.h * FR / S.asp; X.setLineDash([6, 6]); X.strokeStyle = 'rgba(190,225,240,.6)'; X.lineWidth = 2; X.strokeRect(g.x + fw + 8, g.y + fh + 8, g.w - 2 * fw - 16, g.h - 2 * fh - 16); X.setLineDash([]); }
-  else if (hg) { X.save(); X.shadowColor = 'rgba(0,0,0,.4)'; X.shadowBlur = 12; poly([[g.x, g.y + g.h * .6], [g.x + g.w, g.y + g.h * .6], [g.x + g.w, g.y + g.h * .8], [g.x, g.y + g.h * .8]], steelFill(g.x, g.y + g.h * .6, g.x, g.y + g.h * .8), '#6f787e', 1.5); X.restore();
-    X.fillStyle = 'rgba(0,0,0,.35)'; X.fillRect(g.x + 4, g.y + g.h * .66, g.w - 8, g.h * .06); }
+  else if (hg) { const U = q => [g.x + q[0] * g.w, g.y + q[1] * g.h];
+    X.save(); X.shadowColor = 'rgba(0,0,0,.4)'; X.shadowBlur = 12; poly(HINGE.track.map(U), steelFill(g.x, g.y + g.h * .78, g.x, g.y + g.h * .9), '#6f787e', 1.5); X.restore();
+    X.fillStyle = 'rgba(0,0,0,.4)'; X.fillRect(g.x + g.w * .24, g.y + g.h * .83, g.w * .58, g.h * .025); // slot the shoe slides in
+    poly(HINGE.shoe.map(U), steelFill(g.x + g.w * .09, g.y + g.h * .74, g.x + g.w * .21, g.y + g.h * .94), '#5f686e', 1.5); }
   else { X.setLineDash([8, 6]); X.strokeStyle = 'rgba(255,176,46,.8)'; X.lineWidth = 2; X.strokeRect(g.x, g.y, g.w, g.h); const fw = g.w * FR, fh = g.h * FR / S.asp; X.strokeRect(g.x + fw, g.y + fh, g.w - 2 * fw, g.h - 2 * fh); X.setLineDash([]); }
   for (const pt of S.parts) { if (!pt.done) { X.setLineDash([6, 5]); poly(pt.poly.map(q => [g.x + q[0] * g.w, g.y + q[1] * g.h]), 'rgba(255,176,46,.12)', 'rgba(255,176,46,.9)', 2); X.setLineDash([]); } }
   const order = [...S.parts].sort((a, b) => (a === (ptr && ptr.part)) - (b === (ptr && ptr.part)));
@@ -716,10 +724,12 @@ function drawCartridge(x, y, k, rot) { // WACKER LC909N neutral cure silicone ca
 function drawProduct(p, now, tt) {
   if (p === 'hinge') { const w = Math.min(W * .8, 440), h = w * .36, x = W / 2 - w / 2, y = H * .5 - h / 2, s2 = Math.min(1, tt * 3);
     X.save(); X.translate(W / 2, H / 2); X.scale(.8 + .2 * s2, .8 + .2 * s2); X.translate(-W / 2, -H / 2); X.shadowColor = 'rgba(0,0,0,.45)'; X.shadowBlur = 20; X.shadowOffsetY = 8;
-    X.fillStyle = steelFill(x, y + h * .6, x, y + h * .8); X.fillRect(x, y + h * .6, w, h * .2); X.shadowColor = 'transparent';
-    X.fillStyle = steelFill(x, y, x + w, y + h); X.fillRect(x + w * .08, y + h * .44, w * .7, h * .12); X.fillRect(x + w * .3, y + h * .22, w * .36, h * .1); X.fillRect(x + w * .66, y + h * .6, w * .16, h * .2);
-    X.fillStyle = '#7a8288'; for (const [u, v] of [[.12, .5], [.74, .5], [.34, .27], [.62, .27], [.74, .7]]) { X.beginPath(); X.arc(x + u * w, y + v * h, 5, 0, 7); X.fill(); }
-    X.fillStyle = '#2ebd6b'; X.font = '900 16px Barlow,"Noto Sans HK"'; X.textAlign = 'center'; X.fillText('LE-RELAX · STAINLESS', W / 2, y + h + 26); X.restore(); return; }
+    const U = q => [x + q[0] * w, y + q[1] * h];
+    poly(HINGE.track.map(U), steelFill(x, y + h * .78, x, y + h * .9), '#6f787e', 1.5); X.shadowColor = 'transparent';
+    X.fillStyle = 'rgba(0,0,0,.4)'; X.fillRect(x + w * .24, y + h * .83, w * .58, h * .025);
+    for (const k of ['shoe', 'link', 'stay', 'arm']) poly(HINGE[k].map(U), steelFill(x, y, x + w, y + h), '#6f787e', 1.5);
+    for (const [u, v] of HINGE.rv) { X.fillStyle = '#d9dde0'; X.beginPath(); X.arc(x + u * w, y + v * h, 6, 0, 7); X.fill(); X.strokeStyle = '#555'; X.lineWidth = 1.5; X.stroke(); X.fillStyle = '#8a9298'; X.beginPath(); X.arc(x + u * w, y + v * h, 2.5, 0, 7); X.fill(); }
+    X.fillStyle = '#2ebd6b'; X.font = '900 17px Barlow,"Noto Sans HK"'; X.textAlign = 'center'; X.fillText(LANG === 'zh' ? '升威 PCCS-FH 認證窗鉸' : 'LE-RELAX PCCS-FH certified hinge', W / 2, y + h + 26); X.fillStyle = '#a9b3b9'; X.font = '700 14px Barlow,"Noto Sans HK"'; X.fillText(LANG === 'zh' ? '經颱風級測試' : 'Typhoon tested', W / 2, y + h + 48); X.restore(); return; }
   const door = p === 'sliding', h = Math.min(H * .55, door ? 360 : 260), w = door ? h * .55 : h * .85, x = W / 2 - w / 2, y = H * .5 - h / 2 + 20, s = Math.min(1, tt * 3), f = w * .085;
   X.save(); X.translate(W / 2, y + h / 2); X.scale(.8 + .2 * s, .8 + .2 * s); X.translate(-W / 2, -(y + h / 2));
   X.shadowColor = 'rgba(0,0,0,.45)'; X.shadowBlur = 24; X.shadowOffsetY = 10; X.fillStyle = '#c9ced3'; X.fillRect(x, y, w, h); X.shadowColor = 'transparent';
