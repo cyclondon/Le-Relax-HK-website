@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<script>(function(){var m=location.search.match(/[?&]lang=(en|zh)/);if(m)try{localStorage.setItem('lr-m3-lang',m[1])}catch(e){}})()</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQYYKG7G4L"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KQYYKG7G4L');
+// game events: start, share, WhatsApp enquiry, game over with score
+(function () {
+  var game = location.pathname.split('/').filter(Boolean).pop() || 'games';
+  var share = {'lrx-swa': 'whatsapp', 'lrx-swc': 'wechat', 'lrx-sfb': 'facebook', 'lrx-scp': 'copy', 'lrx-nat': 'native', shWa: 'whatsapp', shWc: 'wechat', shFb: 'facebook', shCopy: 'copy', shNative: 'native'};
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('a,button'); if (!el) return;
+    var h = el.getAttribute('href') || '', ev = null, p = {game: game};
+    for (var k in share) if (el.id === k || el.classList.contains(k)) { ev = 'game_share'; p.method = share[k]; }
+    if (!ev && h.indexOf('wa.me/85265881426') > -1) { ev = 'whatsapp_click'; p.link_url = h; }
+    if (!ev && (el.id === 'startB' || el.classList.contains('lv'))) ev = 'game_start';
+    if (ev) gtag('event', ev, p);
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var end = document.getElementById('endOv'); if (!end) return;
+    new MutationObserver(function () { if (!end.hidden) { var s = document.getElementById('fScore'); gtag('event', 'game_over', {game: game, score: s ? +s.textContent || 0 : 0}); } }).observe(end, {attributes: true, attributeFilter: ['hidden']});
+  });
+})();
+</script>
+<link rel="canonical" href="https://le-relax.co/games/match/">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<meta property="og:image" content="https://le-relax.co/games/img/match.webp">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>升威砌窗消消樂 Match &amp; Build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Noto+Sans+HK:wght@500;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: relaxed match-three for older players: no timer, big tiles, plain words.
+   IDEA: the materials on our workbench; match them to collect what each product needs.
+   PICTURE: a steel workbench grid of material tiles (glass, profiles, hinges, LC909N sealant, handles) and old windows to strip out.
+   COLOUR and TYPE: dark workshop ground, each material its own colour AND shape, LE-RELAX green for progress; Barlow numbers + Noto Sans HK.
+   LAYOUT: header (level, moves, score), recipe card of goals, then the board filling the rest. */
+:root{color-scheme:dark;--bg:#13181b;--ink:#f3f1ea;--dim:#a9b3b9;--g:#2ebd6b;--a:#ffb02e;--card:#1e262c;--line:#34414a}
+*{box-sizing:border-box;min-width:0}
+html{height:100%}
+body{margin:0;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);color:var(--ink);font:16px/1.45 "Noto Sans HK",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.num{font-family:"Barlow","Noto Sans HK",sans-serif;font-weight:800;font-variant-numeric:tabular-nums}
+header{flex:none;display:flex;align-items:center;gap:8px 14px;padding:6px max(2vw,10px);background:#0c1013;border-bottom:3px solid var(--g)}
+.brand{display:flex;align-items:center;gap:8px;margin-inline-end:auto}.brand img{width:38px;height:auto}.brand b{font-weight:900;font-size:18px;line-height:1.1}.brand small{display:block;color:var(--dim);font-size:12px}
+.gauge{text-align:center;line-height:1}.gauge .num{font-size:26px}.gauge span{display:block;font-size:11px;color:var(--dim);white-space:nowrap}
+.gauge.low .num{color:#ef5350}
+.btn{font:inherit;font-weight:900;min-height:42px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:#1a2228;color:var(--ink);cursor:pointer;font-size:15px}
+.btn.ib{width:42px;padding:0;display:grid;place-items:center}.btn svg{width:20px;height:20px}
+.btn.go{background:var(--g);border-color:var(--g);color:#06140c;font-size:18px;min-height:52px;padding:0 24px}
+.btn:focus-visible,.lv:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.goals{flex:none;display:flex;align-items:center;gap:8px;padding:8px max(2vw,10px);background:#182026;border-bottom:1px solid #26323a;flex-wrap:wrap}
+.goals .prod{display:flex;align-items:center;gap:8px;margin-right:6px}.goals .prod b{font-size:17px;line-height:1.15}.goals .prod small{display:block;color:var(--dim);font-size:12px;font-weight:500}
+.goal{display:flex;align-items:center;gap:4px;background:#0f1418;border:2px solid #2a363e;border-radius:12px;padding:3px 9px 3px 4px}
+.goal canvas{width:30px;height:30px}.goal .gl{font-size:13px;font-weight:900;color:#cfd8dd}.goal .num{font-size:20px}.goal.ok{border-color:var(--g)}.goal.ok .num{color:var(--g)}
+#stage{position:relative;flex:1;min-height:0}
+#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(8,11,13,.86);display:grid;place-items:center;padding:14px;overflow:auto}.ov[hidden]{display:none}
+.panel{background:#182026;border:2px solid var(--line);border-radius:22px;padding:22px;max-width:680px;width:100%}
+.panel h1{font-size:clamp(30px,7vw,46px);line-height:1.05;margin:0;font-weight:900;text-wrap:balance}
+.panel h1 span{display:block;font-family:"Barlow",sans-serif;font-size:.55em;color:var(--a);margin-top:4px}
+.panel p{color:#ccd6dc;margin:10px 0}
+.hero{margin:-22px -22px 14px;height:150px;border-radius:20px 20px 0 0;overflow:hidden;background:#2b3339}.hero canvas{width:100%;height:100%;display:block}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.how div{background:var(--card);border-radius:14px;padding:10px;font-size:14px;line-height:1.35}.how b{display:block;font-size:16px;margin-bottom:2px}.how canvas{width:40px;height:40px;display:block;margin-bottom:4px}
+h3{margin:16px 0 8px;font-size:18px}
+.lvls{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.lv{font:inherit;color:var(--ink);text-align:left;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-height:44px}
+.lv:hover{border-color:var(--a)}.lv b{font-size:17px}.lv small{color:var(--dim);font-size:13px}.lv .st{color:var(--a);letter-spacing:2px}.lv .n{font-family:Barlow;font-weight:800;color:var(--g);font-size:22px;line-height:1}
+.lv.off{opacity:.45;cursor:not-allowed}.lv.free{border-color:#2d6a49}
+.fine{font-size:13px;color:var(--dim);margin-top:14px}
+.res{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}.big{font-size:clamp(48px,12vw,76px);color:var(--g);line-height:1}
+.stars{font-size:40px;color:var(--a);letter-spacing:6px;line-height:1;margin:6px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px;margin:12px 0}
+.stats div{background:var(--card);border-radius:12px;padding:8px 10px}.stats .num{font-size:24px;display:block;line-height:1}.stats small{color:var(--dim);font-size:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+@media(max-width:700px){.brand b,.brand small{display:none}.how{grid-template-columns:minmax(0,1fr)}.how div{display:flex;gap:10px;align-items:center}.how canvas{margin:0;flex:none}}
+@media(max-width:420px){header{gap:6px;padding:5px 8px}.btn.ib{width:36px;min-height:36px}.gauge .num{font-size:22px}.goals{gap:5px;padding:6px 8px}.goal canvas{width:26px;height:26px}.goal .num{font-size:18px}.goals .prod{width:100%}}
+
+.lrx-ad{background:linear-gradient(135deg,#123522,#0f2a1c);border:2px solid #2ebd6b;border-radius:18px;padding:14px 16px;margin:14px 0;display:flex;gap:14px;align-items:center;text-align:left}
+.lrx-ad img{width:56px;height:auto;flex:none}.lrx-ad b{display:block;font-size:19px;line-height:1.3;color:#fff}.lrx-ad p{margin:4px 0 8px;color:#cfe7da;font-size:15px;line-height:1.45}
+.lrx-wa{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#06240f;font-weight:900;text-decoration:none;border-radius:999px;padding:8px 16px;font-size:16px;min-height:44px}
+.lrx-sh{display:block;margin-top:4px;color:#fff}
+.lrx-share{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.lrx-share button,.lrx-share a{font:inherit;font-weight:900;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;border:2px solid #34403a;background:#16222b;color:#f3f1ea;cursor:pointer;text-decoration:none;font-size:15px}
+.lrx-share .w{border-color:#25d366}.lrx-share .c{border-color:#07c160}.lrx-share .f{border-color:#1877f2}
+.lrx-qr{display:none;margin-top:10px;background:#fff;border-radius:14px;padding:12px;width:max-content;max-width:100%;color:#222;text-align:center;font-size:14px}
+.lrx-qr.on{display:block}.lrx-qrc{width:180px;height:180px;margin:0 auto 6px}.lrx-qrc img,.lrx-qrc canvas{width:180px!important;height:180px!important}
+.lrx-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#000d;color:#fff;padding:10px 18px;border-radius:999px;z-index:99;font-weight:900;display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="logo.png" alt="升威 LE-RELAX"><div><b data-t="title"></b><small data-t="sub"></small></div></div>
+  <div class="gauge" id="movesG"><div class="num" id="moves">20</div><span data-t="moves"></span></div>
+  <div class="gauge"><div class="num" id="score">0</div><span data-t="score"></span></div>
+  <button class="btn ib" id="langB" aria-label="Language">EN</button>
+  <button class="btn ib" id="muteB" aria-label="Sound"></button>
+</header>
+<div class="goals" id="goals"></div>
+<div id="stage"><canvas id="cv"></canvas></div>
+
+<div class="ov" id="startOv"><div class="panel">
+  <div class="hero"><canvas id="heroCv"></canvas></div>
+  <h1 id="ttl"></h1>
+  <p data-t="intro"></p>
+  <div class="how" id="how"></div>
+  <h3 data-t="pick"></h3>
+  <div class="lvls" id="lvls"></div>
+  <div class="row"><button class="btn" id="langB2"></button></div>
+  <p class="fine" data-t="fine"></p>
+</div></div>
+
+<div class="ov" id="endOv" hidden><div class="panel">
+  <h1 id="endH"></h1>
+  <div class="stars" id="stars"></div>
+  <div class="res"><div class="big num" id="fScore">0</div><span id="best" style="color:var(--dim)"></span></div>
+  <div class="stats" id="fStats"></div>
+  <div class="row"><button class="btn go" id="nextB" data-t="next"></button><button class="btn" id="againB" data-t="again"></button><button class="btn" id="menuB" data-t="menu"></button></div>
+  <div class="lrx-ad"><img src="logo.png" alt=""><div><b class="lrx-adh"></b><p class="lrx-adp"></p><a class="lrx-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span class="lrx-wat"></span></a></div></div>
+<b class="lrx-sh"></b>
+<div class="lrx-share"><button class="lrx-nat" type="button"></button><a class="w lrx-swa" target="_blank" rel="noopener">WhatsApp</a><button class="c lrx-swc" type="button"></button><a class="f lrx-sfb" target="_blank" rel="noopener">Facebook</a><button class="lrx-scp" type="button"></button></div>
+<div class="lrx-qr"><div class="lrx-qrc"></div><span class="lrx-qrt"></span></div>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+{
+const LRX_URL = 'https://le-relax.co/games/match/';
+
+// ---- LE-RELAX shared end-of-game advert + share (edit LRX_URL after uploading) ----
+const LRX_WA = '85265881426';
+function LRX(root, o) {
+  const q = s => root.querySelector(s), zh = o.lang === 'zh';
+  const S = zh ? {sh: '分享你嘅成績，叫朋友一齊玩：', nat: '分享', wc: '微信', cp: '複製連結', qr: '用微信「掃一掃」打開遊戲，再分享俾朋友', ok: '已複製，可以貼上微信 / WhatsApp', wa: 'WhatsApp 6588 1426 查詢'}
+                : {sh: 'Share your score and challenge your friends:', nat: 'Share', wc: 'WeChat', cp: 'Copy link', qr: 'Scan with WeChat to open the game, then share it', ok: 'Copied: paste it into WeChat or WhatsApp', wa: 'WhatsApp 6588 1426'};
+  const url = o.url || location.href.split('#')[0], full = o.text + ' ' + url;
+  q('.lrx-adh').textContent = o.adH; q('.lrx-adp').textContent = o.adP; q('.lrx-wat').textContent = S.wa;
+  q('.lrx-wa').href = 'https://wa.me/' + LRX_WA + '?text=' + encodeURIComponent(o.waMsg);
+  q('.lrx-sh').textContent = S.sh; q('.lrx-nat').textContent = S.nat; q('.lrx-swc').textContent = S.wc; q('.lrx-scp').textContent = S.cp; q('.lrx-qrt').textContent = S.qr;
+  q('.lrx-swa').href = 'https://wa.me/?text=' + encodeURIComponent(full);
+  q('.lrx-sfb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(o.text);
+  q('.lrx-nat').style.display = navigator.share ? '' : 'none'; q('.lrx-qr').classList.remove('on');
+  const toast = m => { let e = document.querySelector('.lrx-toast'); if (!e) { e = document.createElement('div'); e.className = 'lrx-toast'; document.body.appendChild(e); } e.textContent = m; e.style.display = 'block'; clearTimeout(e.h); e.h = setTimeout(() => e.style.display = 'none', 2200); };
+  const copy = async () => { try { await navigator.clipboard.writeText(full); toast(S.ok); } catch (e) { const ta = document.createElement('textarea'); ta.value = full; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(S.ok); } catch (e2) {} ta.remove(); } };
+  q('.lrx-nat').onclick = () => { navigator.share && navigator.share({title: o.title, text: o.text, url}).catch(() => {}); };
+  q('.lrx-scp').onclick = copy;
+  q('.lrx-swc').onclick = () => { const b = q('.lrx-qr'); b.classList.toggle('on'); copy(); if (b.classList.contains('on') && window.QRCode) { q('.lrx-qrc').innerHTML = ''; try { new QRCode(q('.lrx-qrc'), {text: url, width: 180, height: 180}); } catch (e) {} } };
+}
+
+// materials: each has its own colour and its own shape so they can be told apart without colour
+const MAT = ['glass', 'profile', 'hinge', 'seal', 'handle'];
+const TX = {
+ zh: {title: '升威砌窗消消樂', sub: 'LE-RELAX Match & Build', moves: '步數', score: '分數', pick: '選擇關卡', next: '下一關', again: '再玩一次', menu: '選擇關卡', lang: 'English',
+  ttl: '升威砌窗消消樂<span>LE-RELAX MATCH & BUILD</span>',
+  intro: '將相同物料砌成一行（3 個或以上）就收集到。儲夠每件產品需要嘅物料就過關！冇時間限制，慢慢諗。',
+  how: [['交換相鄰物料', '撳一格再撳隔籬一格，或者直接掃過去'], ['3 個連成一行', '收集物料；4 個變切割機，5 個變廠房大清貨'], ['儲夠就砌成', '玻璃、鋁料、窗鉸、矽膠、窗手，儲夠就砌好門窗']],
+  fine: '遊戲內容屬虛構。升威一站式供應鋁料、玻璃、窗鉸、WACKER LC909N 矽膠及窗手，中山自家廠房 1986 年至今。',
+  lv: '第 %d 關', free: '自由模式', freeSub: '30 步，搏最高分', locked: '完成上一關後開放', need: '需要',
+  mat: {glass: '玻璃', profile: '鋁料', hinge: '窗鉸', seal: '矽膠', handle: '窗手', old: '舊窗'}, oldH: '舊窗郁唔到，要拆走', oldP: '喺佢隔籬消除物料，就會拆走佢',
+  prods: ['鏡', '浴屏', '鋁窗框', '平開窗', '拆舊窗換新窗', '趟門', '房署窗大工程', '自由模式'],
+  combo: '連環 ×%d！', line: '切割機！', blast: '廠房大清貨！', built: '砌好：%s！', noMoves: '冇得行，重新排過',
+  pass: '過關！<span>LEVEL COMPLETE</span>', fail: '步數用晒<span>OUT OF MOVES</span>', endFree: '收工<span>FREE PLAY</span>',
+  st: {left: '剩餘步數', combo: '最大連環', specials: '特別物料', old: '拆走舊窗'}, best: '最高紀錄：', newBest: '新紀錄！',
+  adH: '砌好門窗，物料要啱：升威一站式供應', adP: '鋁料、玻璃、窗鉸、WACKER LC909N 矽膠、窗手，一站式供應，度身訂造。中山自家廠房 1986 年至今，星期一至六每日送貨。',
+  waMsg: '你好，我想查詢升威門窗 / 物料。', share: '我喺「升威砌窗消消樂」%s攞到 %d 分！你得唔得？'},
+ en: {title: 'LE-RELAX Match & Build', sub: '升威砌窗消消樂', moves: 'Moves', score: 'Score', pick: 'Choose a level', next: 'Next level', again: 'Play again', menu: 'Levels', lang: '中文',
+  ttl: 'LE-RELAX Match & Build<span>升威砌窗消消樂</span>',
+  intro: 'Line up three or more of the same material to collect it. Collect everything a product needs to pass the level. No timer: take your time.',
+  how: [['Swap neighbours', 'Tap a tile, then a tile next to it, or just swipe'], ['Three in a row', 'Collect materials; four makes a cutting machine, five a factory clear-out'], ['Collect and build', 'Glass, profiles, hinges, sealant and handles build doors and windows']],
+  fine: 'The game is fictional. LE-RELAX supplies profiles, glass, hinges, WACKER LC909N sealant and handles from one place, made in our own Zhongshan factory since 1986.',
+  lv: 'Level %d', free: 'Free play', freeSub: '30 moves, highest score', locked: 'Opens after the previous level', need: 'Need',
+  mat: {glass: 'Glass', profile: 'Profiles', hinge: 'Friction hinges', seal: 'Sealant', handle: 'Handles', old: 'Old windows'}, oldH: 'Old windows can\'t be moved', oldP: 'Make a match next to one to strip it out',
+  prods: ['Mirror', 'Shower screen', 'Window frame', 'Casement window', 'Replace old windows', 'Sliding door', 'Housing Authority project', 'Free play'],
+  combo: 'Combo ×%d!', line: 'Cutting machine!', blast: 'Factory clear-out!', built: '%s built!', noMoves: 'No moves left, reshuffling',
+  pass: 'Level complete!<span>過關！</span>', fail: 'Out of moves<span>步數用晒</span>', endFree: 'Shift over<span>收工</span>',
+  st: {left: 'Moves left', combo: 'Best combo', specials: 'Specials made', old: 'Old windows removed'}, best: 'Best: ', newBest: 'New record!',
+  adH: 'The right materials for every window: LE-RELAX', adP: 'Profiles, glass, hinges, WACKER LC909N sealant and handles, all from one supplier and made to measure. Our own Zhongshan factory since 1986, with daily deliveries Monday to Saturday.',
+  waMsg: 'Hello, I would like to ask about LE-RELAX windows / materials.', share: 'I scored %d in LE-RELAX Match & Build %s! Can you beat it?'}
+};
+let LANG = 'zh'; try { LANG = localStorage.getItem('lr-m3-lang') || 'zh'; } catch (e) {}
+const t = k => TX[LANG][k], $ = id => document.getElementById(id);
+// levels: types = materials on the board, goals = material counts, old = old windows on the board
+const LV = [
+  {types: [0, 1, 2, 3], goals: {glass: 15}, moves: 20, icon: 'mirror'},
+  {types: [0, 1, 2, 3, 4], goals: {glass: 12, hinge: 9, handle: 6}, moves: 22, icon: 'shower'},
+  {types: [0, 1, 2, 3], goals: {profile: 18, seal: 9}, moves: 22, icon: 'frame'},
+  {types: [0, 1, 2, 3], goals: {profile: 15, glass: 9, hinge: 6, seal: 6}, moves: 25, icon: 'casement'},
+  {types: [0, 1, 2, 3], goals: {old: 8, glass: 9}, moves: 25, old: 8, icon: 'casement'},
+  {types: [0, 1, 2, 3, 4], goals: {profile: 18, glass: 12, handle: 6, seal: 6}, moves: 26, icon: 'sliding'},
+  {types: [0, 1, 2, 3, 4], goals: {old: 12, profile: 15, hinge: 9, seal: 9}, moves: 28, old: 12, icon: 'casement'},
+  {types: [0, 1, 2, 3, 4], goals: {}, moves: 30, free: 1, icon: 'casement'}
+];
+let PROG = {}; try { PROG = JSON.parse(localStorage.getItem('lr-m3-prog') || '{}'); } catch (e) {}
+const unlocked = i => LV[i].free || i === 0 || (PROG[i - 1] || 0) > 0;
+const ICON = {
+  son: '<svg viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path d="M13 7c1.5 1.5 1.5 4.5 0 6M15.5 5c3 3 3 7 0 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  soff: '<svg viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path d="M13 7l5 6M18 7l-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
+};
+
+// ---------- tile art ----------
+const COL = {glass: ['#7cc9e6', '#3f8fb3'], profile: ['#e9edf0', '#9aa4ab'], hinge: ['#ffd25e', '#c98f12'], seal: ['#59c3cf', '#1f7f8d'], handle: ['#e2585a', '#8f2023'], old: ['#9a7356', '#5a3e2a']};
+function rrect(x, a, b, w, h, r) { x.beginPath(); x.moveTo(a + r, b); x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r); x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r); x.closePath(); }
+function tileArt(x, kind, cx, cy, s, sp) {
+  const h = s / 2, [c1, c2] = COL[kind], g = x.createLinearGradient(cx - h, cy - h, cx + h, cy + h); g.addColorStop(0, c1); g.addColorStop(1, c2);
+  rrect(x, cx - h, cy - h, s, s, s * .2); x.fillStyle = g; x.fill(); x.strokeStyle = 'rgba(255,255,255,.35)'; x.lineWidth = Math.max(1, s * .03); x.stroke();
+  x.save(); rrect(x, cx - h, cy - h, s, s, s * .2); x.clip(); x.translate(cx, cy); const u = s / 100; x.lineJoin = 'round'; x.lineCap = 'round';
+  if (kind === 'glass') { x.fillStyle = 'rgba(235,248,255,.9)'; x.fillRect(-30 * u, -32 * u, 60 * u, 64 * u); x.strokeStyle = '#1e5f7d'; x.lineWidth = 5 * u; x.strokeRect(-30 * u, -32 * u, 60 * u, 64 * u); x.strokeStyle = 'rgba(126,196,224,.9)'; x.lineWidth = 7 * u; x.beginPath(); x.moveTo(-16 * u, 18 * u); x.lineTo(14 * u, -18 * u); x.stroke(); }
+  if (kind === 'profile') { // cut end of an aluminium window: profile cross-section in front, double glazing rising out of it
+    const q = (pts, f, st, w = 1.4) => { x.beginPath(); pts.forEach(([a, b], k) => k ? x.lineTo(a * u, b * u) : x.moveTo(a * u, b * u)); x.closePath(); x.fillStyle = f; x.fill(); if (st) { x.strokeStyle = st; x.lineWidth = w * u; x.stroke(); } };
+    x.translate(5 * u, 2 * u); const dx = 18, dy = -10; // depth direction
+    // top faces of the frame running back
+    q([[-44, 8], [-10, 8], [-10 + dx, 8 + dy], [-44 + dx, 8 + dy]], '#a3acb2', '#4a5258');
+    q([[14, 8], [40, 8], [40 + dx, 8 + dy], [14 + dx, 8 + dy]], '#a3acb2', '#4a5258');
+    // double glazing: two panes rising up and running back
+    for (const g of [-8, 8]) { q([[g, 8], [g, -38], [g + dx, -38 + dy], [g + dx, 8 + dy]], 'rgba(160,214,236,.55)', '#4f8aa3'); q([[g, 8], [g + 4, 8], [g + 4, -38], [g, -38]], '#d4eef9', '#4f8aa3'); }
+    x.fillStyle = '#7a8086'; x.fillRect(-4 * u, -6 * u, 12 * u, 6 * u); // spacer bar
+    // cross-section face
+    q([[-44, 8], [-10, 8], [-10, 22], [14, 22], [14, 8], [40, 8], [40, 44], [-44, 44]], '#4d575e', '#22282c');
+    x.fillStyle = '#e3e8eb'; for (const [a, b, w, h] of [[-40, 12, 12, 28], [-25, 12, 11, 28], [-10, 26, 24, 14], [18, 12, 9, 28], [30, 12, 6, 28]]) x.fillRect(a * u, b * u, w * u, h * u); // hollow chambers
+    x.fillStyle = '#4d575e'; for (const [a, b] of [[-34, 26], [24, 26]]) { x.beginPath(); x.arc(a * u, b * u, 3 * u, 0, 7); x.fill(); } // screw ports
+    x.fillStyle = '#111315'; for (const [a, b] of [[-11, 12], [15, 12]]) { x.beginPath(); x.arc(a * u, b * u, 3.4 * u, 0, 7); x.fill(); } // seals holding the glass
+    x.fillStyle = '#2d3439'; x.font = `900 ${8.5 * u}px Barlow,Arial`; x.textAlign = 'left'; x.fillText('PCCS-AW', -47 * u, -36 * u); }
+  if (kind === 'hinge') { // stainless steel friction stay, shown open (PCCS-FH type)
+    const ss = '#eef1f3', ln = '#4a4f54'; x.lineWidth = 3 * u; x.strokeStyle = ln; x.fillStyle = ss;
+    rrect(x, -44 * u, 22 * u, 88 * u, 13 * u, 4 * u); x.fill(); x.stroke(); // track, fixed to the frame
+    x.save(); x.translate(-34 * u, 24 * u); x.rotate(-.58); rrect(x, -5 * u, -6.5 * u, 88 * u, 13 * u, 4 * u); x.fill(); x.stroke(); x.restore(); // sash arm
+    x.save(); x.translate(12 * u, 28 * u); x.rotate(-1.95); rrect(x, -4 * u, -5 * u, 40 * u, 10 * u, 4 * u); x.fill(); x.stroke(); x.restore(); // stay link
+    rrect(x, -44 * u, 16 * u, 20 * u, 13 * u, 3 * u); x.fillStyle = '#c8ced3'; x.fill(); x.stroke(); // sliding shoe
+    x.fillStyle = ln; for (const [a, b] of [[-34, 23], [12, 28], [2, -5], [34, 29], [-40, 29], [33, -21]]) { x.beginPath(); x.arc(a * u, b * u, 3 * u, 0, 7); x.fill(); }
+    x.fillStyle = '#6b4c05'; x.font = `900 ${12 * u}px Barlow,Arial`; x.textAlign = 'left'; x.fillText('PCCS-FH', -42 * u, -30 * u); }
+  if (kind === 'seal') { x.rotate(-.6); x.fillStyle = '#ffffff'; x.fillRect(-12 * u, -30 * u, 24 * u, 52 * u); x.fillStyle = '#1f7f8d'; x.fillRect(-12 * u, -22 * u, 24 * u, 34 * u); x.fillStyle = '#fff'; x.font = `900 ${8 * u}px Barlow,Arial`; x.textAlign = 'center'; x.fillText('LC909N', 0, -2 * u); x.fillStyle = '#ffffff'; x.beginPath(); x.moveTo(-5 * u, 22 * u); x.lineTo(5 * u, 22 * u); x.lineTo(1.5 * u, 38 * u); x.lineTo(-1.5 * u, 38 * u); x.fill(); }
+  if (kind === 'handle') { // casement window lever handle on its base plate
+    x.fillStyle = '#f7f2f2'; x.strokeStyle = '#6d1b1d'; x.lineWidth = 2.5 * u; rrect(x, -34 * u, -26 * u, 18 * u, 52 * u, 7 * u); x.fill(); x.stroke();
+    x.beginPath(); x.arc(-25 * u, -6 * u, 9 * u, 0, 7); x.fill(); x.stroke();
+    x.beginPath(); x.moveTo(-25 * u, -12 * u); x.lineTo(28 * u, -14 * u); x.quadraticCurveTo(38 * u, -14 * u, 37 * u, -4 * u); x.lineTo(36 * u, 2 * u); x.lineTo(30 * u, 2 * u); x.quadraticCurveTo(30 * u, -3 * u, 24 * u, -3 * u); x.lineTo(-25 * u, 0); x.closePath(); x.fill(); x.stroke(); }
+  if (kind === 'old') { x.strokeStyle = '#3a2618'; x.lineWidth = 6 * u; x.strokeRect(-30 * u, -32 * u, 60 * u, 64 * u); x.fillStyle = 'rgba(70,90,100,.55)'; x.fillRect(-27 * u, -29 * u, 54 * u, 58 * u); x.strokeStyle = 'rgba(230,230,230,.8)'; x.lineWidth = 2.5 * u; x.beginPath(); x.moveTo(-20 * u, -22 * u); x.lineTo(4 * u, 2 * u); x.lineTo(-6 * u, 24 * u); x.moveTo(4 * u, 2 * u); x.lineTo(22 * u, -10 * u); x.stroke(); x.fillStyle = 'rgba(160,80,30,.8)'; for (const [a, b] of [[-26, 20], [22, 24], [18, -26]]) { x.beginPath(); x.arc(a * u, b * u, 4 * u, 0, 7); x.fill(); }
+    x.fillStyle = '#d23b34'; x.beginPath(); x.arc(26 * u, -28 * u, 15 * u, 0, 7); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 2.5 * u; x.stroke(); // "strip out" badge
+    x.fillStyle = '#fff'; x.font = `900 ${17 * u}px "Noto Sans HK"`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(LANG === 'zh' ? '拆' : '✕', 26 * u, -27 * u); x.textBaseline = 'alphabetic'; }
+  x.restore();
+  if (sp === 'row' || sp === 'col') { x.save(); rrect(x, cx - h, cy - h, s, s, s * .2); x.clip(); x.strokeStyle = 'rgba(255,255,255,.75)'; x.lineWidth = s * .07; for (const o of [-.28, 0, .28]) { x.beginPath(); if (sp === 'row') { x.moveTo(cx - h, cy + o * s); x.lineTo(cx + h, cy + o * s); } else { x.moveTo(cx + o * s, cy - h); x.lineTo(cx + o * s, cy + h); } x.stroke(); } x.restore(); }
+  if (sp === 'bomb') { x.strokeStyle = '#fff'; x.lineWidth = s * .08; rrect(x, cx - h + 3, cy - h + 3, s - 6, s - 6, s * .2); x.stroke(); x.fillStyle = '#2ebd6b'; x.beginPath(); x.arc(cx + h * .62, cy - h * .62, s * .17, 0, 7); x.fill(); x.fillStyle = '#fff'; x.font = `900 ${s * .2}px Barlow`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('★', cx + h * .62, cy - h * .6); x.textBaseline = 'alphabetic'; }
+}
+function iconCanvas(kind, size = 60) { const c = document.createElement('canvas'); c.width = size; c.height = size; tileArt(c.getContext('2d'), kind, size / 2, size / 2, size - 4); return c; }
+
+// ---------- board ----------
+const COLS = 7, ROWS = 8, cv = $('cv'), X = cv.getContext('2d');
+let W, H, DPR, CS, BX, BY, grid = [], G = null, sel = null, anim = 0, phase = 'idle', FX = [], hintAt = 0, hintMove = null, swipeFrom = null, pending = null, uid = 1;
+function layout() { const r = $('stage').getBoundingClientRect(); W = r.width; H = r.height; DPR = Math.min(2, devicePixelRatio || 1); cv.width = W * DPR; cv.height = H * DPR; X.setTransform(DPR, 0, 0, DPR, 0, 0);
+  CS = Math.floor(Math.min((W - 16) / COLS, (H - 16) / ROWS)); BX = Math.floor((W - CS * COLS) / 2); BY = Math.floor((H - CS * ROWS) / 2); }
+const rndType = () => G.L.types[Math.floor(Math.random() * G.L.types.length)];
+const mk = (k, sp = null) => ({k, sp, y: 0, s: 1, id: uid++});
+const kindOf = c => c && (c.k === 'old' ? 'old' : MAT[c.k]);
+function fill() {
+  grid = Array.from({length: ROWS}, () => Array(COLS).fill(null));
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) { let k; do { k = rndType(); } while ((c >= 2 && grid[r][c - 1].k === k && grid[r][c - 2].k === k) || (r >= 2 && grid[r - 1][c].k === k && grid[r - 2][c].k === k)); grid[r][c] = mk(k); }
+  let n = G.L.old || 0; while (n > 0) { const r = 2 + Math.floor(Math.random() * (ROWS - 2)), c = Math.floor(Math.random() * COLS); if (grid[r][c].k !== 'old') { grid[r][c] = mk('old'); n--; } }
+}
+function runs() {
+  const out = [];
+  for (let r = 0; r < ROWS; r++) { let c = 0; while (c < COLS) { const k = grid[r][c] && grid[r][c].k; let e = c + 1; while (e < COLS && grid[r][e] && grid[r][e].k === k) e++; if (k !== 'old' && k != null && e - c >= 3) out.push({dir: 'h', cells: Array.from({length: e - c}, (_, i) => [r, c + i])}); c = e; } }
+  for (let c = 0; c < COLS; c++) { let r = 0; while (r < ROWS) { const k = grid[r][c] && grid[r][c].k; let e = r + 1; while (e < ROWS && grid[e][c] && grid[e][c].k === k) e++; if (k !== 'old' && k != null && e - r >= 3) out.push({dir: 'v', cells: Array.from({length: e - r}, (_, i) => [r + i, c])}); r = e; } }
+  return out;
+}
+function swapCells(a, b) { const t2 = grid[a[0]][a[1]]; grid[a[0]][a[1]] = grid[b[0]][b[1]]; grid[b[0]][b[1]] = t2; }
+function findMove() {
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) for (const [dr, dc] of [[0, 1], [1, 0]]) { const r2 = r + dr, c2 = c + dc; if (r2 >= ROWS || c2 >= COLS) continue; if (grid[r][c].k === 'old' || grid[r2][c2].k === 'old') continue;
+    if (grid[r][c].sp || grid[r2][c2].sp) return [[r, c], [r2, c2]];
+    swapCells([r, c], [r2, c2]); const ok = runs().length > 0; swapCells([r, c], [r2, c2]); if (ok) return [[r, c], [r2, c2]]; }
+  return null;
+}
+function shuffle() { const L = []; for (const row of grid) for (const c of row) if (c.k !== 'old') L.push(c.k); let tries = 0;
+  do { L.sort(() => Math.random() - .5); let i = 0; for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) if (grid[r][c].k !== 'old') { grid[r][c].k = L[i++]; grid[r][c].sp = null; } tries++; } while ((runs().length || !findMove()) && tries < 60);
+  if (!findMove()) fill(); pop(W / 2, H / 2, t('noMoves'), '#ffd36b'); }
+
+// ---------- resolving matches ----------
+function activate(set, r, c) { // expand a special tile into the cells it clears
+  const cell = grid[r][c]; if (!cell || !cell.sp || cell.fired) return; cell.fired = 1;
+  const add = (rr, cc) => { if (rr < 0 || cc < 0 || rr >= ROWS || cc >= COLS) return; const k = rr + ',' + cc; if (!set.has(k)) { set.add(k); activate(set, rr, cc); } };
+  if (cell.sp === 'row') { for (let i = 0; i < COLS; i++) add(r, i); pop(BX + COLS * CS / 2, BY + r * CS + CS / 2, t('line'), '#ffffff'); sfx('line'); }
+  if (cell.sp === 'col') { for (let i = 0; i < ROWS; i++) add(i, c); pop(BX + c * CS + CS / 2, BY + ROWS * CS / 2, t('line'), '#ffffff'); sfx('line'); }
+  if (cell.sp === 'bomb') { for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) add(r + i, c + j); pop(BX + c * CS + CS / 2, BY + r * CS, t('blast'), '#ffd36b'); sfx('blast'); }
+}
+function resolve(swapped, forced) {
+  const R = runs(), set = new Set(), make = [];
+  if (!R.length && !forced) return false;
+  // specials from long runs and crossings
+  const count = {}; for (const run of R) for (const [r, c] of run.cells) count[r + ',' + c] = (count[r + ',' + c] || 0) + 1;
+  for (const run of R) {
+    const cross = run.cells.find(([r, c]) => count[r + ',' + c] > 1), sw = swapped && run.cells.find(([r, c]) => swapped.some(s => s[0] === r && s[1] === c));
+    const at = cross || sw || run.cells[Math.floor(run.cells.length / 2)];
+    if (run.cells.length >= 5 || cross) make.push({at, sp: 'bomb', k: grid[at[0]][at[1]].k});
+    else if (run.cells.length === 4) make.push({at, sp: run.dir === 'h' ? 'row' : 'col', k: grid[at[0]][at[1]].k});
+    for (const [r, c] of run.cells) set.add(r + ',' + c);
+  }
+  if (forced) for (const [r, c] of forced) set.add(r + ',' + c);
+  for (const k of [...set]) { const [r, c] = k.split(',').map(Number); activate(set, r, c); }
+  // old windows next to cleared tiles are stripped out
+  for (const k of [...set]) { const [r, c] = k.split(',').map(Number); for (const [dr, dc] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const r2 = r + dr, c2 = c + dc; if (r2 >= 0 && c2 >= 0 && r2 < ROWS && c2 < COLS && grid[r2][c2] && grid[r2][c2].k === 'old') set.add(r2 + ',' + c2); } }
+  const made = new Set(make.map(m => m.at[0] + ',' + m.at[1]));
+  G.combo++; G.maxCombo = Math.max(G.maxCombo, G.combo);
+  let pts = 0;
+  for (const k of set) { const [r, c] = k.split(',').map(Number), cell = grid[r][c]; if (!cell) continue; const kind = kindOf(cell);
+    if (made.has(k) && !cell.fired) continue;
+    G.got[kind] = (G.got[kind] || 0) + 1; pts += kind === 'old' ? 40 : 10;
+    FLY.push({kind, x: BX + c * CS + CS / 2, y: BY + r * CS + CS / 2, t: 0}); cell.dead = 1; }
+  for (const m of make) { const cell = grid[m.at[0]][m.at[1]]; if (cell) { cell.dead = 0; cell.fired = 0; cell.sp = m.sp; cell.k = m.k; G.specials++; } }
+  G.score += pts * G.combo; if (G.combo > 1) pop(W / 2, BY + 30, t('combo').replace('%d', G.combo), '#ffd36b');
+  sfx(G.combo > 1 ? 'combo' : 'match'); phase = 'clear'; anim = 0; renderGoals(); return true;
+}
+function collapse() {
+  for (let c = 0; c < COLS; c++) { let write = ROWS - 1;
+    for (let r = ROWS - 1; r >= 0; r--) { const cell = grid[r][c]; if (cell && !cell.dead) { if (write !== r) { cell.y -= (write - r) * CS; grid[write][c] = cell; grid[r][c] = null; } write--; } else grid[r][c] = null; }
+    for (let r = write, n = 1; r >= 0; r--, n++) { const cell = mk(rndType()); cell.y = -(write + 1) * CS - n * 4; grid[r][c] = cell; } }
+  phase = 'fall'; anim = 0;
+}
+let FLY = [];
+
+// ---------- input ----------
+function cellAt(x, y) { const c = Math.floor((x - BX) / CS), r = Math.floor((y - BY) / CS); return r >= 0 && c >= 0 && r < ROWS && c < COLS ? [r, c] : null; }
+cv.addEventListener('pointerdown', e => { if (!G || G.over || phase !== 'idle') return; const rc = cv.getBoundingClientRect(), p = cellAt(e.clientX - rc.left, e.clientY - rc.top); if (!p) return; swipeFrom = {p, x: e.clientX, y: e.clientY}; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener('pointermove', e => { if (!swipeFrom) return; const dx = e.clientX - swipeFrom.x, dy = e.clientY - swipeFrom.y; if (Math.max(Math.abs(dx), Math.abs(dy)) > CS * .4) { const [r, c] = swipeFrom.p, t2 = Math.abs(dx) > Math.abs(dy) ? [r, c + Math.sign(dx)] : [r + Math.sign(dy), c]; swipeFrom = null; sel = null; tryMove([r, c], t2); } });
+cv.addEventListener('pointerup', () => { if (!swipeFrom) return; const p = swipeFrom.p; swipeFrom = null;
+  if (sel && Math.abs(sel[0] - p[0]) + Math.abs(sel[1] - p[1]) === 1) { const a = sel; sel = null; tryMove(a, p); }
+  else if (grid[p[0]][p[1]].k !== 'old') { sel = sel && sel[0] === p[0] && sel[1] === p[1] ? null : p; sfx('tap'); }
+  else { G.oldTip = 1; G.oldTipT = 0; sfx('tap'); } });
+function tryMove(a, b) {
+  if (b[0] < 0 || b[1] < 0 || b[0] >= ROWS || b[1] >= COLS) return; if (grid[a[0]][a[1]].k === 'old' || grid[b[0]][b[1]].k === 'old') return;
+  hintMove = null; hintAt = 0; swapCells(a, b); pending = {a, b}; phase = 'swap'; anim = 0; sfx('swap');
+}
+function afterSwap() {
+  const {a, b} = pending, A = grid[a[0]][a[1]], B = grid[b[0]][b[1]]; G.combo = 0;
+  if (A.sp || B.sp) { G.moves--; const f = []; if (A.sp) f.push(a); if (B.sp) f.push(b); resolve([a, b], f); return; }
+  if (runs().length) { G.moves--; resolve([a, b]); return; }
+  swapCells(a, b); phase = 'back'; anim = 0; sfx('nope');
+}
+
+// ---------- loop ----------
+let last = 0;
+function tick(dt) {
+  if (!G) return; anim += dt;
+  if (phase === 'swap' && anim > .16) afterSwap();
+  else if (phase === 'back' && anim > .16) { phase = 'idle'; pending = null; }
+  else if (phase === 'clear') { for (const row of grid) for (const c of row) if (c && c.dead) c.s = Math.max(0, 1 - anim / .22); if (anim > .24) collapse(); }
+  else if (phase === 'fall') { let moving = false; for (const row of grid) for (const c of row) if (c && c.y < 0) { c.y = Math.min(0, c.y + dt * CS * 14); if (c.y < 0) moving = true; }
+    if (!moving) { pending = null; if (!resolve()) settle(); } }
+  else if (phase === 'idle') { hintAt += dt; if (hintAt > 6 && !hintMove) hintMove = findMove(); }
+  FLY.forEach(f => f.t += dt * 1.8); FLY = FLY.filter(f => f.t < 1);
+  FX.forEach(f => f.t += dt); FX = FX.filter(f => f.t < 1.2);
+}
+function settle() {
+  phase = 'idle'; hintAt = 0; hintMove = null;
+  if (goalsMet() && !G.L.free) return win();
+  if (G.moves <= 0) return G.L.free ? end(true) : end(false);
+  if (!findMove()) shuffle();
+}
+function goalsMet() { return Object.entries(G.L.goals).every(([k, v]) => (G.got[k] || 0) >= v); }
+function draw(now) {
+  X.fillStyle = '#13181b'; X.fillRect(0, 0, W, H); if (!G) return;
+  const bw = CS * COLS, bh = CS * ROWS;
+  X.fillStyle = '#1f282e'; rrect(X, BX - 8, BY - 8, bw + 16, bh + 16, 16); X.fill();
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) { X.fillStyle = (r + c) % 2 ? '#262f35' : '#2b353c'; X.fillRect(BX + c * CS, BY + r * CS, CS, CS); }
+  X.save(); X.beginPath(); X.rect(BX, BY, bw, bh); X.clip();
+  X.fillStyle = 'rgba(46,189,107,.06)'; X.font = `900 ${CS * .9}px "Noto Sans HK"`; X.textAlign = 'center'; X.fillText('升威 LE-RELAX', BX + bw / 2, BY + bh / 2 + CS * .3);
+  const sw = pending && (phase === 'swap' || phase === 'back') ? Math.min(1, anim / .16) : 1;
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) { const cell = grid[r][c]; if (!cell) continue;
+    let x = BX + c * CS + CS / 2, y = BY + r * CS + CS / 2 + cell.y;
+    if (pending && sw < 1) { const {a, b} = pending, isA = (phase === 'swap' ? a : b)[0] === r && (phase === 'swap' ? a : b)[1] === c, isB = (phase === 'swap' ? b : a)[0] === r && (phase === 'swap' ? b : a)[1] === c;
+      if (isA || isB) { const from = isA ? (phase === 'swap' ? b : a) : (phase === 'swap' ? a : b); x = BX + (from[1] + (c - from[1]) * sw) * CS + CS / 2; y = BY + (from[0] + (r - from[0]) * sw) * CS + CS / 2; } }
+    const sz = (CS - 6) * cell.s; if (sz <= 1) continue;
+    const isSel = sel && sel[0] === r && sel[1] === c, isHint = hintMove && hintMove.some(h => h[0] === r && h[1] === c);
+    const bump = isSel ? 1.08 : isHint ? 1 + Math.sin(now / 160) * .06 : 1;
+    tileArt(X, kindOf(cell), x, y, sz * bump, cell.sp);
+    if (isSel) { X.strokeStyle = '#ffb02e'; X.lineWidth = 4; rrect(X, x - sz * bump / 2 - 2, y - sz * bump / 2 - 2, sz * bump + 4, sz * bump + 4, sz * .22); X.stroke(); } }
+  X.restore();
+  for (const f of FLY) { X.globalAlpha = 1 - f.t; const s = (CS - 6) * (1 - f.t * .5); tileArt(X, f.kind, f.x, f.y - f.t * 60, s, null); } X.globalAlpha = 1;
+  if (G.oldTip) { G.oldTipT += 1 / 60; if ((G.got.old || 0) > 0 && G.oldTipT > 3 || G.oldTipT > 9) G.oldTip = 0; // how old windows work
+    const bw2 = Math.min(W - 20, 460), bh2 = 84, bx = (W - bw2) / 2, by = BY + CS * ROWS - bh2 - 10;
+    X.fillStyle = 'rgba(12,16,19,.93)'; rrect(X, bx, by, bw2, bh2, 14); X.fill(); X.strokeStyle = '#d23b34'; X.lineWidth = 2; X.stroke();
+    tileArt(X, 'old', bx + 44, by + bh2 / 2, 60, null);
+    X.textAlign = 'left'; X.fillStyle = '#fff'; X.font = '900 18px "Noto Sans HK"'; X.fillText(t('oldH'), bx + 84, by + 34); X.fillStyle = '#c9d2d7'; X.font = '600 15px "Noto Sans HK"'; X.fillText(t('oldP'), bx + 84, by + 60); }
+  X.textAlign = 'center'; for (const f of FX) { X.globalAlpha = Math.max(0, 1 - f.t / 1.2); X.font = `900 ${Math.max(22, CS * .45)}px "Noto Sans HK"`; X.lineWidth = 5; X.strokeStyle = '#000'; X.strokeText(f.txt, f.x, f.y - f.t * 40); X.fillStyle = f.c; X.fillText(f.txt, f.x, f.y - f.t * 40); } X.globalAlpha = 1;
+}
+function pop(x, y, txt, c) { FX.push({x, y, txt, c, t: 0}); }
+function loop(now) { const dt = Math.min(.05, (now - last) / 1000 || 0); last = now; tick(dt); draw(now); hud(); requestAnimationFrame(loop); }
+function hud() { if (!G) return; $('moves').textContent = G.moves; $('score').textContent = G.score; $('movesG').classList.toggle('low', G.moves <= 5); }
+function renderGoals() {
+  if (!G) return; const L = G.L, M = t('mat');
+  const prod = `<div class="prod"><span><b>${t('prods')[G.li]}</b><small>${L.free ? t('freeSub') : t('need')}</small></span></div>`;
+  $('goals').innerHTML = prod + Object.entries(L.goals).map(([k, v]) => { const left = Math.max(0, v - (G.got[k] || 0)); return `<div class="goal${left ? '' : ' ok'}" data-k="${k}" title="${M[k]}"><span class="ic"></span><span class="gl">${M[k]}</span><span class="num">${left ? left : '✓'}</span></div>`; }).join('');
+  $('goals').querySelectorAll('.goal').forEach(e => e.querySelector('.ic').replaceWith(iconCanvas(e.dataset.k)));
+}
+
+// ---------- flow ----------
+function newGame(i) { const L = LV[i]; G = {li: i, L, moves: L.moves, score: 0, got: {}, combo: 0, maxCombo: 0, specials: 0, over: false, oldTip: L.old ? 1 : 0, oldTipT: 0}; fill(); if (!findMove()) shuffle(); phase = 'idle'; sel = null; FX = []; FLY = []; renderGoals(); }
+function win() { G.over = true; const bonus = G.moves * 60; G.score += bonus; pop(W / 2, H / 2, t('built').replace('%s', t('prods')[G.li]), '#7fe0a8'); sfx('win'); setTimeout(() => end(true), 1100); }
+function end(ok) {
+  G.over = true; const L = G.L, stars = L.free || !ok ? 0 : G.moves >= L.moves * .3 ? 3 : G.moves >= L.moves * .12 ? 2 : 1;
+  if (!L.free && stars > (PROG[G.li] || 0)) { PROG[G.li] = stars; try { localStorage.setItem('lr-m3-prog', JSON.stringify(PROG)); } catch (e) {} }
+  let best = 0; const key = 'lr-m3-best-' + G.li; try { best = +localStorage.getItem(key) || 0; if (G.score > best) localStorage.setItem(key, G.score); } catch (e) {}
+  $('endH').innerHTML = L.free ? t('endFree') : ok ? t('pass') : t('fail');
+  $('stars').textContent = L.free || !ok ? '' : '★'.repeat(stars) + '☆'.repeat(3 - stars);
+  $('fScore').textContent = G.score; $('best').textContent = G.score > best ? t('newBest') : t('best') + best;
+  const S = t('st'); $('fStats').innerHTML = [[G.moves, S.left], [G.maxCombo, S.combo], [G.specials, S.specials], ...(L.old ? [[G.got.old || 0, S.old]] : [])].map(([n, l]) => `<div><span class="num">${n}</span><small>${l}</small></div>`).join('');
+  $('nextB').hidden = !(ok && !L.free && LV[G.li + 1] && !LV[G.li + 1].free);
+  const where = L.free ? t('free') : t('lv').replace('%d', G.li + 1);
+  LRX($('endOv'), {lang: LANG, url: LRX_URL, title: t('title'), adH: t('adH'), adP: t('adP'), waMsg: t('waMsg'), text: t('share').replace('%s', LANG === 'zh' ? where : '(' + where + ')').replace('%d', G.score)});
+  $('endOv').hidden = false; if (!ok) sfx('lose');
+}
+function renderStart() {
+  $('ttl').innerHTML = t('ttl');
+  $('how').innerHTML = t('how').map(([b, s]) => `<div><span class="hic"></span><span><b>${b}</b>${s}</span></div>`).join('');
+  $('how').querySelectorAll('.hic').forEach((e, i) => e.replaceWith(iconCanvas(['glass', 'hinge', 'seal'][i], 80)));
+  const M = t('mat');
+  $('lvls').innerHTML = LV.map((L, i) => { const ok = unlocked(i), sc = PROG[i] || 0;
+    return `<button class="lv${ok ? '' : ' off'}${L.free ? ' free' : ''}" data-i="${i}" ${ok ? '' : 'disabled'}><span class="n">${L.free ? '∞' : i + 1}</span><b>${t('prods')[i]}</b>
+      <small>${L.free ? t('freeSub') : Object.entries(L.goals).map(([k, v]) => M[k] + ' ' + v).join(' · ') + ' · ' + L.moves + (LANG === 'zh' ? ' 步' : ' moves')}</small>${ok ? `<span class="st">${L.free ? '' : '★'.repeat(sc) + '☆'.repeat(3 - sc)}</span>` : `<small>${t('locked')}</small>`}</button>`; }).join('');
+}
+function applyLang() { document.documentElement.lang = LANG === 'zh' ? 'zh-HK' : 'en'; document.querySelectorAll('[data-t]').forEach(e => e.textContent = t(e.dataset.t)); $('langB').textContent = LANG === 'zh' ? 'EN' : '中'; $('langB2').textContent = t('lang'); renderStart(); renderGoals(); muteUI(); }
+function setLang(l) { LANG = l; try { localStorage.setItem('lr-m3-lang', l); } catch (e) {} applyLang(); }
+function start(i) { ensureAudio(); newGame(i); $('startOv').hidden = true; $('endOv').hidden = true; last = performance.now(); }
+function menu() { renderStart(); $('endOv').hidden = true; $('startOv').hidden = false; }
+$('lvls').addEventListener('click', e => { const b = e.target.closest('.lv'); if (b && !b.disabled) start(+b.dataset.i); });
+$('againB').addEventListener('click', () => start(G.li)); $('nextB').addEventListener('click', () => start(G.li + 1)); $('menuB').addEventListener('click', menu);
+$('langB').addEventListener('click', () => setLang(LANG === 'zh' ? 'en' : 'zh')); $('langB2').addEventListener('click', () => setLang(LANG === 'zh' ? 'en' : 'zh'));
+
+// ---------- audio ----------
+let AC = null, muted = false;
+const muteUI = () => { $('muteB').innerHTML = muted ? ICON.soff : ICON.son; };
+$('muteB').addEventListener('click', () => { muted = !muted; muteUI(); });
+function ensureAudio() { if (AC) { AC.resume(); return; } try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { AC = null; } }
+function tone(f, d, type = 'triangle', v = .05, at = 0) { const o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + at; o.type = type; o.frequency.setValueAtTime(f, t0); g.gain.setValueAtTime(v, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + d); o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0 + d + .02); }
+function sfx(k) { if (!AC || muted) return;
+  if (k === 'tap') tone(520, .05, 'sine', .04); if (k === 'swap') tone(380, .07, 'sine', .05); if (k === 'nope') { tone(220, .08, 'sine', .05); tone(180, .1, 'sine', .05, .08); }
+  if (k === 'match') [660, 880].forEach((f, i) => tone(f, .1, 'sine', .05, i * .05)); if (k === 'combo') [660, 880, 1100].forEach((f, i) => tone(f, .1, 'sine', .05, i * .05));
+  if (k === 'line') tone(1200, .25, 'sawtooth', .025); if (k === 'blast') [330, 440, 660].forEach((f, i) => tone(f, .18, 'triangle', .07, i * .05));
+  if (k === 'win') [523, 659, 784, 1046].forEach((f, i) => tone(f, .25, 'triangle', .07, i * .12)); if (k === 'lose') [392, 330, 262].forEach((f, i) => tone(f, .3, 'triangle', .07, i * .18)); }
+
+function hero() { const c = $('heroCv'), r = c.getBoundingClientRect(); if (!r.width) return; c.width = r.width * 2; c.height = r.height * 2; const x = c.getContext('2d'); x.scale(2, 2);
+  x.fillStyle = '#1f282e'; x.fillRect(0, 0, r.width, r.height); const s = 46, cols = Math.ceil(r.width / s) + 1, kinds = ['glass', 'profile', 'hinge', 'seal', 'handle', 'old'];
+  for (let j = 0; j < 4; j++) for (let i = 0; i < cols; i++) tileArt(x, kinds[(i * 3 + j * 5 + (i * j) % 4) % kinds.length], i * s + s / 2 - 10, j * s + s / 2 - 10, s - 6, (i + j) % 9 === 0 ? 'row' : null); }
+
+const ro = new ResizeObserver(layout); ro.observe($('stage'));
+layout(); applyLang(); setTimeout(hero, 60); requestAnimationFrame(loop);
+if (location.search.includes('debug')) window.__m3 = () => ({G, grid, runs, findMove, tryMove: (a, b) => tryMove(a, b), phase: () => phase});
+}
+</script>
+</body>
+</html>

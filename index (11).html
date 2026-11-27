@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<script>(function(){var m=location.search.match(/[?&]lang=(en|zh)/);if(m)try{localStorage.setItem('lr-cl-lang',m[1])}catch(e){}})()</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQYYKG7G4L"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KQYYKG7G4L');
+// game events: start, share, WhatsApp enquiry, game over with score
+(function () {
+  var game = location.pathname.split('/').filter(Boolean).pop() || 'games';
+  var share = {'lrx-swa': 'whatsapp', 'lrx-swc': 'wechat', 'lrx-sfb': 'facebook', 'lrx-scp': 'copy', 'lrx-nat': 'native', shWa: 'whatsapp', shWc: 'wechat', shFb: 'facebook', shCopy: 'copy', shNative: 'native'};
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('a,button'); if (!el) return;
+    var h = el.getAttribute('href') || '', ev = null, p = {game: game};
+    for (var k in share) if (el.id === k || el.classList.contains(k)) { ev = 'game_share'; p.method = share[k]; }
+    if (!ev && h.indexOf('wa.me/85265881426') > -1) { ev = 'whatsapp_click'; p.link_url = h; }
+    if (!ev && (el.id === 'startB' || el.classList.contains('lv'))) ev = 'game_start';
+    if (ev) gtag('event', ev, p);
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var end = document.getElementById('endOv'); if (!end) return;
+    new MutationObserver(function () { if (!end.hidden) { var s = document.getElementById('fScore'); gtag('event', 'game_over', {game: game, score: s ? +s.textContent || 0 : 0}); } }).observe(end, {attributes: true, attributeFilter: ['hidden']});
+  });
+})();
+</script>
+<link rel="canonical" href="https://le-relax.co/games/supply/">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<meta property="og:image" content="https://le-relax.co/games/img/supply.webp">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>升威地盤送料王 Site Supply Run</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Noto+Sans+HK:wght@500;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: lively endless climber, very Hong Kong, still plain and readable for older players.
+   IDEA: a 師傅 climbing bamboo scaffolding up a tower, collecting windows and fitting them into empty openings.
+   PICTURE: tiled facade behind green safety netting and three bamboo poles; flower pots fall, broken poles appear.
+   COLOUR and TYPE: warm facade, bamboo yellow, net green, LE-RELAX green vest; Barlow numbers + Noto Sans HK.
+   LAYOUT: header gauges, one full-height scene, two huge left/right buttons at the bottom. */
+:root{color-scheme:dark;--bg:#13181b;--ink:#f3f1ea;--dim:#a9b3b9;--g:#2ebd6b;--a:#ffb02e;--card:#1e262c;--line:#34414a}
+*{box-sizing:border-box;min-width:0}
+html{height:100%}
+body{margin:0;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);color:var(--ink);font:16px/1.45 "Noto Sans HK",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.num{font-family:"Barlow","Noto Sans HK",sans-serif;font-weight:800;font-variant-numeric:tabular-nums}
+header{flex:none;display:flex;align-items:center;gap:8px 14px;padding:6px max(2vw,10px);background:#0c1013;border-bottom:3px solid var(--g)}
+.brand{display:flex;align-items:center;gap:8px;margin-inline-end:auto}.brand img{width:38px;height:auto}.brand b{font-weight:900;font-size:18px;line-height:1.1}.brand small{display:block;color:var(--dim);font-size:12px}
+.gauge{text-align:center;line-height:1}.gauge .num{font-size:26px}.gauge span{display:block;font-size:11px;color:var(--dim);white-space:nowrap}
+.gauge.low .num{color:#ef5350}.hats{display:flex;gap:2px;justify-content:center}.hats i{width:18px;height:12px;border-radius:9px 9px 2px 2px;background:#ffd33d;border-bottom:3px solid #d9a400}.hats i.x{background:#39434a;border-color:#2a3238}
+.btn{font:inherit;font-weight:900;min-height:42px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:#1a2228;color:var(--ink);cursor:pointer;font-size:15px}
+.btn.ib{width:42px;padding:0;display:grid;place-items:center}.btn svg{width:20px;height:20px}
+.btn.go{background:var(--g);border-color:var(--g);color:#06140c;font-size:18px;min-height:52px;padding:0 24px}
+.btn:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+#stage{position:relative;flex:1;min-height:0}
+#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.ctrl{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px max(2vw,10px) max(10px,env(safe-area-inset-bottom));background:#0c1013;border-top:1px solid #23303a}
+.ctrl button{font:inherit;font-weight:900;min-height:64px;border-radius:18px;border:2px solid var(--line);background:#1d272e;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-size:17px;touch-action:manipulation}
+.ctrl button svg{width:30px;height:30px}.ctrl button:active{background:#2a3942}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(8,11,13,.86);display:grid;place-items:center;padding:14px;overflow:auto}.ov[hidden]{display:none}
+.panel{background:#182026;border:2px solid var(--line);border-radius:22px;padding:22px;max-width:640px;width:100%}
+.panel h1{font-size:clamp(30px,7vw,46px);line-height:1.05;margin:0;font-weight:900;text-wrap:balance}
+.panel h1 span{display:block;font-family:"Barlow",sans-serif;font-size:.55em;color:var(--a);margin-top:4px}
+.panel p{color:#ccd6dc;margin:10px 0}
+.hero{margin:-22px -22px 14px;height:150px;border-radius:20px 20px 0 0;overflow:hidden;background:#d6d0c2}.hero canvas{width:100%;height:100%;display:block}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.how div{background:var(--card);border-radius:14px;padding:10px;font-size:14px;line-height:1.35}.how b{display:block;font-size:16px;margin-bottom:2px}.how svg{width:40px;height:40px;display:block;margin-bottom:4px}
+.fine{font-size:13px;color:var(--dim);margin-top:14px}
+.res{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}.big{font-size:clamp(48px,12vw,76px);color:var(--g);line-height:1}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px;margin:12px 0}
+.stats div{background:var(--card);border-radius:12px;padding:8px 10px}.stats .num{font-size:24px;display:block;line-height:1}.stats small{color:var(--dim);font-size:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+@media(max-width:700px){.brand b,.brand small{display:none}.how{grid-template-columns:minmax(0,1fr)}.how div{display:flex;gap:10px;align-items:center}.how svg{margin:0;flex:none}}
+@media(max-width:420px){header{gap:6px;padding:5px 8px}.btn.ib{width:36px;min-height:36px}.gauge .num{font-size:22px}}
+
+.lrx-ad{background:linear-gradient(135deg,#123522,#0f2a1c);border:2px solid #2ebd6b;border-radius:18px;padding:14px 16px;margin:14px 0;display:flex;gap:14px;align-items:center;text-align:left}
+.lrx-ad img{width:56px;height:auto;flex:none}.lrx-ad b{display:block;font-size:19px;line-height:1.3;color:#fff}.lrx-ad p{margin:4px 0 8px;color:#cfe7da;font-size:15px;line-height:1.45}
+.lrx-wa{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#06240f;font-weight:900;text-decoration:none;border-radius:999px;padding:8px 16px;font-size:16px;min-height:44px}
+.lrx-sh{display:block;margin-top:4px;color:#fff}
+.lrx-share{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.lrx-share button,.lrx-share a{font:inherit;font-weight:900;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;border:2px solid #34403a;background:#16222b;color:#f3f1ea;cursor:pointer;text-decoration:none;font-size:15px}
+.lrx-share .w{border-color:#25d366}.lrx-share .c{border-color:#07c160}.lrx-share .f{border-color:#1877f2}
+.lrx-qr{display:none;margin-top:10px;background:#fff;border-radius:14px;padding:12px;width:max-content;max-width:100%;color:#222;text-align:center;font-size:14px}
+.lrx-qr.on{display:block}.lrx-qrc{width:180px;height:180px;margin:0 auto 6px}.lrx-qrc img,.lrx-qrc canvas{width:180px!important;height:180px!important}
+.lrx-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#000d;color:#fff;padding:10px 18px;border-radius:999px;z-index:99;font-weight:900;display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="logo.png" alt="升威 LE-RELAX"><div><b data-t="title"></b><small data-t="sub"></small></div></div>
+  <div class="gauge"><div class="num" id="floor">1/F</div><span data-t="floor"></span></div>
+  <div class="gauge" id="timeG"><div class="num" id="time">60</div><span data-t="lives"></span></div>
+  <div class="gauge"><div class="num" id="score">0</div><span data-t="score"></span></div>
+  <button class="btn ib" id="langB" aria-label="Language">EN</button>
+  <button class="btn ib" id="pauseB" aria-label="Pause"></button>
+  <button class="btn ib" id="muteB" aria-label="Sound"></button>
+</header>
+<div id="stage"><canvas id="cv"></canvas></div>
+<div class="ctrl">
+  <button data-d="-1" aria-label="Left"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="cL"></span></button>
+  <button data-d="1" aria-label="Right"><span data-t="cR"></span><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</div>
+
+<div class="ov" id="startOv"><div class="panel">
+  <div class="hero"><canvas id="heroCv"></canvas></div>
+  <h1 id="ttl"></h1>
+  <p data-t="intro"></p>
+  <div class="how" id="how"></div>
+  <div class="row"><button class="btn go" id="startB" data-t="start"></button><button class="btn" id="langB2"></button></div>
+  <p class="fine" data-t="fine"></p>
+</div></div>
+
+<div class="ov" id="endOv" hidden><div class="panel">
+  <h1 id="endH"></h1>
+  <div class="res"><div class="big num" id="fScore">0</div><span id="best" style="color:var(--dim)"></span></div>
+  <div class="stats" id="fStats"></div>
+  <div class="row"><button class="btn go" id="againB" data-t="again"></button></div>
+  <div class="lrx-ad"><img src="logo.png" alt=""><div><b class="lrx-adh"></b><p class="lrx-adp"></p><a class="lrx-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span class="lrx-wat"></span></a></div></div>
+<b class="lrx-sh"></b>
+<div class="lrx-share"><button class="lrx-nat" type="button"></button><a class="w lrx-swa" target="_blank" rel="noopener">WhatsApp</a><button class="c lrx-swc" type="button"></button><a class="f lrx-sfb" target="_blank" rel="noopener">Facebook</a><button class="lrx-scp" type="button"></button></div>
+<div class="lrx-qr"><div class="lrx-qrc"></div><span class="lrx-qrt"></span></div>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+{
+const LRX_URL = 'https://le-relax.co/games/supply/';
+
+// ---- LE-RELAX shared end-of-game advert + share (edit LRX_URL after uploading) ----
+const LRX_WA = '85265881426';
+function LRX(root, o) {
+  const q = s => root.querySelector(s), zh = o.lang === 'zh';
+  const S = zh ? {sh: '分享你嘅成績，叫朋友一齊玩：', nat: '分享', wc: '微信', cp: '複製連結', qr: '用微信「掃一掃」打開遊戲，再分享俾朋友', ok: '已複製，可以貼上微信 / WhatsApp', wa: 'WhatsApp 6588 1426 查詢'}
+                : {sh: 'Share your score and challenge your friends:', nat: 'Share', wc: 'WeChat', cp: 'Copy link', qr: 'Scan with WeChat to open the game, then share it', ok: 'Copied: paste it into WeChat or WhatsApp', wa: 'WhatsApp 6588 1426'};
+  const url = o.url || location.href.split('#')[0], full = o.text + ' ' + url;
+  q('.lrx-adh').textContent = o.adH; q('.lrx-adp').textContent = o.adP; q('.lrx-wat').textContent = S.wa;
+  q('.lrx-wa').href = 'https://wa.me/' + LRX_WA + '?text=' + encodeURIComponent(o.waMsg);
+  q('.lrx-sh').textContent = S.sh; q('.lrx-nat').textContent = S.nat; q('.lrx-swc').textContent = S.wc; q('.lrx-scp').textContent = S.cp; q('.lrx-qrt').textContent = S.qr;
+  q('.lrx-swa').href = 'https://wa.me/?text=' + encodeURIComponent(full);
+  q('.lrx-sfb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(o.text);
+  q('.lrx-nat').style.display = navigator.share ? '' : 'none'; q('.lrx-qr').classList.remove('on');
+  const toast = m => { let e = document.querySelector('.lrx-toast'); if (!e) { e = document.createElement('div'); e.className = 'lrx-toast'; document.body.appendChild(e); } e.textContent = m; e.style.display = 'block'; clearTimeout(e.h); e.h = setTimeout(() => e.style.display = 'none', 2200); };
+  const copy = async () => { try { await navigator.clipboard.writeText(full); toast(S.ok); } catch (e) { const ta = document.createElement('textarea'); ta.value = full; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(S.ok); } catch (e2) {} ta.remove(); } };
+  q('.lrx-nat').onclick = () => { navigator.share && navigator.share({title: o.title, text: o.text, url}).catch(() => {}); };
+  q('.lrx-scp').onclick = copy;
+  q('.lrx-swc').onclick = () => { const b = q('.lrx-qr'); b.classList.toggle('on'); copy(); if (b.classList.contains('on') && window.QRCode) { q('.lrx-qrc').innerHTML = ''; try { new QRCode(q('.lrx-qrc'), {text: url, width: 180, height: 180}); } catch (e) {} } };
+}
+
+const TX = {
+ zh: {title: '升威地盤送料王', sub: 'LE-RELAX Site Supply Run', floor: '樓層', lives: '收工倒數', score: '分數', start: '開工', again: '再做一更', lang: 'English', cL: '向左', cR: '向右',
+  ttl: '升威地盤送料王<span>LE-RELAX SITE SUPPLY RUN</span>',
+  intro: '成幢 20 層換窗工程，趕住收工！師傅扣好安全帶沿竹棚上樓，執齊升威鋁窗同 LC909N 矽膠，送去每層等緊嘅窗位。送得準時有額外時間。',
+  how: [['左右轉線', '用下面兩個大掣，或者按畫面左右兩邊'], ['執料、送料', '鋁窗送去空窗位，LC909N 送去「待打膠」窗位'], ['保持通道暢通', '撞到雜物要停低清理，浪費時間']],
+  fine: '遊戲內容屬虛構。真實高空工作必須扣好安全帶、戴安全帽，並遵守勞工處安全規定。',
+  win: '+1 鋁窗', seal: '+1 LC909N', hinge: '窗鉸 +20', full: '手上滿晒', fitted: '裝好！+%d', sealed: '打好膠！+%d', need: '要先執料', blocked: '保持通道暢通', bonus: '+%ds', milestone: '%d 樓！加快',
+  open: '空窗位', joint: '待打膠', carry: '手上',
+  endH: '時間到，未完工<span>OUT OF TIME</span>', doneH: '工程完成！<span>JOB COMPLETE</span>', st: {floor: '最高樓層', installed: '裝好鋁窗', sealed: '打好膠', hinges: '執到窗鉸', blocked: '撞到雜物'}, best: '最高紀錄：', newBest: '新紀錄！',
+  adH: '師傅之選：升威一站式供料', adP: '鋁窗、玻璃、窗鉸五金、WACKER LC909N 矽膠一站式供應，度身訂造，星期一至六每日送貨。中山自家廠房 1986 年至今。行家查詢歡迎 WhatsApp。',
+  waMsg: '你好，我係行家 / 師傅，想查詢升威產品同批發價。', share: '我喺「升威地盤送料王」送料到 %f 樓、裝好 %i 隻鋁窗，攞到 %d 分！行家嚟比吓？'},
+ en: {title: 'LE-RELAX Site Supply Run', sub: '升威地盤送料王', floor: 'Floor', lives: 'Shift left', score: 'Score', start: 'Start shift', again: 'Another shift', lang: '中文', cL: 'Left', cR: 'Right',
+  ttl: 'LE-RELAX Site Supply Run<span>升威地盤送料王</span>',
+  intro: 'A 20-storey window replacement job, racing the clock! Clipped on with a safety harness, climb the scaffold, collect LE-RELAX windows and LC909N sealant, and deliver them to every waiting opening. On-time deliveries earn extra time.',
+  how: [['Switch lanes', 'Use the two big buttons, or tap the left or right of the screen'], ['Collect and deliver', 'Windows go to empty openings, LC909N to joints waiting for sealant'], ['Keep walkways clear', 'Bump into debris and you stop to clear it, losing time']],
+  fine: 'The game is fictional. On real sites, always clip on a safety harness, wear a hard hat and follow Labour Department safety rules.',
+  win: '+1 window', seal: '+1 LC909N', hinge: 'Hinge +20', full: 'Hands full', fitted: 'Fitted! +%d', sealed: 'Sealed! +%d', need: 'Collect it first', blocked: 'Keep walkways clear', bonus: '+%ds', milestone: 'Floor %d! Faster',
+  open: 'Opening', joint: 'Needs seal', carry: 'Carrying',
+  endH: 'Out of time<span>未完工</span>', doneH: 'Job complete!<span>工程完成</span>', st: {floor: 'Highest floor', installed: 'Windows fitted', sealed: 'Joints sealed', hinges: 'Hinges collected', blocked: 'Debris hit'}, best: 'Best: ', newBest: 'New record!',
+  adH: 'The contractor\'s choice: LE-RELAX one-stop supply', adP: 'Aluminium windows, glass, hinges and hardware, and WACKER LC909N sealant from one supplier, made to order, with daily deliveries Monday to Saturday. Our own Zhongshan factory since 1986. Trade enquiries welcome on WhatsApp.',
+  waMsg: 'Hello, I am in the trade and would like to ask about LE-RELAX products and trade prices.', share: 'I delivered to floor %f and fitted %i windows in LE-RELAX Site Supply Run, scoring %d! Think you can beat it?'}
+};
+let LANG = 'zh'; try { LANG = localStorage.getItem('lr-cl-lang') || 'zh'; } catch (e) {}
+const t = k => TX[LANG][k], $ = id => document.getElementById(id);
+const ICON = {
+  pause: '<svg viewBox="0 0 20 20"><rect x="5" y="4" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="11.5" y="4" width="3.5" height="12" rx="1" fill="currentColor"/></svg>',
+  play: '<svg viewBox="0 0 20 20"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg>',
+  son: '<svg viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path d="M13 7c1.5 1.5 1.5 4.5 0 6M15.5 5c3 3 3 7 0 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  soff: '<svg viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path d="M13 7l5 6M18 7l-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  h1: '<svg viewBox="0 0 40 40"><path d="M8 6v28M20 6v28M32 6v28" stroke="#c9ad62" stroke-width="4"/><path d="M14 20h-4l3-3M14 20l-1 3M26 20h4l-3-3M26 20l1 3" stroke="#ffb02e" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
+  h2: '<svg viewBox="0 0 40 40"><rect x="9" y="7" width="22" height="26" rx="2" fill="#9fc4d6" stroke="#eef2f0" stroke-width="4"/><path d="M20 7v26" stroke="#eef2f0" stroke-width="3"/><rect x="9" y="30" width="22" height="3" fill="#2ebd6b"/></svg>',
+  h3: '<svg viewBox="0 0 40 40"><rect x="6" y="22" width="12" height="12" fill="#a39886"/><rect x="18" y="26" width="16" height="8" fill="#8a7f6c"/><path d="M4 12h32" stroke="#ffb02e" stroke-width="5" stroke-dasharray="6 4"/></svg>'
+};
+
+const cv = $('cv'), X = cv.getContext('2d'); let W, H, DPR, LX = [], PY, LW;
+function layout() { const r = $('stage').getBoundingClientRect(); W = r.width; H = r.height; DPR = Math.min(2, devicePixelRatio || 1); cv.width = W * DPR; cv.height = H * DPR; X.setTransform(DPR, 0, 0, DPR, 0, 0);
+  const sw = Math.min(W, 520), ox = (W - sw) / 2; LW = sw / 3; LX = [0, 1, 2].map(i => ox + LW * (i + .5)); PY = H * .74; }
+let G = null, OB = [], FX = [], paused = false, last = 0;
+function newGame() { G = {lane: 1, px: 1, y: 0, v: 170, score: 0, time: 60, win: 0, seal: 0, inst: 0, sealed: 0, hinges: 0, blocked: 0, floor: 1, nextSpawn: 1.0, over: false, stall: 0, ms: 10}; OB = []; FX = []; }
+const FLOOR_PX = 150, TOP = 20;
+function spawnRow() {
+  const f = G.floor, y = -70, used = new Set(), free = () => [0, 1, 2].filter(l => !used.has(l)), pick = a => a[Math.floor(Math.random() * a.length)];
+  if (Math.random() < Math.min(.55, .25 + f * .012)) { const l = pick([0, 1, 2]); used.add(l); OB.push({k: Math.random() < .5 ? 'debris' : 'tape', lane: l, y}); }
+  // supplies and targets; targets only when the player could plausibly carry the right item
+  const r = Math.random();
+  if (r < .42 && free().length) { const l = pick(free()); used.add(l); OB.push({k: 'win', lane: l, y}); }
+  else if (r < .62 && free().length) { const l = pick(free()); used.add(l); OB.push({k: 'seal', lane: l, y}); }
+  // only ask for a job the player can do: something carried, or a supply already on its way down
+  const live = k => OB.filter(o => o.k === k && !o.done).length;
+  const canWin = G.win + live('win') > live('open'), canSeal = G.seal + live('seal') > live('joint');
+  if (free().length && Math.random() < .65 && (canWin || canSeal)) { const k = canWin && canSeal ? (Math.random() < .65 ? 'open' : 'joint') : canWin ? 'open' : 'joint'; const l = pick(free()); used.add(l); OB.push({k, lane: l, y: y - 50}); }
+  else if (free().length && Math.random() < .2) { const l = pick(free()); OB.push({k: 'hinge', lane: l, y: y - 30}); }
+}
+function tick(dt) {
+  if (!G || G.over || paused) return;
+  G.time -= dt; if (G.time <= 0) { G.time = 0; return end(false); }
+  G.stall = Math.max(0, G.stall - dt);
+  const v = G.stall > 0 ? 0 : 135 + Math.min(125, G.floor * 3);
+  G.y += v * dt; const fl = 1 + Math.floor(G.y / FLOOR_PX); if (fl > G.floor) { G.floor = fl; G.score += 5; if (fl >= TOP) return end(true); if (fl % 10 === 0) { FX.push({x: W / 2, y: H * .3, txt: t('milestone').replace('%d', fl), c: '#ffd36b', t: 0, sz: 26}); sfx('lvl'); } }
+  G.px += (G.lane - G.px) * Math.min(1, dt * 14);
+  if (v > 0) { G.nextSpawn -= dt; if (G.nextSpawn <= 0) { spawnRow(); G.nextSpawn = Math.max(.95, 1.45 - G.floor * .01); } }
+  for (const o of OB) {
+    o.y += v * dt; if (o.done) continue;
+    if (Math.abs(o.y - PY) < 26 && Math.abs(G.px - o.lane) < .45) {
+      const x = LX[o.lane];
+      if (o.k === 'debris' || o.k === 'tape') { o.done = 1; G.stall = .9; G.time = Math.max(0, G.time - 2); G.blocked++; sfx('hit'); FX.push({x, y: PY - 60, txt: t('blocked'), c: '#ffb02e', t: 0}); }
+      else if (o.k === 'win' || o.k === 'seal') { const max = o.k === 'win' ? 3 : 2; if (G[o.k] < max) { G[o.k]++; o.gone = 1; o.done = 1; sfx('pick'); FX.push({x, y: PY - 50, txt: t(o.k), c: '#bfe6f2', t: 0}); } else { o.done = 1; FX.push({x, y: PY - 50, txt: t('full'), c: '#a9b3b9', t: 0}); } }
+      else if (o.k === 'hinge') { o.done = 1; o.gone = 1; G.hinges++; G.score += 20; sfx('pick'); FX.push({x, y: PY - 50, txt: t('hinge'), c: '#ffd36b', t: 0}); }
+      else if (o.k === 'open' || o.k === 'joint') { o.done = 1; const need = o.k === 'open' ? 'win' : 'seal';
+        if (G[need] > 0) { G[need]--; o.filled = 1; const pts = (o.k === 'open' ? 50 : 35) + G.floor * 2, bonus = o.k === 'open' ? 3 : 2; G.score += pts; G.time += bonus; G[o.k === 'open' ? 'inst' : 'sealed']++; sfx('install');
+          FX.push({x, y: PY - 70, txt: t(o.k === 'open' ? 'fitted' : 'sealed').replace('%d', pts), c: '#7fe0a8', t: 0, sz: 24}); FX.push({x: W - 60, y: 40, txt: t('bonus').replace('%d', bonus), c: '#7fe0a8', t: 0, sz: 20}); }
+        else FX.push({x, y: PY - 50, txt: t('need'), c: '#a9b3b9', t: 0}); }
+    }
+  }
+  OB = OB.filter(o => o.y < H + 90 && !o.gone);
+  FX.forEach(f => f.t += dt); FX = FX.filter(f => f.t < 1.2);
+}
+// ---------- drawing ----------
+function seeded(n) { const x = Math.sin(n * 9301 + 49297) * 233280; return x - Math.floor(x); }
+function alWin(x, y, w, h, lit, grille) {
+  X.fillStyle = 'rgba(70,62,50,.3)'; X.fillRect(x - 5, y - 5, w + 10, h + 10);
+  const g = X.createLinearGradient(x, y, x, y + h); g.addColorStop(0, lit ? '#d9bd86' : '#47535d'); g.addColorStop(1, lit ? '#a88651' : '#28323a'); X.fillStyle = g; X.fillRect(x, y, w, h);
+  X.fillStyle = 'rgba(190,210,225,.25)'; X.beginPath(); X.moveTo(x + w * .15, y + h); X.lineTo(x + w * .45, y); X.lineTo(x + w * .6, y); X.lineTo(x + w * .3, y + h); X.fill();
+  X.strokeStyle = '#a2a6a4'; X.lineWidth = 3; X.strokeRect(x, y, w, h); X.beginPath(); X.moveTo(x + w / 2, y); X.lineTo(x + w / 2, y + h); X.stroke();
+  X.fillStyle = '#ece7dc'; X.fillRect(x - 6, y + h + 2, w + 12, 4);
+}
+function draw(now) {
+  const scroll = G ? G.y : now / 20;
+  // facade with mosaic tiles
+  X.fillStyle = '#cfcac0'; X.fillRect(0, 0, W, H);
+  const fo = scroll % FLOOR_PX;
+  for (let y = -FLOOR_PX + fo; y < H + FLOOR_PX; y += FLOOR_PX) {
+    const fnum = Math.floor((scroll - y + PY) / FLOOR_PX);
+    X.fillStyle = '#c3bcad'; X.fillRect(0, y, W, 7); X.fillStyle = 'rgba(86,140,128,.5)'; X.fillRect(0, y - 5, W, 4);
+    for (let i = 0; i < 4; i++) { const wx = (LX[0] - LW * .5) + i * LW - LW * .16, ww = LW * .3; if (wx + ww < 0 || wx > W) continue; X.globalAlpha = .45; alWin(wx, y + 34, ww, FLOOR_PX * .5, false); X.globalAlpha = 1; }
+    X.fillStyle = 'rgba(60,45,20,.45)'; X.font = '800 14px Barlow'; X.textAlign = 'left'; const fl = 1 + Math.floor((scroll + (PY - y)) / FLOOR_PX); if (fl > 0) X.fillText(fl + '/F', 6, y + 24);
+  }
+  // green safety net
+  const nx0 = LX[0] - LW * .5, nw = LW * 3; X.fillStyle = 'rgba(28,110,64,.16)'; X.fillRect(nx0, 0, nw, H);
+  // bamboo scaffold: standards, ledgers, black ties
+  const pole = (x) => { const g = X.createLinearGradient(x - 5, 0, x + 5, 0); g.addColorStop(0, '#b9a36a'); g.addColorStop(.5, '#d4c38f'); g.addColorStop(1, '#b09a60'); X.fillStyle = g; X.fillRect(x - 4, 0, 8, H);
+  };
+  for (const x of LX) pole(x);
+  const lo = scroll % 150; for (let y = -150 + lo; y < H; y += 150) { const g = X.createLinearGradient(0, y - 4, 0, y + 4); g.addColorStop(0, '#c6ad66'); g.addColorStop(1, '#94793a'); X.fillStyle = g; X.fillRect(nx0, y - 4, nw, 8);
+  }
+  // targets (behind scaffold)
+  for (const o of OB) { const x = LX[o.lane];
+    if (o.k === 'open' || o.k === 'joint') { const w = LW * .52, h = 62, y = o.y - h / 2;
+      if (o.k === 'open') { if (o.filled) alWin(x - w / 2, y, w, h, false); else { X.fillStyle = '#2a2622'; X.fillRect(x - w / 2, y, w, h); X.fillStyle = '#6d6252'; X.fillRect(x - w / 2, y + h - 6, w, 6); } }
+      else { alWin(x - w / 2, y, w, h, false); X.strokeStyle = o.filled ? '#f4f4f2' : 'rgba(0,0,0,0)'; X.lineWidth = 4; if (o.filled) X.strokeRect(x - w / 2 + 2, y + 2, w - 4, h - 4); }
+      if (!o.filled) { X.setLineDash([6, 4]); X.strokeStyle = o.k === 'open' ? '#ffb02e' : '#59c3cf'; X.lineWidth = 3; X.strokeRect(x - w / 2 - 4, y - 4, w + 8, h + 8); X.setLineDash([]);
+        X.fillStyle = o.k === 'open' ? '#ffb02e' : '#59c3cf'; X.font = '900 16px "Noto Sans HK"'; X.textAlign = 'center'; const lab = t(o.k), tw = X.measureText(lab).width + 14; X.fillRect(x - tw / 2, y - 26, tw, 22); X.fillStyle = '#1a1a1a'; X.fillText(lab, x, y - 9); } } }
+  // supplies, debris
+  for (const o of OB) { const x = LX[o.lane], y = o.y;
+    if (o.k === 'win') { const w = LW * .42, h = 54; X.fillStyle = 'rgba(0,0,0,.25)'; X.fillRect(x - w / 2 + 3, y - h / 2 + 4, w, h); alWin(x - w / 2, y - h / 2, w, h, false); X.fillStyle = '#1f7a4d'; X.fillRect(x - w / 2, y + h / 2 - 7, w, 7); X.fillStyle = '#fff'; X.font = '800 8px Barlow'; X.textAlign = 'center'; X.fillText('LE-RELAX', x, y + h / 2 - 1); }
+    if (o.k === 'seal') { X.save(); X.translate(x, y); X.rotate(-.25); X.scale(1.35, 1.35); X.fillStyle = '#fbfbfa'; X.fillRect(-9, -24, 18, 44); X.fillStyle = '#3a9db1'; X.fillRect(-9, -18, 18, 28); X.fillStyle = '#fff'; X.font = '900 6px Barlow'; X.textAlign = 'center'; X.fillText('LC909N', 0, -2); X.fillStyle = '#f4f5f4'; X.beginPath(); X.moveTo(-3, 20); X.lineTo(3, 20); X.lineTo(1, 32); X.lineTo(-1, 32); X.fill(); X.restore(); }
+    if (o.k === 'hinge') { X.fillStyle = '#c8a96a'; X.fillRect(x - 18, y - 12, 36, 24); X.strokeStyle = '#7a6232'; X.lineWidth = 2; X.strokeRect(x - 18, y - 12, 36, 24); X.fillStyle = '#1f7a4d'; X.fillRect(x - 18, y - 3, 36, 6); X.fillStyle = '#3a2a10'; X.font = '900 9px "Noto Sans HK"'; X.textAlign = 'center'; X.fillText(LANG === 'zh' ? '窗鉸' : 'HINGE', x, y + 10); }
+    if (o.k === 'debris') { X.fillStyle = '#a39886'; X.fillRect(x - 24, y - 6, 22, 20); X.fillStyle = '#c9c2b2'; X.fillRect(x - 22, y - 4, 18, 4); X.fillStyle = '#6f7478'; X.beginPath(); X.moveTo(x + 2, y + 14); X.lineTo(x + 6, y - 8); X.lineTo(x + 24, y - 8); X.lineTo(x + 26, y + 14); X.fill(); X.fillStyle = '#ffb02e'; X.fillRect(x + 4, y - 10, 22, 3); }
+    if (o.k === 'tape') { X.save(); X.beginPath(); X.rect(x - LW * .42, y - 7, LW * .84, 14); X.clip(); X.fillStyle = '#ffd33d'; X.fillRect(x - LW * .42, y - 7, LW * .84, 14); X.fillStyle = '#1b1b1b'; for (let k = -LW; k < LW; k += 18) { X.beginPath(); X.moveTo(x + k, y + 7); X.lineTo(x + k + 9, y - 7); X.lineTo(x + k + 16, y - 7); X.lineTo(x + k + 7, y + 7); X.fill(); } X.restore(); X.fillStyle = '#1b1b1b'; X.font = '900 11px "Noto Sans HK"'; X.textAlign = 'center'; X.fillText(LANG === 'zh' ? '清理中' : 'CLEARING', x, y - 11); }
+  }
+  // worker: harness clipped to the ledger above
+  if (G) { const x = LX[0] + (LX[2] - LX[0]) * G.px / 2, y = PY, sw = G.stall > 0 ? 0 : Math.sin(now / 110);
+    const ledger = y - 30 - ((y - 30 - (-150 + lo)) % 150 + 150) % 150; X.strokeStyle = '#ff7a1a'; X.lineWidth = 2.5; X.beginPath(); X.moveTo(x, y - 14); X.quadraticCurveTo(x + 10, (y + ledger) / 2, x + 4, ledger + 2); X.stroke(); X.fillStyle = '#9aa1a6'; X.beginPath(); X.arc(x + 4, ledger + 4, 4, 0, 7); X.fill();
+    X.strokeStyle = '#2f3a42'; X.lineWidth = 7; X.lineCap = 'round'; X.beginPath(); X.moveTo(x - 6, y + 16); X.lineTo(x - 9, y + 34 + sw * 5); X.moveTo(x + 6, y + 16); X.lineTo(x + 9, y + 34 - sw * 5); X.stroke();
+    X.strokeStyle = '#e1b897'; X.lineWidth = 6; X.beginPath(); X.moveTo(x - 12, y - 8); X.lineTo(x - 17, y - 26 - sw * 5); X.moveTo(x + 12, y - 8); X.lineTo(x + 17, y - 26 + sw * 5); X.stroke();
+    X.fillStyle = '#1f9a55'; X.fillRect(x - 13, y - 14, 26, 32); X.fillStyle = '#e8eef0'; X.fillRect(x - 13, y + 2, 26, 3); X.fillStyle = '#ff7a1a'; X.fillRect(x - 9, y - 14, 4, 32); X.fillRect(x + 5, y - 14, 4, 32); X.fillRect(x - 13, y + 12, 26, 3);
+    X.fillStyle = '#e1b897'; X.beginPath(); X.arc(x, y - 22, 9, 0, 7); X.fill(); X.fillStyle = '#fafafa'; X.beginPath(); X.ellipse(x, y - 26, 12, 9, 0, Math.PI, 0); X.fill(); X.fillRect(x - 13, y - 27, 26, 3);
+    for (let i = 0; i < G.win; i++) alWin(x + 18 + i * 5, y - 8 - i * 4, 14, 18, false);
+    for (let i = 0; i < G.seal; i++) { X.fillStyle = '#3a9db1'; X.fillRect(x - 28 - i * 6, y - 6, 5, 16); } }
+  // carrying panel
+  if (G) { X.fillStyle = 'rgba(12,16,19,.82)'; X.beginPath(); X.roundRect ? X.roundRect(8, 8, 200, 40, 12) : X.rect(8, 8, 200, 40); X.fill(); X.fillStyle = '#fff'; X.font = '900 15px "Noto Sans HK"'; X.textAlign = 'left'; X.fillText(t('carry'), 16, 34);
+    for (let i = 0; i < 3; i++) { const bx = 62 + i * 24; X.fillStyle = i < G.win ? '#9fc4d6' : '#2a353c'; X.fillRect(bx, 16, 18, 24); X.strokeStyle = i < G.win ? '#eef2f0' : '#45535c'; X.lineWidth = 2; X.strokeRect(bx, 16, 18, 24); }
+    for (let i = 0; i < 2; i++) { const bx = 144 + i * 26; X.fillStyle = i < G.seal ? '#3a9db1' : '#2a353c'; X.fillRect(bx, 14, 12, 28); X.fillStyle = i < G.seal ? '#fff' : '#45535c'; X.fillRect(bx, 14, 12, 5); } }
+  X.textAlign = 'center'; for (const f of FX) { X.globalAlpha = Math.max(0, 1 - f.t / 1.2); X.font = `900 ${f.sz || 22}px "Noto Sans HK"`; X.lineWidth = 5; X.strokeStyle = '#000'; X.strokeText(f.txt, f.x, f.y - f.t * 40); X.fillStyle = f.c; X.fillText(f.txt, f.x, f.y - f.t * 40); } X.globalAlpha = 1;
+}
+function hud() { if (!G) return; $('floor').textContent = G.floor + '/' + TOP + 'F'; $('time').textContent = Math.ceil(G.time); $('timeG').classList.toggle('low', G.time < 10); $('score').textContent = G.score; }
+function loop(now) { const dt = Math.min(.05, (now - last) / 1000 || 0); last = now; tick(dt); draw(now); hud(); requestAnimationFrame(loop); }
+// ---------- input ----------
+const go = d => { if (!G || G.over || paused) return; const n = Math.max(0, Math.min(2, G.lane + d)); if (n !== G.lane) { G.lane = n; sfx('move'); } };
+document.querySelectorAll('.ctrl button').forEach(b => b.addEventListener('pointerdown', e => { e.preventDefault(); go(+b.dataset.d); }));
+cv.addEventListener('pointerdown', e => { const r = cv.getBoundingClientRect(); go(e.clientX - r.left < W / 2 ? -1 : 1); });
+addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'a') go(-1); if (e.key === 'ArrowRight' || e.key === 'd') go(1); });
+// ---------- end ----------
+function end(done) {
+  G.over = true; const jobs = G.inst + G.sealed, stars = !done ? 0 : jobs >= 9 && G.time >= 15 ? 3 : jobs >= 6 ? 2 : 1; if (done) G.score += Math.round(G.time) * 10; let best = 0; try { best = +localStorage.getItem('lr-cl-best') || 0; if (G.score > best) localStorage.setItem('lr-cl-best', G.score); } catch (e) {}
+  $('endH').innerHTML = done ? t('doneH') + `<span style="display:block;color:#ffb02e;letter-spacing:4px">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>` : t('endH'); $('fScore').textContent = G.score; $('best').textContent = G.score > best ? t('newBest') : t('best') + best;
+  const S = t('st'); $('fStats').innerHTML = [[G.floor + '/F', S.floor], [G.inst, S.installed], [G.sealed, S.sealed], [G.hinges, S.hinges], [G.blocked, S.blocked]].map(([n, l]) => `<div><span class="num">${n}</span><small>${l}</small></div>`).join('');
+  LRX($('endOv'), {lang: LANG, url: LRX_URL, title: t('title'), adH: t('adH'), adP: t('adP'), waMsg: t('waMsg'), text: t('share').replace('%f', G.floor).replace('%i', G.inst).replace('%d', G.score)});
+  $('endOv').hidden = false; sfx(done ? 'install' : 'lose');
+}
+function renderStart() { $('ttl').innerHTML = t('ttl'); const ic = [ICON.h1, ICON.h2, ICON.h3]; $('how').innerHTML = t('how').map(([b, s], i) => `<div>${ic[i]}<span><b>${b}</b>${s}</span></div>`).join(''); }
+function applyLang() { document.documentElement.lang = LANG === 'zh' ? 'zh-HK' : 'en'; document.querySelectorAll('[data-t]').forEach(e => e.textContent = t(e.dataset.t)); $('langB').textContent = LANG === 'zh' ? 'EN' : '中'; $('langB2').textContent = t('lang'); renderStart(); pauseUI(); muteUI(); }
+function setLang(l) { LANG = l; try { localStorage.setItem('lr-cl-lang', l); } catch (e) {} applyLang(); }
+function start() { ensureAudio(); newGame(); $('startOv').hidden = true; $('endOv').hidden = true; paused = false; pauseUI(); last = performance.now(); }
+$('startB').addEventListener('click', start); $('againB').addEventListener('click', start);
+$('langB').addEventListener('click', () => setLang(LANG === 'zh' ? 'en' : 'zh')); $('langB2').addEventListener('click', () => setLang(LANG === 'zh' ? 'en' : 'zh'));
+const pauseUI = () => { $('pauseB').innerHTML = paused ? ICON.play : ICON.pause; };
+$('pauseB').addEventListener('click', () => { if (!G || G.over) return; paused = !paused; last = performance.now(); pauseUI(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden && G && !G.over) { paused = true; pauseUI(); } });
+let AC = null, muted = false;
+const muteUI = () => { $('muteB').innerHTML = muted ? ICON.soff : ICON.son; };
+$('muteB').addEventListener('click', () => { muted = !muted; muteUI(); });
+function ensureAudio() { if (AC) { AC.resume(); return; } try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { AC = null; } }
+function tone(f, d, type = 'square', v = .04, at = 0) { const o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + at; o.type = type; o.frequency.setValueAtTime(f, t0); g.gain.setValueAtTime(v, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + d); o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0 + d + .02); }
+function sfx(k) { if (!AC || muted) return;
+  if (k === 'move') tone(420, .04, 'square', .03); if (k === 'pick') [880, 1175].forEach((f, i) => tone(f, .08, 'square', .04, i * .06));
+  if (k === 'install') [659, 784, 1046].forEach((f, i) => tone(f, .12, 'triangle', .07, i * .07)); if (k === 'hit') tone(140, .3, 'sawtooth', .07);
+  if (k === 'lvl') [784, 1046].forEach((f, i) => tone(f, .15, 'square', .05, i * .1)); if (k === 'lose') [392, 330, 262].forEach((f, i) => tone(f, .3, 'triangle', .08, i * .18)); }
+function hero() { const c = $('heroCv'), r = c.getBoundingClientRect(); if (!r.width) return; c.width = r.width * 2; c.height = r.height * 2; const x = c.getContext('2d'); x.scale(2, 2);
+  x.fillStyle = '#d6d0c2'; x.fillRect(0, 0, r.width, r.height); x.fillStyle = '#c3bcad'; x.fillRect(0, 60, r.width, 6); x.fillStyle = 'rgba(28,110,64,.3)'; x.fillRect(r.width / 2 - 130, 0, 260, r.height);
+  [-120, -40, 40, 120].forEach(d => { x.fillStyle = '#c9ad62'; x.fillRect(r.width / 2 + d - 4, 0, 8, r.height); }); for (let y = 20; y < r.height; y += 50) { x.fillStyle = '#b39a55'; x.fillRect(r.width / 2 - 130, y - 3, 260, 6); }
+  const px = r.width / 2, py = 108; x.strokeStyle = '#ff7a1a'; x.lineWidth = 2; x.beginPath(); x.moveTo(px, py - 12); x.lineTo(px + 4, 72); x.stroke();
+  x.fillStyle = '#1f9a55'; x.fillRect(px - 11, py - 12, 22, 28); x.fillStyle = '#ff7a1a'; x.fillRect(px - 8, py - 12, 3, 28); x.fillRect(px + 5, py - 12, 3, 28); x.fillStyle = '#e1b897'; x.beginPath(); x.arc(px, py - 19, 8, 0, 7); x.fill(); x.fillStyle = '#fafafa'; x.beginPath(); x.ellipse(px, py - 23, 10, 8, 0, Math.PI, 0); x.fill();
+  x.fillStyle = '#9fc4d6'; x.fillRect(px + 60, 30, 26, 32); x.strokeStyle = '#a2a6a4'; x.lineWidth = 3; x.strokeRect(px + 60, 30, 26, 32); x.fillStyle = '#3a9db1'; x.fillRect(px - 92, 30, 12, 30); }
+const ro = new ResizeObserver(layout); ro.observe($('stage'));
+layout(); applyLang(); setTimeout(hero, 60); requestAnimationFrame(loop);
+if (location.search.includes('debug')) window.__cl = () => G;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<script>(function(){var m=location.search.match(/[?&]lang=(en|zh)/);if(m)try{localStorage.setItem('lr-factory-lang',m[1])}catch(e){}})()</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQYYKG7G4L"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KQYYKG7G4L');
+// game events: start, share, WhatsApp enquiry, game over with score
+(function () {
+  var game = location.pathname.split('/').filter(Boolean).pop() || 'games';
+  var share = {'lrx-swa': 'whatsapp', 'lrx-swc': 'wechat', 'lrx-sfb': 'facebook', 'lrx-scp': 'copy', 'lrx-nat': 'native', shWa: 'whatsapp', shWc: 'wechat', shFb: 'facebook', shCopy: 'copy', shNative: 'native'};
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('a,button'); if (!el) return;
+    var h = el.getAttribute('href') || '', ev = null, p = {game: game};
+    for (var k in share) if (el.id === k || el.classList.contains(k)) { ev = 'game_share'; p.method = share[k]; }
+    if (!ev && h.indexOf('wa.me/85265881426') > -1) { ev = 'whatsapp_click'; p.link_url = h; }
+    if (!ev && (el.id === 'startB' || el.classList.contains('lv'))) ev = 'game_start';
+    if (ev) gtag('event', ev, p);
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var end = document.getElementById('endOv'); if (!end) return;
+    new MutationObserver(function () { if (!end.hidden) { var s = document.getElementById('fScore'); gtag('event', 'game_over', {game: game, score: s ? +s.textContent || 0 : 0}); } }).observe(end, {attributes: true, attributeFilter: ['hidden']});
+  });
+})();
+</script>
+<link rel="canonical" href="https://le-relax.co/games/factory/">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<meta property="og:image" content="https://le-relax.co/games/img/factory.webp">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>升威廠房大作戰 Factory Rush</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Noto+Sans+HK:wght@500;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: calm, clear and grown-up; a tidy model of the Zhongshan factory.
+   IDEA: a top-down factory floor where every machine is a little character with a face.
+   PICTURE: the floor itself, zones painted on concrete, conveyor belts, machines that sleep, work, panic and break.
+   COLOUR and TYPE: concrete floor, steel machines with signal lamps, LE-RELAX green, safety yellow; Barlow numbers + Noto Sans HK.
+   LAYOUT: slim HUD (timer, score, orders, stock) above one scaled floor; landscape floor on wide screens, portrait floor on phones. */
+:root{color-scheme:dark;--bg:#17201b;--hud:#101512;--ink:#f3f1ea;--dim:#a2aca6;--g:#2ebd6b;--a:#ffb02e;--r:#ef5350;--floor:#e2e1dc;--tile:#d2d1cb}
+*{box-sizing:border-box;min-width:0}
+html{height:100%}body{margin:0;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(180deg,rgba(14,22,18,.72),rgba(14,22,18,.94) 60%),url(bg-factory.webp) center top/cover fixed,var(--bg);color:var(--ink);font:16px/1.4 "Noto Sans HK",system-ui,sans-serif;overflow-x:clip;-webkit-tap-highlight-color:transparent}
+.num{font-family:"Barlow","Noto Sans HK",sans-serif;font-weight:800;font-variant-numeric:tabular-nums}
+header{flex:none;position:relative;z-index:6;background:linear-gradient(90deg,rgba(12,20,15,.95) 0%,rgba(12,20,15,.8) 50%,rgba(12,20,15,.6)),url(wall-tempering.webp) center/cover;border-bottom:3px solid var(--g);padding:6px max(2vw,10px);display:flex;gap:8px 16px;align-items:center}
+.brand{display:flex;align-items:center;gap:10px;margin-inline-end:auto}.brand b{font-weight:900;font-size:19px;line-height:1.1}.brand small{display:block;color:var(--dim);font-size:13px}
+.gauge{text-align:center;line-height:.95}.gauge .num{font-size:36px}.gauge span{display:block;font-size:12px;color:var(--dim)}
+.gauge.rush .num{color:var(--a)}
+.btn{font:inherit;font-weight:900;min-height:42px;padding:0 14px;border-radius:999px;border:2px solid #34403a;background:#1f2a24;color:var(--ink);cursor:pointer;font-size:15px}
+.btn:focus-visible,.m:focus-visible{outline:3px solid var(--a);outline-offset:3px}
+.btn.ib{width:42px;padding:0;display:grid;place-items:center}
+.btn.go{background:var(--g);border-color:var(--g);color:#08140d;font-size:18px;min-height:52px;padding:0 26px}
+.hud{flex:none;width:100%;max-width:1400px;margin:0 auto;padding:8px max(2vw,8px) 0;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:8px}
+.orders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.ord{background:#3a2e14;border:2px solid #7a5a1c;border-radius:14px;padding:5px 9px;min-height:54px;display:flex;flex-direction:column;justify-content:center}
+.ord b{font-size:14px;line-height:1.2;display:flex;align-items:center;gap:5px}.ord b svg{width:20px;height:20px;color:var(--a);flex:none}.ord small{color:#e3cf9e;font-size:12px}
+.ord .t{height:5px;background:#5a4720;border-radius:3px;margin-top:3px;overflow:hidden}.ord .t i{display:block;height:100%;background:var(--a)}
+.ord.empty{background:transparent;border:2px dashed #34403a;color:var(--dim);font-size:12px;align-items:center;text-align:center}
+.rail{display:flex;flex-wrap:wrap;gap:5px;align-content:center}
+.chip{display:flex;align-items:center;gap:4px;background:#1f2a24;border:1px solid #34403a;border-radius:999px;padding:2px 10px 2px 4px;font-size:13px}
+.chip svg{width:22px;height:22px;color:#cfe9da}.chip .num{font-size:20px;line-height:1}.chip.zero{opacity:.4}
+.wrap{flex:1;min-height:0;width:100%;max-width:1400px;margin:6px auto 0;padding:0 max(1.5vw,6px) 8px;display:flex}
+.stage{position:relative;flex:1;min-width:0;min-height:0}
+.wall{position:relative;border-radius:22px 22px 0 0;overflow:hidden;background:linear-gradient(90deg,rgba(14,26,19,.92) 0%,rgba(14,26,19,.55) 55%,rgba(14,26,19,.25)),url(wall-tempering.webp) center/cover;padding:14px clamp(14px,3vw,28px);display:flex;align-items:center;gap:14px;min-height:96px;border-bottom:8px solid var(--g)}
+.wall img{width:58px;height:auto;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.wall b{display:block;font-size:clamp(20px,3vw,30px);font-weight:900;line-height:1.1}
+.wall small{display:block;color:#d6e6dc;font-size:14px}
+.wall .tag2{margin-left:auto;background:var(--g);color:#08140d;font-weight:900;border-radius:999px;padding:4px 14px;font-size:14px;white-space:nowrap}
+.hero{margin:-24px -24px 16px;height:170px;border-radius:20px 20px 0 0;background:linear-gradient(180deg,transparent 40%,#1c2520),url(bg-factory.webp) center 35%/cover}
+.floor{position:absolute;left:0;top:0;transform-origin:0 0;border-radius:26px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.45);background:var(--floor);background-image:url(floor-mark.png),url(floor-mark.png),linear-gradient(var(--tile) 2px,transparent 2px),linear-gradient(90deg,var(--tile) 2px,transparent 2px);background-size:240px 240px,240px 240px,80px 80px,80px 80px;background-position:0 0,120px 120px,0 0,0 0}
+.floor>svg.deco{position:absolute;inset:0}
+.zl{position:absolute;font-weight:900;font-size:17px;line-height:24px;padding:0 10px;color:#7a6a3c;background:var(--floor);border-radius:8px;white-space:nowrap}
+.belt{fill:none;stroke:#5d6066;stroke-width:22;stroke-linecap:round}
+.beltm{fill:none;stroke:#8d9198;stroke-width:14;stroke-dasharray:6 10;stroke-linecap:butt;animation:roll 1s linear infinite}
+@keyframes roll{to{stroke-dashoffset:-16}}
+.m{position:absolute;width:150px;border:0;background:none;padding:0;font:inherit;color:#2a2620;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.m>svg.body{width:150px;height:128px;overflow:visible}
+.mc{transition:filter .2s}
+.m.broken .mc,.m.fix .mc{filter:grayscale(.7) brightness(.9)}
+.lamp{fill:#4a5258}
+.m.idle.can .l-g{fill:#7fd9a2}.m.run .l-g{fill:#2fd27a}
+.m.ready .l-a{fill:#ffb02e;animation:blinkL .5s infinite alternate}
+.m.broken .l-r,.m.fix .l-r{fill:#ef5350;animation:blinkL .4s infinite alternate}
+@keyframes blinkL{to{opacity:.35}}
+.base{fill:rgba(40,40,40,.18)}
+.m.ready .base{fill:rgba(255,176,46,.6);animation:blinkL .5s infinite alternate}
+.m.broken .base{fill:rgba(239,83,80,.5)}
+.spin{transform-box:fill-box;transform-origin:center}.m.run .spin{animation:sp .5s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.piston{transition:transform .2s}.m.run .piston{animation:pst .4s ease-in-out infinite alternate}@keyframes pst{to{transform:translateY(10px)}}
+.glow{opacity:.25}.m.run .glow{opacity:1;animation:gl .4s infinite alternate}@keyframes gl{to{opacity:.6}}
+.out{opacity:0}.m.ready .out{opacity:1}
+.smoke{opacity:0}.m.run .smoke{opacity:.8;animation:puff 1.2s infinite}.m.broken .smoke{opacity:1;fill:#555;animation:puff .8s infinite}
+@keyframes puff{from{transform:translateY(0) scale(.6);opacity:.9}to{transform:translateY(-22px) scale(1.4);opacity:0}}
+.smoke{transform-box:fill-box;transform-origin:center}
+.tag{background:#fff;border-radius:999px;padding:1px 12px;font-weight:900;font-size:19px;box-shadow:0 2px 0 rgba(0,0,0,.15);white-space:nowrap;display:flex;gap:6px;align-items:center}
+.tag .pts{color:#1d9a55;font-family:"Barlow",sans-serif;font-size:19px}
+.need{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;min-height:24px}
+.need span{display:flex;align-items:center;gap:1px;background:rgba(255,255,255,.85);border:2px solid transparent;border-radius:999px;padding:0 7px 0 2px;font-size:16px;font-weight:900;line-height:22px}
+.need span svg{width:18px;height:18px;color:#3d4a44}.need span.lack{border-color:var(--r);color:#c62f2c}
+.bar{width:116px;height:10px;border-radius:5px;background:rgba(0,0,0,.15);overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--g)}
+.m.ready .bar i{background:var(--a)}.m.ready.late .bar i,.m.fix .bar i{background:var(--r)}
+.bub{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:#fff;border-radius:10px;padding:3px 12px;font-weight:900;font-size:17px;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.18);display:none}
+.bub::after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:#fff}
+.m.ready .bub{display:block;background:var(--a);color:#3a2500}.m.ready .bub::after{border-top-color:var(--a)}
+.m.broken .bub,.m.fix .bub{display:block;background:var(--r);color:#fff}.m.broken .bub::after,.m.fix .bub::after{border-top-color:var(--r)}
+.m.idle.can .bub{display:block;background:#fff;color:#1d7a46}
+.shake{animation:shake .3s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pop{position:fixed;pointer-events:none;font-family:"Barlow",sans-serif;font-weight:800;font-size:28px;z-index:9;animation:up .9s forwards;text-shadow:0 2px 0 #000,0 0 6px #000;white-space:nowrap}
+@keyframes up{to{transform:translateY(-60px);opacity:0}}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(10,14,12,.86);display:grid;place-items:center;padding:16px;overflow:auto}.ov[hidden]{display:none}
+.panel{background:#1c2520;border:2px solid #34403a;border-radius:22px;padding:24px;max-width:640px;width:100%}
+.panel h1{font-size:clamp(30px,6vw,46px);line-height:1.05;margin:0 0 4px;font-weight:900;text-wrap:balance}
+.panel h1 span{display:block;font-family:"Barlow",sans-serif;font-size:.6em;color:var(--g)}
+.panel p,.panel li{color:#cdd5cf}.panel ol{padding-left:20px}.panel li{margin:5px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px;margin:12px 0}
+.stats div{background:#26312b;border-radius:12px;padding:8px 10px}.stats .num{font-size:24px;display:block;line-height:1}.stats small{color:var(--dim);font-size:13px}
+.fine{font-size:13px;color:var(--dim);margin:12px 0 0}.ico{width:20px;height:20px;display:block}.tag86{background:var(--g);color:#08140d;font-weight:900;border-radius:999px;padding:3px 12px;font-size:13px;white-space:nowrap}
+.main{flex:1;min-height:0;display:flex;flex-direction:column}
+@media(min-aspect-ratio:5/4) and (min-width:900px){
+ .main{flex-direction:row;max-width:1600px;width:100%;margin:0 auto}
+ .hud{width:clamp(220px,20vw,280px);max-width:none;margin:0;padding:8px 0 8px max(1.5vw,8px);display:flex;flex-direction:column;gap:10px;overflow:auto}
+ .orders{grid-template-columns:minmax(0,1fr)}.ord{min-height:62px}
+ .rail{align-content:flex-start}
+ .wrap{margin:8px 0 0;max-width:none}
+}
+.demoB{font:inherit;color:var(--ink);width:100%;display:flex;align-items:center;gap:14px;text-align:left;background:#2a3a30;border:2px solid var(--g);border-radius:16px;padding:12px 16px;margin:4px 0 6px;cursor:pointer;min-height:64px}
+.demoB:hover{background:#31453a}.demoB:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.demoB .play{flex:none;width:46px;height:46px;border-radius:50%;background:var(--g);color:#08140d;display:grid;place-items:center}
+.demoB b{display:block;font-size:18px;font-weight:900}.demoB small{display:block;color:var(--dim);font-size:14px}
+#vidOv{z-index:30}.vbox{display:flex;flex-direction:column;align-items:center;gap:12px;max-height:100%}
+.vbox video{max-height:calc(100dvh - 110px);max-width:100%;border-radius:16px;background:#000}
+.lvh{margin:18px 0 8px;font-size:18px}
+.lvls{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:8px}
+.how{margin-top:14px;background:#222c26;border-radius:14px;padding:10px 14px}.how summary{cursor:pointer;font-weight:900;min-height:28px}.how ol{margin:8px 0 0}
+.lv{font:inherit;color:var(--ink);text-align:left;background:#26312b;border:2px solid #3b4a41;border-radius:16px;padding:10px 12px;cursor:pointer;display:grid;grid-template-columns:auto 1fr;gap:0 10px;align-items:center;min-height:44px}
+.lv:hover{border-color:var(--g)}.lv:focus-visible{outline:3px solid var(--a)}
+.lv .lvn{grid-row:span 2;font-size:34px;color:var(--g);line-height:1;width:1.1em;text-align:center}.lv b{font-size:15px;line-height:1.2}.lv small{color:var(--dim);font-size:12px}
+.lv .lvi{grid-column:1/-1;display:flex;gap:4px;margin-top:6px}.lv .lvi svg{width:20px;height:20px;color:#cfe9da}
+.lv .lvs{grid-column:1/-1;color:var(--a);font-size:16px;letter-spacing:2px;margin-top:2px}
+.lv.off{opacity:.45;cursor:not-allowed}.lv.off .lvs{color:var(--dim);font-size:12px;letter-spacing:0}
+.stars{font-size:44px;color:var(--a);letter-spacing:6px;line-height:1;margin:6px 0}
+.m.locked{opacity:.5;filter:grayscale(1)}.m.locked .bub{display:block;background:#555;color:#fff}.m.locked .bub::after{border-top-color:#555}
+.big{font-size:clamp(56px,14vw,88px);color:var(--g);line-height:1}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+footer{color:var(--dim);font-size:13px;text-align:center;padding:14px 12px 24px}
+@media(max-width:760px){.hud{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:900px){.tag86{display:none}.brand small{display:none}}
+@media(max-width:600px){.chip [id^=l-]{display:none}.chip{padding:1px 8px 1px 4px}.rail{flex-wrap:nowrap;overflow-x:auto}.gauge span{font-size:11px!important}header{gap:6px;padding:5px 8px}.brand b{display:none}.brand img{width:32px;height:auto}.gauge .num{font-size:24px}.gauge span{font-size:10px;white-space:nowrap}.btn{min-height:36px;padding:0 9px;font-size:13px}.btn.ib{width:36px}.hud{padding-top:5px}.orders{gap:4px}.rail{gap:3px}
+ .ord{min-height:46px;padding:4px 7px}.ord b{font-size:12px}.ord b svg{display:none}.ord small{font-size:11px}.ord .en{display:none}
+ .chip{font-size:12px;padding:1px 8px 1px 3px}.chip svg{width:18px;height:18px}.chip .num{font-size:17px}}
+.van{position:absolute;bottom:6px;left:0;width:220px;animation:drive 3.6s ease-in-out forwards;pointer-events:none}
+.van .load{position:absolute;left:30px;top:-30px;background:#fff;color:#1c2a22;border-radius:8px;padding:2px 10px 2px 4px;font-weight:900;font-size:16px;display:flex;align-items:center;gap:4px;box-shadow:0 2px 0 rgba(0,0,0,.25);white-space:nowrap}.van .load svg{width:24px;height:24px}
+.van .whl{transform-box:fill-box;transform-origin:center;animation:sp .6s linear infinite}
+@keyframes drive{0%{transform:translateX(-240px)}30%,52%{transform:translateX(var(--park))}100%{transform:translateX(var(--end))}}
+.bl.off{display:none}
+.floor.pt .m>svg.body{width:140px;height:112px}
+.floor.pt .tag{font-size:26px;padding:1px 12px;line-height:1.3}.floor.pt .tag .pts{font-size:24px}
+.floor.pt .need span{font-size:21px;line-height:28px;padding:0 8px 0 3px}.floor.pt .need span svg{width:24px;height:24px}
+.floor.pt .bub{font-size:22px;top:-22px;padding:2px 12px}.floor.pt .bar{height:14px;width:128px}
+.floor.pt .zl{display:none}.floor.pt .van{transform-origin:left bottom}
+.road{position:absolute;left:0;height:100px;background:#3d4247;border-top:6px solid #f2c230;overflow:visible}
+.road::before{content:"";position:absolute;left:0;right:0;top:44px;height:5px;background:repeating-linear-gradient(90deg,#e9e6dd 0 40px,transparent 40px 80px);opacity:.7}
+.road .rl{position:absolute;right:20px;top:10px;color:#f2c230;font-weight:900;font-size:16px;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.van{animation-duration:.01s}.m .mc,.beltm,.spin,.piston,.smoke,.zz,.eye{animation:none!important}}
+
+.lrx-ad{background:linear-gradient(135deg,#123522,#0f2a1c);border:2px solid #2ebd6b;border-radius:18px;padding:14px 16px;margin:14px 0;display:flex;gap:14px;align-items:center;text-align:left}
+.lrx-ad img{width:56px;height:auto;flex:none}.lrx-ad b{display:block;font-size:19px;line-height:1.3;color:#fff}.lrx-ad p{margin:4px 0 8px;color:#cfe7da;font-size:15px;line-height:1.45}
+.lrx-wa{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#06240f;font-weight:900;text-decoration:none;border-radius:999px;padding:8px 16px;font-size:16px;min-height:44px}
+.lrx-sh{display:block;margin-top:4px;color:#fff}
+.lrx-share{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.lrx-share button,.lrx-share a{font:inherit;font-weight:900;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;border:2px solid #34403a;background:#16222b;color:#f3f1ea;cursor:pointer;text-decoration:none;font-size:15px}
+.lrx-share .w{border-color:#25d366}.lrx-share .c{border-color:#07c160}.lrx-share .f{border-color:#1877f2}
+.lrx-qr{display:none;margin-top:10px;background:#fff;border-radius:14px;padding:12px;width:max-content;max-width:100%;color:#222;text-align:center;font-size:14px}
+.lrx-qr.on{display:block}.lrx-qrc{width:180px;height:180px;margin:0 auto 6px}.lrx-qrc img,.lrx-qrc canvas{width:180px!important;height:180px!important}
+.lrx-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#000d;color:#fff;padding:10px 18px;border-radius:999px;z-index:99;font-weight:900;display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img id="logo" src="data:image/png;base64,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" width="40" height="34" alt="升威 LE-RELAX"><div><b data-t="title"></b><small data-t="sub"></small></div></div>
+  <span class="tag86" data-t="wallTag"></span>
+  <div class="gauge" id="gT"><div class="num" id="time">0:45</div><span id="gTl"></span></div>
+  <div class="gauge"><div class="num" id="goal">0</div><span id="goalL"></span></div>
+  <div class="gauge"><div class="num" id="score">0</div><span data-t="score"></span></div>
+  <button class="btn" id="langB" aria-label="Language">EN</button>
+  <button class="btn ib" id="pauseB"></button>
+  <button class="btn ib" id="muteB"></button>
+</header>
+<div class="main"><div class="hud"><div class="orders" id="orders"></div><div class="rail" id="rail"></div></div>
+<div class="wrap"><div class="stage" id="stage"><div class="floor" id="floor"></div></div></div></div>
+
+
+<div class="ov" id="startOv"><div class="panel"><div class="hero"></div><div id="intro"></div>
+  <button class="demoB" id="demoB"><span class="play"><svg viewBox="0 0 20 20" width="22" height="22"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg></span><span><b data-t="demo"></b><small data-t="demoSub"></small></span></button>
+  <h3 class="lvh" data-t="pick"></h3><div class="lvls" id="lvls"></div>
+  <p class="fine" data-t="footer"></p><details class="how"><summary data-t="howTo"></summary><div id="howto"></div></details>
+  <div class="row"><button class="btn" id="langB2" data-t="lang"></button></div>
+</div></div>
+<div class="ov" id="vidOv" hidden><div class="vbox"><video id="vid" src="demo.mp4" poster="demo-poster.jpg" controls playsinline preload="none"></video><button class="btn go" id="vidX" data-t="vidClose"></button></div></div>
+<div class="ov" id="endOv" hidden><div class="panel">
+  <h1 id="endH"></h1><div class="stars" id="stars"></div>
+  <div class="big num" id="fScore">0</div><p id="best"></p>
+  <div class="stats" id="fStats"></div>
+  <div class="row"><button class="btn go" id="nextB" data-t="next"></button><button class="btn" id="againB" data-t="again"></button><button class="btn" id="menuB" data-t="menu"></button></div>
+<div class="lrx-ad"><img src="logo.png" alt=""><div><b class="lrx-adh"></b><p class="lrx-adp"></p><a class="lrx-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span class="lrx-wat"></span></a></div></div>
+<b class="lrx-sh"></b>
+<div class="lrx-share"><button class="lrx-nat" type="button"></button><a class="w lrx-swa" target="_blank" rel="noopener">WhatsApp</a><button class="c lrx-swc" type="button"></button><a class="f lrx-sfb" target="_blank" rel="noopener">Facebook</a><button class="lrx-scp" type="button"></button></div>
+<div class="lrx-qr"><div class="lrx-qrc"></div><span class="lrx-qrt"></span></div>
+</div></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+ <symbol id="i-prof" viewBox="0 0 32 32"><path d="M5 8h22v5H11v14H5z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+ <symbol id="i-cut" viewBox="0 0 32 32"><rect x="6" y="5" width="20" height="22" rx="2" fill="#bfe6f2" stroke="currentColor" stroke-width="2.4"/><path d="M11 19l7-7" stroke="#fff" stroke-width="2.4"/></symbol>
+ <symbol id="i-temp" viewBox="0 0 32 32"><rect x="6" y="5" width="20" height="22" rx="2" fill="#bfe6f2" stroke="currentColor" stroke-width="2.4"/><path d="M16 23c-4 0-5-3-3-6 1 2 2 2 2 0 0-3 2-4 3-6 0 3 3 5 3 8 0 2-2 4-5 4z" fill="#f2784b"/></symbol>
+ <symbol id="i-lam" viewBox="0 0 32 32"><rect x="4" y="8" width="18" height="20" rx="2" fill="#bfe6f2" stroke="currentColor" stroke-width="2.2"/><rect x="10" y="4" width="18" height="20" rx="2" fill="#d8f0f7" stroke="currentColor" stroke-width="2.2"/></symbol>
+ <symbol id="i-igu" viewBox="0 0 32 32"><rect x="5" y="5" width="22" height="22" rx="3" fill="#bfe6f2" stroke="currentColor" stroke-width="2.4"/><rect x="10" y="10" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2"/></symbol>
+ <symbol id="i-hinge" viewBox="0 0 32 32"><rect x="4" y="12" width="12" height="8" rx="2" fill="#d9dde0" stroke="currentColor" stroke-width="2.2"/><path d="M16 16l10-7 2 3-10 7" fill="#d9dde0" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="16" cy="16" r="2.6" fill="currentColor"/></symbol>
+ <symbol id="i-mesh" viewBox="0 0 32 32"><rect x="5" y="5" width="22" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M5 11h22M5 16h22M5 21h22M11 5v22M16 5v22M21 5v22" stroke="currentColor" stroke-width="1.1"/></symbol>
+ <symbol id="i-casement" viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="2" fill="#bfe6f2" stroke="currentColor" stroke-width="2.6"/><path d="M16 4v24M16 4l8 3v18l-8 3" fill="#d8f0f7" stroke="currentColor" stroke-width="2"/></symbol>
+ <symbol id="i-sliding" viewBox="0 0 32 32"><rect x="3" y="4" width="26" height="25" rx="2" fill="#bfe6f2" stroke="currentColor" stroke-width="2.6"/><path d="M16 4v25" stroke="currentColor" stroke-width="2"/><path d="M19 16h6M22 13l3 3-3 3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+ <symbol id="i-folding" viewBox="0 0 32 32"><path d="M3 6l6 3v20l-6-3zM9 9l6-3v20l-6 3zM15 6l6 3v20l-6-3zM21 9l6-3v20l-6 3z" fill="#bfe6f2" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+ <symbol id="i-shower" viewBox="0 0 32 32"><path d="M5 29V5h20v24z" fill="#bfe6f2" stroke="currentColor" stroke-width="2.4"/><path d="M15 5v24" stroke="currentColor" stroke-width="2"/><path d="M11 15v4M19 15v4" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+ <symbol id="i-screen" viewBox="0 0 32 32"><rect x="5" y="4" width="22" height="25" rx="2" fill="#e4ebe2" stroke="currentColor" stroke-width="2.6"/><path d="M5 10h22M5 15h22M5 20h22M5 25h22M11 4v25M16 4v25M21 4v25" stroke="currentColor" stroke-width="1"/></symbol>
+</defs></svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+{
+const LRX_URL = 'https://le-relax.co/games/factory/';
+// ---- LE-RELAX shared end-of-game advert + share (edit LRX_URL after uploading) ----
+const LRX_WA = '85265881426';
+function LRX(root, o) {
+  const q = s => root.querySelector(s), zh = o.lang === 'zh';
+  const S = zh ? {sh: '分享你嘅成績，叫朋友一齊玩：', nat: '分享', wc: '微信', cp: '複製連結', qr: '用微信「掃一掃」打開遊戲，再分享俾朋友', ok: '已複製，可以貼上微信 / WhatsApp', wa: 'WhatsApp 6588 1426 查詢'}
+                : {sh: 'Share your score and challenge your friends:', nat: 'Share', wc: 'WeChat', cp: 'Copy link', qr: 'Scan with WeChat to open the game, then share it', ok: 'Copied: paste it into WeChat or WhatsApp', wa: 'WhatsApp 6588 1426'};
+  const url = o.url || location.href.split('#')[0], full = o.text + ' ' + url;
+  q('.lrx-adh').textContent = o.adH; q('.lrx-adp').textContent = o.adP; q('.lrx-wat').textContent = S.wa;
+  q('.lrx-wa').href = 'https://wa.me/' + LRX_WA + '?text=' + encodeURIComponent(o.waMsg);
+  q('.lrx-sh').textContent = S.sh; q('.lrx-nat').textContent = S.nat; q('.lrx-swc').textContent = S.wc; q('.lrx-scp').textContent = S.cp; q('.lrx-qrt').textContent = S.qr;
+  q('.lrx-swa').href = 'https://wa.me/?text=' + encodeURIComponent(full);
+  q('.lrx-sfb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(o.text);
+  q('.lrx-nat').style.display = navigator.share ? '' : 'none'; q('.lrx-qr').classList.remove('on');
+  const toast = m => { let e = document.querySelector('.lrx-toast'); if (!e) { e = document.createElement('div'); e.className = 'lrx-toast'; document.body.appendChild(e); } e.textContent = m; e.style.display = 'block'; clearTimeout(e.h); e.h = setTimeout(() => e.style.display = 'none', 2200); };
+  const copy = async () => { try { await navigator.clipboard.writeText(full); toast(S.ok); } catch (e) { const ta = document.createElement('textarea'); ta.value = full; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(S.ok); } catch (e2) {} ta.remove(); } };
+  q('.lrx-nat').onclick = () => { navigator.share && navigator.share({title: o.title, text: o.text, url}).catch(() => {}); };
+  q('.lrx-scp').onclick = copy;
+  q('.lrx-swc').onclick = () => { const b = q('.lrx-qr'); b.classList.toggle('on'); copy(); if (b.classList.contains('on') && window.QRCode) { q('.lrx-qrc').innerHTML = ''; try { new QRCode(q('.lrx-qrc'), {text: url, width: 180, height: 180}); } catch (e) {} } };
+}
+
+const R = {prof:['鋁型材','Profile'],cut:['切割玻璃','Cut glass'],temp:['鋼化玻璃','Tempered'],lam:['夾膠玻璃','Laminated'],igu:['中空玻璃','Double glazed'],hinge:['窗鉸','Hinge'],mesh:['紗網','Mesh']};
+// L = landscape [left, top], P = portrait [left, top] (floor px)
+const S = [
+ {id:'extrude',z:'raw',zh:'鋁型材擠壓',en:'Extrusion',ic:'prof',kind:'extrude',col:'#9cc3e6',inp:{},out:{prof:2},t:4,w:5,L:[70,30],P:[5,22]},
+ {id:'cutter',z:'raw',zh:'玻璃切割',en:'Glass cutting',ic:'cut',kind:'cutter',col:'#9fdcd3',inp:{},out:{cut:2},t:3,w:5,L:[70,225],P:[160,22]},
+ {id:'press',z:'raw',zh:'窗鉸沖壓',en:'Hinge press',ic:'hinge',kind:'press',col:'#cdb8ea',inp:{},out:{hinge:2},t:3.5,w:5,L:[70,420],P:[315,22]},
+ {id:'loom',z:'raw',zh:'紗網機',en:'Mesh weaving',ic:'mesh',kind:'loom',col:'#f5cb92',inp:{},out:{mesh:1},t:3,w:5,L:[70,615],P:[470,22]},
+ {id:'temper',z:'glass',zh:'鋼化爐',en:'Tempering',ic:'temp',kind:'temper',col:'#f5a184',inp:{cut:1},out:{temp:1},t:5,w:3,L:[330,120],P:[45,250]},
+ {id:'laminate',z:'glass',zh:'夾膠機',en:'Laminating',ic:'lam',kind:'laminate',col:'#a9dba4',inp:{cut:2},out:{lam:1},t:6,w:4,L:[330,500],P:[430,250]},
+ {id:'igu',z:'glass',zh:'中空玻璃線',en:'Insulated glass',ic:'igu',kind:'igu',col:'#96d3ea',inp:{temp:2},out:{igu:1},t:6,w:4,L:[560,300],P:[237,250]},
+ {id:'casement',z:'asm',zh:'平開窗',en:'Casement window',ic:'casement',kind:'bench',col:'#b9e2a9',inp:{prof:1,igu:1,hinge:1},t:6,w:4,pts:70,L:[820,30],P:[45,478]},
+ {id:'sliding',z:'asm',zh:'趟門',en:'Sliding door',ic:'sliding',kind:'bench',col:'#f2d58a',inp:{prof:2,temp:1},t:6,w:4,pts:50,L:[1050,175],P:[237,478]},
+ {id:'folding',z:'asm',zh:'摺疊門',en:'Folding door',ic:'folding',kind:'bench',col:'#f3b5c4',inp:{prof:2,lam:1,hinge:2},t:7,w:4,pts:80,L:[820,320],P:[430,478]},
+ {id:'shower',z:'asm',zh:'浴屏',en:'Shower screen',ic:'shower',kind:'bench',col:'#a8d8f0',inp:{temp:1,hinge:1},t:4,w:3,pts:35,L:[1050,465],P:[140,700]},
+ {id:'screen',z:'asm',zh:'防蚊紗窗',en:'Mosquito screen',ic:'screen',kind:'bench',col:'#d4e6b5',inp:{prof:1,mesh:1},t:4,w:4,pts:25,L:[820,610],P:[335,700]}
+];
+const ROAD = 100;
+const FL = {L:{w:1280,h:860,road:100,zones:[[20,20,260,820],[300,20,450,820],[770,20,490,820]]},
+            P:{w:640,h:935,road:80,zones:[[10,8,620,224],[10,238,620,224],[10,468,620,458]]}};
+const BELTS = [['cutter','temper'],['cutter','laminate'],['temper','igu'],['igu','casement'],['laminate','folding'],['temper','shower']];
+const PROD = S.filter(s => s.pts);
+const TX = {
+ zh: {demo:'第一次玩？睇 1 分鐘示範', demoSub:'有字幕，一步步教你點玩', vidClose:'明白，開始玩',howTo:'點樣玩？',lvl:'第', goal:'訂單', locked:'未開放', lockedLv:'完成上一關後開放', pick:'選擇關卡', next:'下一關', menu:'選擇關卡', noMore:'已無新訂單', dispatch:'出貨區', pass:'過關<span>LEVEL COMPLETE</span>', fail:'未能過關<span>TRY AGAIN</span>', timeLeft:'剩餘時間', starRule:'★ 過關 · ★★ 最多過期 1 張訂單 · ★★★ 沒有過期訂單，破裂 / 故障最多 1 次', failWhy:'要完成 % 張訂單先過關', freeSub:'隨機訂單 · 計最高分', title:'升威廠房大作戰', sub:'LE-RELAX Factory Rush · 中山廠房', shift:'班次剩餘', rush:'趕貨！', score:'分數', pause:'暫停', resume:'繼續', sOn:'聲音 開', sOff:'聲音 關', lang:'English',
+  wall:'升威 LE-RELAX 中山廠房', wallSub:'鋁門窗 · 浴屏 · 玻璃加工 · 五金配件', wallTag:'1986 年至今', waiting:'等候新訂單', bonus:'獎金',
+  go:'按此開機', collect:'請收貨', shatter:'玻璃破裂', broke:'機器故障', fixMe:'按此維修', fixing:'維修中', startBtn:'開始', again:'再玩一次',
+  endH:'收工<span>SHIFT COMPLETE</span>', newBest:'新紀錄！之前最高 ', firstBest:'首個紀錄', best:'最高紀錄：', products:'成品', ordDone:'完成訂單', ordMiss:'過期訂單', breaks:'破裂 / 故障',
+  zones:['原料區','玻璃加工','裝配線'], footer:'遊戲中的時間及分數均屬虛構。升威 LE-RELAX · 鋁門窗 · 浴屏 · 玻璃 · 五金配件 · 中山自家廠房 1986 年至今',
+  intro:`<h1>升威廠房大作戰<span>LE-RELAX FACTORY RUSH</span></h1><p>每關需在限時內完成指定訂單，機器會逐關開放。亦可隨時選擇自由模式，挑戰最高分。</p>`, howto:`<ol>
+   <li><b>按機器開機</b>：亮綠燈即可開機；欠缺原料時，需先由上游機器生產。</li>
+   <li>生產完成後機器會<b>亮黃燈</b>，請在限時內按下<b>收貨</b>；逾時玻璃會破裂或機器故障，會扣分並需按下維修。</li>
+   <li>原料區 → 玻璃加工 → 裝配線，例如：玻璃切割 → 鋼化爐 → 浴屏。</li>
+   <li>完成目標訂單數量即過關；訂單逾時會作廢，作廢過多即未能過關。<b>趕貨</b>關卡機器較快，但收貨時間較短。每張完成嘅訂單會由升威貨車送出。</li></ol>`},
+ en: {demo:'First time? Watch the 1-minute demo', demoSub:'Step-by-step with captions', vidClose:'Got it, let me play',howTo:'How to play',lvl:'Lv', goal:'Orders', locked:'Not yet open', lockedLv:'Opens after the previous level', dispatch:'Dispatch', pick:'Choose a level', next:'Next level', menu:'Levels', noMore:'No more orders', pass:'Level complete<span>過關</span>', fail:'Level not passed<span>未能過關</span>', timeLeft:'Time left', starRule:'★ pass · ★★ at most 1 missed order · ★★★ no missed orders and at most 1 breakage', failWhy:'Complete % orders to pass', freeSub:'Random orders · high score', title:'LE-RELAX Factory Rush', sub:'升威 · Zhongshan factory', shift:'Shift left', rush:'Rush!', score:'Score', pause:'Pause', resume:'Resume', sOn:'Sound on', sOff:'Sound off', lang:'中文',
+  wall:'LE-RELAX Zhongshan Factory', wallSub:'Aluminium windows & doors · Shower screens · Glass · Hardware', wallTag:'Since 1986', waiting:'Waiting for orders', bonus:'Bonus',
+  go:'Tap to start', collect:'Collect', shatter:'Glass broken', broke:'Machine fault', fixMe:'tap to repair', fixing:'Repairing', startBtn:'Start', again:'Play again',
+  endH:'Shift complete<span>收工</span>', newBest:'New record! Previous best ', firstBest:'First record set!', best:'Best: ', products:'Products', ordDone:'Orders done', ordMiss:'Orders missed', breaks:'Breakages',
+  zones:['Raw materials','Glass processing','Assembly'], footer:'Times and scores in the game are fictional. LE-RELAX 升威 · Aluminium windows & doors · Shower screens · Glass · Hardware · Own factory in Zhongshan since 1986',
+  intro:`<h1>LE-RELAX Factory Rush<span>升威廠房大作戰</span></h1><p>Each level gives you orders to finish before time runs out, and unlocks more machines as you go. Not into levels? Free play is always open for a high score.</p>`, howto:`<ol>
+   <li><b>Tap a machine to start it.</b> A green light means it can start; if parts are missing, make them at the machines upstream first.</li>
+   <li>When production finishes the machine shows an <b>amber light</b>. Tap it within the time shown to <b>collect</b>. If you're too late the glass breaks or the machine faults: points are deducted and you tap it to repair.</li>
+   <li>Raw materials → glass processing → assembly. For example: glass cutting → tempering furnace → shower screen.</li>
+   <li>Reach the order target to pass the level. Expired orders are cancelled, and too many means the level is not passed. In <b>rush</b> levels machines run faster but collection time is shorter. Every completed order leaves on a LE-RELAX van.</li></ol>`}
+};
+let LANG = 'zh'; try { LANG = localStorage.getItem('lr-factory-lang') || 'zh'; } catch (e) {}
+const t = k => TX[LANG][k];
+const SHORT = {cutter:'Cutting', press:'Hinges', loom:'Mesh', igu:'Insulating', casement:'Casement', sliding:'Sliding', folding:'Folding', shower:'Shower', screen:'Screen'};
+const nm = s => LANG === 'zh' ? s.zh : s.en;
+const nmS = s => LANG === 'zh' ? s.zh : (mode === 'P' && SHORT[s.id]) || s.en;
+const rn = k => R[k][LANG === 'zh' ? 0 : 1];
+function applyLang() {
+  document.documentElement.lang = LANG === 'zh' ? 'zh-HK' : 'en';
+  document.querySelectorAll('[data-t]').forEach(el => el.textContent = t(el.dataset.t));
+  $('intro').innerHTML = t('intro'); $('howto').innerHTML = t('howto'); $('endH').innerHTML = t('endH');
+  $('langB').textContent = LANG === 'zh' ? 'EN' : '中';
+  $('muteB').innerHTML = muted ? '<svg class="ico" viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path d="M13 7l5 6M18 7l-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>' : '<svg class="ico" viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path d="M13 7c1.5 1.5 1.5 4.5 0 6M15.5 5c3 3 3 7 0 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'; $('muteB').setAttribute('aria-label', muted ? t('sOff') : t('sOn'));
+  for (const k in R) $('l-' + k).textContent = rn(k);
+  renderLevels(); planKey = ''; buildFloor(); pauseUI(); if (G) draw();
+}
+function setLang(l) { LANG = l; try { localStorage.setItem('lr-factory-lang', l); } catch (e) {} applyLang(); }
+const FIX = 2, PEN = 15;
+const $ = id => document.getElementById(id);
+const ic = n => `<svg aria-hidden="true"><use href="#i-${n}"/></svg>`;
+let G, audio = null, muted = false, last = 0, mode = '';
+
+function acc(s) {
+  const c = '#5b6470';
+  switch (s.kind) {
+    case 'extrude': return `<rect x="98" y="58" width="22" height="16" rx="3" fill="${c}"/><rect class="out" x="112" y="62" width="34" height="8" rx="2" fill="#c9d3dc" stroke="${c}" stroke-width="2"/><rect x="30" y="18" width="40" height="22" rx="6" fill="#8a98a5"/><circle class="smoke" cx="50" cy="12" r="7" fill="#fff"/>`;
+    case 'cutter': return `<rect x="22" y="30" width="76" height="10" rx="4" fill="#7c8791"/><g class="spin"><polygon points="60,6 65,15 75,13 71,22 80,28 70,31 72,41 62,37 56,45 52,36 42,37 46,28 38,21 48,19 47,9 55,14" fill="#d5dbe1" stroke="${c}" stroke-width="2"/></g><circle cx="60" cy="25" r="4" fill="${c}"/><rect class="out" x="96" y="50" width="30" height="36" rx="3" fill="#bfe6f2" stroke="${c}" stroke-width="2"/>`;
+    case 'press': return `<rect x="26" y="0" width="68" height="12" rx="5" fill="#7c8791"/><rect x="30" y="10" width="8" height="32" fill="${c}"/><rect x="82" y="10" width="8" height="32" fill="${c}"/><g class="piston"><rect x="52" y="10" width="16" height="18" fill="#c4c9cf"/><rect x="44" y="26" width="32" height="8" rx="2" fill="${c}"/></g><g class="out" transform="translate(96 52) scale(1.1)"><use href="#i-hinge" width="32" height="32" style="color:${c}"/></g>`;
+    case 'loom': return `<rect x="28" y="4" width="64" height="38" rx="4" fill="#eef1f3" stroke="#6c7780" stroke-width="3"/><path d="M28 14h64M28 23h64M28 32h64M40 4v38M52 4v38M64 4v38M76 4v38" stroke="#6c7780" stroke-width="1.4"/><g class="spin"><circle cx="100" cy="30" r="10" fill="#b8c0c6" stroke="${c}" stroke-width="2"/><path d="M100 22v16M92 30h16" stroke="${c}" stroke-width="2"/></g>`;
+    case 'temper': return `<rect x="78" y="2" width="16" height="38" rx="3" fill="#b86a52"/><circle class="smoke" cx="86" cy="-2" r="8" fill="#fff"/><rect class="glow" x="24" y="46" width="72" height="8" rx="4" fill="#ffcf4a"/><path class="glow" d="M40 40c0-6 6-8 6-14 4 4 8 8 6 14zM62 40c0-5 5-7 5-12 4 3 7 7 5 12z" fill="#ff8a3d"/><rect class="out" x="98" y="48" width="28" height="36" rx="3" fill="#bfe6f2" stroke="${c}" stroke-width="2"/>`;
+    case 'laminate': return `<rect x="22" y="34" width="76" height="8" rx="3" fill="#7c8791"/><g class="spin"><circle cx="44" cy="24" r="12" fill="#d5dbe1" stroke="${c}" stroke-width="2.5"/><path d="M44 14v20" stroke="${c}" stroke-width="2"/></g><g class="spin"><circle cx="76" cy="24" r="12" fill="#d5dbe1" stroke="${c}" stroke-width="2.5"/><path d="M66 24h20" stroke="${c}" stroke-width="2"/></g>`;
+    case 'igu': return `<rect x="28" y="2" width="64" height="40" rx="5" fill="#e6eef2" stroke="${c}" stroke-width="3"/><rect x="36" y="9" width="48" height="26" fill="none" stroke="${c}" stroke-width="2" stroke-dasharray="4 3"/><g class="spin"><circle cx="104" cy="22" r="8" fill="#e8eef2" stroke="${c}" stroke-width="2"/><path d="M104 16v12" stroke="${c}" stroke-width="2"/></g>`;
+    default: return `<rect x="56" y="26" width="8" height="20" fill="${c}"/><rect x="32" y="-4" width="56" height="36" rx="8" fill="#fff" stroke="${c}" stroke-width="3"/><use href="#i-${s.ic}" x="44" y="-2" width="32" height="32" style="color:#3d4a44"/><g class="spin"><path d="M100 40l10-10M104 44l10-10" stroke="${c}" stroke-width="4" stroke-linecap="round"/></g>`;
+  }
+}
+function machine(s) {
+  const k = '#2f363c', band = {raw: '#5d7f9e', glass: '#3f9a96', asm: '#1f9c57'}[s.z], show = s.pts ? s.ic : Object.keys(s.out)[0];
+  return `<svg class="body" viewBox="-15 -12 150 128" aria-hidden="true">
+   <ellipse class="base" cx="60" cy="106" rx="56" ry="9"/>
+   <g class="mc">${acc(s)}
+    <rect x="12" y="40" width="96" height="62" rx="8" fill="#d6dbdf" stroke="${k}" stroke-width="2.5"/>
+    <path d="M12 52V48a8 8 0 0 1 8-8h80a8 8 0 0 1 8 8v4z" fill="${band}"/>
+    <rect x="20" y="58" width="58" height="36" rx="4" fill="#1f272b" stroke="${k}" stroke-width="1.5"/>
+    <use href="#i-${show}" x="34" y="61" width="30" height="30" style="color:#e9f3ee"/>
+    <rect x="86" y="56" width="16" height="36" rx="3" fill="#2a3136"/>
+    <rect class="lamp l-r" x="89" y="59" width="10" height="9" rx="2"/><rect class="lamp l-a" x="89" y="70" width="10" height="9" rx="2"/><rect class="lamp l-g" x="89" y="81" width="10" height="9" rx="2"/>
+    <image href="logo.png" x="88" y="93" width="12" height="8"/>
+    <circle class="smoke" cx="20" cy="36" r="6" fill="#fff" style="animation-delay:.4s"/>
+   </g></svg>`;
+}
+const VAN = `<svg viewBox="0 0 220 92" width="220" height="92" aria-hidden="true"><rect x="4" y="8" width="140" height="62" rx="6" fill="#f4f6f5" stroke="#2f363c" stroke-width="2.5"/><rect x="4" y="50" width="196" height="9" fill="#2ebd6b"/>
+ <path d="M144 22h34q8 0 13 8l12 18v22h-59z" fill="#f4f6f5" stroke="#2f363c" stroke-width="2.5" stroke-linejoin="round"/><path d="M152 28h24q5 0 8 5l7 12h-39z" fill="#9fc4d6" stroke="#2f363c" stroke-width="2"/>
+ <image href="logo.png" x="14" y="15" width="38" height="32"/><text x="58" y="34" font-size="17" font-weight="900" fill="#1f6b3f">升威</text><text x="58" y="47" font-size="11" font-weight="900" fill="#1f6b3f">LE-RELAX</text>
+ <rect x="196" y="58" width="8" height="6" rx="2" fill="#ffb02e"/><g class="whl"><circle cx="42" cy="72" r="14" fill="#23292d"/><circle cx="42" cy="72" r="6" fill="#aab3b9"/><path d="M42 62v20M32 72h20" stroke="#23292d" stroke-width="2"/></g>
+ <g class="whl"><circle cx="170" cy="72" r="14" fill="#23292d"/><circle cx="170" cy="72" r="6" fill="#aab3b9"/><path d="M170 62v20M160 72h20" stroke="#23292d" stroke-width="2"/></g></svg>`;
+function beltVis() { if (!G) return; document.querySelectorAll('.bl').forEach(g => g.classList.toggle('off', !(stOn(g.dataset.a) && stOn(g.dataset.b)))); }
+function van(pid) {
+  const F = PLAN, p = PROD.find(x => x.id === pid), v = document.createElement('div');
+  v.className = 'van'; v.style.setProperty('--park', (F.w * .42 - 110) + 'px'); v.style.setProperty('--end', (F.w + 40) + 'px');
+  v.style.bottom = (6 + Math.random() * 6) + 'px';
+  v.innerHTML = `<span class="load">${ic(p.ic)}${nm(p)} ✓</span>` + VAN;
+  $('road').appendChild(v); v.addEventListener('animationend', e => { if (e.target === v) v.remove(); });
+  setTimeout(() => { sfx(392, .12, 'triangle', .06); setTimeout(() => sfx(392, .18, 'triangle', .06), 160); }, 1900);
+}
+let planKey = '', PLAN = null;
+function plan(md, ids) {
+  const F0 = FL[md];
+  if (ids.length === S.length) return {...F0, zones: F0.zones.map((z, i) => [...z, i]), pos: Object.fromEntries(S.map(s => [s.id, s[md]])), full: 1};
+  const Z = ['raw', 'glass', 'asm'].map((z, zi) => [zi, S.filter(s => s.z === z && ids.includes(s.id))]).filter(([, a]) => a.length), pos = {}, zones = [];
+  if (md === 'L') {
+    const CW = 175, CH = 205, maxR = Math.max(...Z.map(([, a]) => Math.min(3, a.length))), h = maxR * CH + 70; let x = 20;
+    for (const [zi, a] of Z) { const cols = Math.ceil(a.length / 3), rows = Math.min(3, a.length), zw = cols * CW + 50;
+      a.forEach((s, i) => { const c = Math.floor(i / 3), r = i % 3, inCol = Math.min(3, a.length - c * 3); pos[s.id] = [x + 25 + c * CW + (CW - 150) / 2, 30 + r * CH + (maxR - inCol) * CH / 2]; });
+      zones.push([x, 20, zw, h - 40, zi]); x += zw + 24; }
+    return {w: x - 4, h, road: 100, zones, pos};
+  }
+  let y = 10; const w = 640;
+  for (const [zi, a] of Z) { const per = a.length <= 3 ? a.length : a.length === 4 ? 2 : 3, rows = Math.ceil(a.length / per), CH = 232, CW = 200;
+    a.forEach((s, i) => { const r = Math.floor(i / per), inRow = Math.min(per, a.length - r * per), c = i % per; pos[s.id] = [(w - inRow * CW) / 2 + c * CW + (CW - 150) / 2, y + 22 + r * CH]; });
+    zones.push([10, y, w - 20, rows * CH + 16, zi]); y += rows * CH + 28; }
+  return {w, h: y, road: 80, zones, pos};
+}
+function buildFloor() {
+  const SW = $('stage').clientWidth, SH = $('stage').clientHeight;
+  if (!SW || !SH) return;
+  const want = SW / SH < 0.95 ? 'P' : 'L', ids = (G && G.L.st) || S.map(s => s.id), key = want + ids.join();
+  if (key !== planKey) {
+    mode = want; planKey = key; PLAN = plan(mode, ids); const F = PLAN, pos = s => F.pos[s.id];
+    for (const k in E) delete E[k];
+    const ctr = s => [pos(s)[0] + 75, pos(s)[1] + 70];
+    const belts = BELTS.filter(([a, b]) => F.pos[a] && F.pos[b]).map(([a, b]) => { const [x1, y1] = ctr(S.find(s => s.id === a)), [x2, y2] = ctr(S.find(s => s.id === b)), mx = (x1 + x2) / 2;
+      const d = mode === 'L' ? `M${x1} ${y1}C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}` : `M${x1} ${y1}C${x1} ${(y1 + y2) / 2} ${x2} ${(y1 + y2) / 2} ${x2} ${y2}`;
+      return `<g class="bl" data-a="${a}" data-b="${b}"><path class="belt" d="${d}"/><path class="beltm" d="${d}"/></g>`; }).join('');
+    const zones = F.zones.map(([x, y, w, h]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="rgba(255,255,255,.35)" stroke="#f2c230" stroke-width="6" stroke-dasharray="22 14"/>`).join('');
+    const ZL = F.zones.map(([x, y, w, h, zi]) => `<div class="zl" style="left:${x + 30}px;top:${y + h - 15}px">${t('zones')[zi]}</div>`).join('');
+    const mark = mode === 'L' ? [560, 540, 190] : [500, 715, 110];
+    const boxes = !F.full ? '' : (mode === 'L' ? [[610, 40], [1140, 680]] : [[36, 780]]).map(([x, y], i) => `<g transform="translate(${x} ${y})"><ellipse cx="38" cy="66" rx="40" ry="7" fill="rgba(60,45,20,.18)"/><rect x="0" y="14" width="76" height="50" rx="4" fill="#d6a868" stroke="#8a6232" stroke-width="2.5"/><path d="M0 14l10-12h56l10 12z" fill="#e6be82" stroke="#8a6232" stroke-width="2.5" stroke-linejoin="round"/><image href="logo.png" x="24" y="19" width="28" height="24"/><text x="38" y="56" text-anchor="middle" font-size="10" font-weight="900" fill="#1f6b3f">升威 LE-RELAX</text></g>`).join('');
+    const banners = F.zones.filter(z => z[2] > 300).map(([x, y, w, h]) => `<g transform="translate(${x + w - 160} ${y + h - 13})"><rect width="128" height="26" rx="6" fill="#2ebd6b"/><image href="logo.png" x="6" y="4" width="21" height="18"/><text x="32" y="18" font-size="13" font-weight="900" fill="#08140d">升威 LE-RELAX</text></g>`).join('');
+    $('floor').style.width = F.w + 'px'; $('floor').style.height = F.h + F.road + 'px'; $('floor').classList.toggle('pt', mode === 'P');
+    $('floor').innerHTML = `<svg class="deco" viewBox="0 0 ${F.w} ${F.h}">${zones}${F.full ? `<image href="logo.png" x="${mark[0]}" y="${mark[1]}" width="${mark[2]}" height="${mark[2] * .86}" opacity=".16"/><text x="${mark[0] + mark[2] / 2}" y="${mark[1] + mark[2] * .86 + 34}" text-anchor="middle" font-size="${mark[2] / 6.5}" font-weight="900" fill="#2a6b45" opacity=".22">升威 LE-RELAX</text>` : ''}${belts}${boxes}</svg>${ZL}<div class="road" id="road" style="top:${F.h}px;width:${F.w}px;height:${F.road}px"><span class="rl">${t('dispatch')}</span></div>` + S.filter(s => F.pos[s.id]).map(s => `<button class="m idle" id="m-${s.id}" data-id="${s.id}" style="left:${pos(s)[0]}px;top:${pos(s)[1]}px" aria-label="${nm(s)}">
+      <span class="bub"></span>${machine(s)}
+      <span class="tag">${nmS(s)}${s.pts ? `<span class="pts">+${s.pts}</span>` : ''}</span>
+      <span class="need">${Object.entries(s.inp).map(([k, v]) => `<span data-k="${k}">${ic(k)}${v}</span>`).join('')}</span>
+      <span class="bar"><i></i></span></button>`).join('');
+    for (const s of S.filter(s2 => F.pos[s2.id])) { const el = $('m-' + s.id); E[s.id] = {el, bar: el.querySelector('.bar i'), bub: el.querySelector('.bub'), need: [...el.querySelectorAll('.need span')]}; }
+  }
+  beltVis();
+  const F = PLAN, k = Math.min(SW / F.w, SH / (F.h + F.road));
+  $('floor').style.transform = `translate(${(SW - F.w * k) / 2}px,${Math.max(0, (SH - (F.h + F.road) * k) / 2)}px) scale(${k})`;
+  if (G) draw();
+}
+const E = {};
+$('rail').innerHTML = Object.keys(R).map(k => `<div class="chip" id="c-${k}">${ic(k)}<span id="l-${k}"></span><span class="num" id="n-${k}">0</span></div>`).join('');
+
+function sfx(f, d = .08, type = 'square', v = .05) {
+  if (muted || !audio) return;
+  const o = audio.createOscillator(), g = audio.createGain(), t = audio.currentTime;
+  o.type = type; o.frequency.setValueAtTime(f, t); g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+  o.connect(g).connect(audio.destination); o.start(t); o.stop(t + d + .02);
+}
+function pop(el, txt, col) {
+  const r = el.getBoundingClientRect(), p = document.createElement('div');
+  p.className = 'pop'; p.textContent = txt; p.style.color = col; p.style.left = (r.left + r.width / 2 - 30) + 'px'; p.style.top = (r.top + 10) + 'px';
+  document.body.appendChild(p); setTimeout(() => p.remove(), 950);
+}
+const LV = [
+ {zh:'紗窗入門',en:'Mosquito screens',time:45,st:['extrude','loom','screen'],target:2,o:[['screen',2,25],['screen',12,25],['screen',22,25]]},
+ {zh:'浴屏',en:'Shower screens',time:55,st:['cutter','press','temper','shower'],target:3,o:[['shower',2,25],['shower',12,25],['shower',24,25],['shower',34,20]]},
+ {zh:'趟門',en:'Sliding doors',time:65,st:['extrude','cutter','press','temper','shower','sliding'],target:3,o:[['sliding',2,35],['shower',10,30],['sliding',25,30],['shower',38,25]]},
+ {zh:'中空玻璃平開窗',en:'Casement windows',time:75,st:['extrude','cutter','press','loom','temper','igu','casement','screen'],target:3,o:[['casement',2,45],['screen',12,30],['casement',35,38],['screen',45,25]]},
+ {zh:'摺疊門',en:'Folding doors',time:75,st:['extrude','cutter','press','laminate','temper','folding','shower'],target:3,o:[['folding',2,45],['shower',12,30],['folding',30,40],['shower',48,25]]},
+ {zh:'全廠開工',en:'Full factory',time:90,target:5,o:[['casement',2,50],['shower',8,30],['sliding',20,35],['folding',35,40],['screen',50,30],['shower',62,25]]},
+ {zh:'大工程訂單',en:'Big project',time:100,target:6,o:[['casement',2,50],['folding',6,45],['sliding',16,35],['shower',26,30],['casement',40,45],['screen',50,30],['folding',60,35],['sliding',70,28]]},
+ {zh:'趕貨地獄',en:'Rush hour',time:80,rush:1,target:5,o:[['shower',2,25],['sliding',8,30],['screen',16,25],['casement',24,40],['folding',34,35],['shower',48,22],['sliding',56,22]]},
+ {zh:'自由模式',en:'Free play',time:90,free:1}
+];
+let PROG = {}; try { PROG = JSON.parse(localStorage.getItem('lr-factory-prog') || '{}'); } catch (e) {}
+const unlocked = i => i === 0 || (PROG[i - 1] || 0) > 0 || !!LV[i].free;
+const stOn = id => !G.L.st || G.L.st.includes(id);
+function newGame(i = 0) {
+  const L = LV[i];
+  G = {lv: i, L, left: L.time, el: 0, score: 0, inv: Object.fromEntries(Object.keys(R).map(k => [k, 0])), made: Object.fromEntries(PROD.map(p => [p.id, 0])),
+       broken: 0, ordDone: 0, ordMiss: 0, orders: [], queue: (L.o || []).map(([p, at, life]) => ({p, at, life})), nextOrd: 2, paused: false, over: false,
+       st: Object.fromEntries(S.map(s => [s.id, {s: 'idle', e: 0, t: s.t, w: s.w}]))};
+}
+const rush = () => G.L.rush || (G.L.free && G.left <= 20);
+const glassy = s => s.z === 'glass' || s.id === 'cutter' || s.id === 'shower';
+const bonusOf = p => Math.round(PROD.find(x => x.id === p).pts * .6 / 5) * 5;
+function click(id) {
+  if (!G || G.over || G.paused) return;
+  const s = S.find(x => x.id === id), st = G.st[id], el = E[id].el;
+  const nope = () => { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); sfx(140, .15, 'sawtooth'); };
+  if (!stOn(id)) return nope();
+  if (st.s === 'idle') {
+    if (Object.entries(s.inp).some(([k, v]) => G.inv[k] < v)) return nope();
+    for (const [k, v] of Object.entries(s.inp)) G.inv[k] -= v;
+    Object.assign(st, {s: 'run', e: 0, t: s.t * (rush() ? .75 : 1), w: (s.w + 1) * (rush() ? .75 : 1)}); sfx(330, .07);
+  } else if (st.s === 'ready') {
+    st.s = 'idle'; st.e = 0;
+    if (s.pts) {
+      G.made[id]++; let gain = s.pts; const oi = G.orders.findIndex(o => o.p === id);
+      if (oi >= 0) { gain += G.orders[oi].bonus; G.orders.splice(oi, 1); G.ordDone++; van(id); setTimeout(() => sfx(1320, .2), 160); }
+      G.score += gain; pop(el, '+' + gain, '#5be38f'); sfx(880, .1); setTimeout(() => sfx(1175, .12), 80);
+    } else {
+      for (const [k, v] of Object.entries(s.out)) G.inv[k] += v;
+      pop(el, Object.entries(s.out).map(([k, v]) => rn(k) + ' +' + v).join(' '), '#ffffff'); sfx(660, .08);
+    }
+  } else if (st.s === 'broken') { st.s = 'fix'; st.e = 0; sfx(220, .1); }
+}
+function tick(dt) {
+  G.left -= dt; G.el += dt;
+  for (const s of S) {
+    const st = G.st[s.id]; st.e += dt;
+    if (st.s === 'run' && st.e >= st.t) { st.s = 'ready'; st.e = 0; sfx(1040, .06, 'triangle', .07); }
+    else if (st.s === 'ready' && st.e >= st.w) { st.s = 'broken'; st.e = 0; G.broken++; G.score = Math.max(0, G.score - PEN); pop(E[s.id].el, (glassy(s) ? t('shatter') : t('broke')) + ' -' + PEN, '#ff7a77'); sfx(90, .35, 'sawtooth', .08); }
+    else if (st.s === 'fix' && st.e >= FIX) { st.s = 'idle'; st.e = 0; }
+  }
+  for (const o of G.orders) o.left -= dt;
+  G.ordMiss += G.orders.filter(o => o.left <= 0).length; G.orders = G.orders.filter(o => o.left > 0);
+  if (G.L.free) {
+    if ((G.nextOrd -= dt) <= 0) {
+      if (G.orders.length < 3) { const p = PROD[Math.floor(Math.random() * PROD.length)], life = 25 + Math.random() * 12; G.orders.push({p: p.id, life, left: life, bonus: bonusOf(p.id)}); sfx(990, .06, 'triangle', .06); }
+      G.nextOrd = 6 + Math.random() * 4;
+    }
+  } else {
+    while (G.queue.length && G.queue[0].at <= G.el && G.orders.length < 3) { const q = G.queue.shift(); G.orders.push({p: q.p, life: q.life, left: q.life, bonus: bonusOf(q.p)}); sfx(990, .06, 'triangle', .06); }
+    const total = G.L.o.length;
+    if (G.ordDone >= G.L.target || G.ordMiss > total - G.L.target) return end();
+  }
+  if (G.left <= 0) { G.left = 0; end(); }
+}
+function draw() {
+  const m = Math.ceil(G.left);
+  $('time').textContent = Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0');
+  $('gT').classList.toggle('rush', rush()); $('gTl').textContent = rush() ? t('rush') : t('shift');
+  $('score').textContent = G.score;
+  for (const k in R) { $('n-' + k).textContent = G.inv[k]; $('c-' + k).classList.toggle('zero', !G.inv[k]); }
+  for (const s of S) {
+    const st = G.st[s.id], e = E[s.id]; if (!e) continue;
+    const can = Object.entries(s.inp).every(([k, v]) => G.inv[k] >= v);
+    let cls = 'm ' + st.s, w = 0, b = '';
+    if (!stOn(s.id)) { cls = 'm idle locked'; b = t('locked'); }
+    else if (st.s === 'idle') { if (can) { cls += ' can'; b = t('go'); } }
+    if (st.s === 'run') w = st.e / st.t;
+    if (st.s === 'ready') { w = 1 - st.e / st.w; b = t('collect') + ' ' + Math.max(0, st.w - st.e).toFixed(1) + 's'; if (w < .35) cls += ' late'; }
+    if (st.s === 'broken') b = (glassy(s) ? t('shatter') : t('broke')) + ' ' + t('fixMe');
+    if (st.s === 'fix') { w = st.e / FIX; b = t('fixing'); }
+    if (e.el.dataset.c !== cls) { const sh = e.el.classList.contains('shake'); e.el.className = cls + (sh ? ' shake' : ''); e.el.dataset.c = cls; }
+    e.bar.style.width = (w * 100).toFixed(1) + '%'; if (e.bub.textContent !== b) e.bub.textContent = b;
+    for (const n of e.need) n.classList.toggle('lack', G.inv[n.dataset.k] < s.inp[n.dataset.k]);
+  }
+  const O = G.orders.map(o => { const p = PROD.find(x => x.id === o.p);
+    return `<div class="ord"><b>${ic(p.ic)}${nm(p)}</b><small>${t('bonus')} +${o.bonus} · ${Math.ceil(o.left)}s</small><div class="t"><i style="width:${(o.left / o.life * 100).toFixed(1)}%"></i></div></div>`; });
+  while (O.length < 3) O.push(`<div class="ord empty">${G.L.free || G.queue.length ? t('waiting') : t('noMore')}</div>`);
+  $('goal').textContent = G.L.free ? G.ordDone : G.ordDone + '/' + G.L.target;
+  $('goalL').textContent = G.L.free ? t('ordDone') : (LANG === 'zh' ? `第 ${G.lv + 1} 關 · 目標訂單` : `Lv ${G.lv + 1} · target`);
+  $('orders').innerHTML = O.join('');
+}
+function loop(ts) {
+  const dt = Math.min(.1, (ts - last) / 1000); last = ts;
+  if (G && !G.paused && !G.over) { tick(dt); draw(); }
+  requestAnimationFrame(loop);
+}
+function end() {
+  G.over = true; draw();
+  const L = G.L, pass = L.free || G.ordDone >= L.target;
+  const stars = L.free || !pass ? 0 : G.ordMiss === 0 && G.broken <= 1 ? 3 : G.ordMiss <= 1 ? 2 : 1;
+  let best = 0;
+  if (L.free) { try { best = +localStorage.getItem('lr-factory-best') || 0; if (G.score > best) localStorage.setItem('lr-factory-best', G.score); } catch (e) {} }
+  else if (stars > (PROG[G.lv] || 0)) { PROG[G.lv] = stars; try { localStorage.setItem('lr-factory-prog', JSON.stringify(PROG)); } catch (e) {} }
+  const total = Object.values(G.made).reduce((a, b) => a + b, 0);
+  $('endH').innerHTML = L.free ? t('endH') : pass ? t('pass') : t('fail');
+  $('stars').textContent = L.free ? '' : '★'.repeat(stars) + '☆'.repeat(3 - stars);
+  $('fScore').textContent = G.score;
+  $('best').textContent = L.free ? (G.score > best ? (best ? t('newBest') + best : t('firstBest')) : t('best') + best) : pass ? t('starRule') : t('failWhy').replace('%', L.target);
+  $('fStats').innerHTML = [...(L.free ? [] : [[G.ordDone + '/' + L.target, t('ordDone')], [Math.ceil(G.left) + 's', t('timeLeft')]]), [total, t('products')], ...PROD.map(p => [G.made[p.id], nm(p)]), [G.ordMiss, t('ordMiss')], [G.broken, t('breaks')]]
+    .map(([n, l]) => `<div><span class="num">${n}</span><small>${l}</small></div>`).join('');
+  const zh = LANG === 'zh';
+  LRX($('endOv'), {lang: LANG, url: LRX_URL, title: t('title'),
+    adH: zh ? '真實廠房，真材實料：升威中山自家廠房' : 'The real factory behind the game: LE-RELAX, Zhongshan',
+    adP: zh ? '鋁門窗、浴屏、玻璃加工、窗鉸五金，全部自家廠房生產，1986 年至今。度身訂造，星期一至六每日送貨。' : 'Aluminium windows and doors, shower screens, glass processing and hinges, all made in our own factory since 1986. Made to order, with daily deliveries Monday to Saturday.',
+    waMsg: zh ? '你好，我想查詢升威產品。' : 'Hello, I would like to ask about LE-RELAX products.',
+    text: L.free ? (zh ? `我喺「升威廠房大作戰」自由模式攞到 ${G.score} 分！你得唔得？` : `I scored ${G.score} in LE-RELAX Factory Rush free play! Can you beat it?`)
+                 : (zh ? `我喺「升威廠房大作戰」第 ${G.lv + 1} 關攞到 ${G.score} 分${pass ? '，' + '★'.repeat(stars) : ''}！你得唔得？` : `I scored ${G.score} on level ${G.lv + 1} of LE-RELAX Factory Rush${pass ? ' ' + '★'.repeat(stars) : ''}! Can you beat it?`)});
+  $('nextB').hidden = !(pass && LV[G.lv + 1] && unlocked(G.lv + 1));
+  $('endOv').hidden = false;
+  if (pass) { sfx(523, .15); setTimeout(() => sfx(659, .15), 150); setTimeout(() => sfx(784, .3), 300); } else { sfx(330, .2, 'triangle'); setTimeout(() => sfx(247, .4, 'triangle'), 200); }
+}
+function renderLevels() {
+  $('lvls').innerHTML = LV.map((L, i) => { const ok = unlocked(i), sc = PROG[i] || 0;
+    const prods = [...new Set((L.o || PROD.map(p => [p.id])).map(o => o[0]))].map(p => ic(PROD.find(x => x.id === p).ic)).join('');
+    return `<button class="lv${ok ? '' : ' off'}" data-i="${i}" ${ok ? '' : 'disabled'}><span class="lvn num">${L.free ? '∞' : i + 1}</span><b>${LANG === 'zh' ? L.zh : L.en}</b>
+      <small>${L.free ? t('freeSub') : (LANG === 'zh' ? `目標 ${L.target} 張訂單 · ${L.time} 秒` : `Target ${L.target} orders · ${L.time}s`)}</small><span class="lvi">${prods}</span>
+      <span class="lvs">${ok ? (L.free ? '' : '★'.repeat(sc) + '☆'.repeat(3 - sc)) : t('lockedLv')}</span></button>`; }).join('');
+}
+function levels() {
+  renderLevels(); $('endOv').hidden = true; $('startOv').hidden = false;
+}
+const pauseUI = () => { const p = G && G.paused && $('startOv').hidden; $('pauseB').innerHTML = p ? '<svg class="ico" viewBox="0 0 20 20"><path d="M6 4l10 6-10 6z" fill="currentColor"/></svg>' : '<svg class="ico" viewBox="0 0 20 20"><rect x="5" y="4" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="11.5" y="4" width="3.5" height="12" rx="1" fill="currentColor"/></svg>'; $('pauseB').setAttribute('aria-label', p ? t('resume') : t('pause')); };
+function start(i) {
+  try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); audio.resume(); } catch (e) { audio = null; }
+  newGame(i); planKey = ''; buildFloor(); $('startOv').hidden = true; $('endOv').hidden = true; draw(); last = performance.now(); pauseUI();
+}
+$('stage').addEventListener('click', e => { const b = e.target.closest('.m'); if (b) click(b.dataset.id); });
+$('demoB').addEventListener('click', () => { $('vidOv').hidden = false; const v = $('vid'); try { v.currentTime = 0; v.play().catch(() => {}); } catch (e) {} });
+$('vidX').addEventListener('click', () => { const v = $('vid'); v.pause(); $('vidOv').hidden = true; });
+$('lvls').addEventListener('click', e => { const b = e.target.closest('.lv'); if (b && !b.disabled) start(+b.dataset.i); });
+$('againB').addEventListener('click', () => start(G.lv)); $('nextB').addEventListener('click', () => start(G.lv + 1)); $('menuB').addEventListener('click', levels);
+$('pauseB').addEventListener('click', () => { if (!G || G.over || !$('startOv').hidden) return; G.paused = !G.paused; last = performance.now(); pauseUI(); });
+$('muteB').addEventListener('click', () => { muted = !muted; $('muteB').innerHTML = muted ? '<svg class="ico" viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path d="M13 7l5 6M18 7l-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>' : '<svg class="ico" viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path d="M13 7c1.5 1.5 1.5 4.5 0 6M15.5 5c3 3 3 7 0 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'; $('muteB').setAttribute('aria-label', muted ? t('sOff') : t('sOn')); });
+$('langB').addEventListener('click', () => setLang(LANG === 'zh' ? 'en' : 'zh'));
+$('langB2').addEventListener('click', () => setLang(LANG === 'zh' ? 'en' : 'zh'));
+document.addEventListener('visibilitychange', () => { if (document.hidden && G && !G.over && $('startOv').hidden) { G.paused = true; pauseUI(); } });
+const ro = new ResizeObserver(buildFloor); ro.observe($('stage'));
+newGame(0); G.paused = true; applyLang(); requestAnimationFrame(loop);
+}
+</script>
+</body>
+</html>
